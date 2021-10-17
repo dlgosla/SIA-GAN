@@ -1,0 +1,76 @@
+#################################
+########  Folder 0  ############
+device:  cuda:0
+Namespace(batchsize=32, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[0], isize=128, istest=True, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=54, ndfs=32, ngf=64, ngfs=32, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.169, w_adv=1, workers=1)
+
+############ signal dataset ############
+train_s data size:(62436, 1, 320)
+val_s data size:(8025, 1, 320)
+test_s N data size:(17343, 1, 320)
+test_s S data size:(2723, 1, 320)
+test_s V data size:(6307, 1, 320)
+test_s F data size:(721, 1, 320)
+test_s Q data size:(13, 1, 320)
+
+############ frequency dataset ############
+train_f data size:(62436, 1, 128, 128)
+val_f data size:(8025, 1, 128, 128)
+test_f N data size:(17343, 1, 128, 128)
+test_f S data size:(2723, 1, 128, 128)
+test_f V data size:(6307, 1, 128, 128)
+test_f F data size:(721, 1, 128, 128)
+test_f Q data size:(13, 1, 128, 128)
+load data success!!!
+/data/haenim/lab/freq/experiments/ecg/network.py:24: UserWarning: nn.init.xavier_uniform is now deprecated in favor of nn.init.xavier_uniform_.
+  torch.nn.init.xavier_uniform(mod.weight)
+
+model_device: cuda:0 
+
+################  Eval  ##################
+############   Analysis   #############
+############   Threshold:0.169   #############
+*********  Type:S  *************
+TP:101
+FP:2
+TN:17341
+FN:2622
+Accuracy:0.8692315359314263
+Precision/ppv:0.9805825242718447
+sensitivity/Recall:0.037091443261109074
+specificity:0.9998846796978608
+F1:0.07147912243453644
+*********  Type:V  *************
+TP:1121
+FP:2
+TN:17341
+FN:5186
+Accuracy:0.7806342494714588
+Precision/ppv:0.9982190560997328
+sensitivity/Recall:0.17773902013635642
+specificity:0.9998846796978608
+F1:0.30174966352624494
+*********  Type:F  *************
+TP:10
+FP:2
+TN:17341
+FN:711
+Accuracy:0.9605292294065545
+Precision/ppv:0.8333333333333334
+sensitivity/Recall:0.013869625520110958
+specificity:0.9998846796978608
+F1:0.027285129604365622
+*********  Type:Q  *************
+TP:3
+FP:2
+TN:17341
+FN:10
+Accuracy:0.9993085964507951
+Precision/ppv:0.6
+sensitivity/Recall:0.23076923076923078
+specificity:0.9998846796978608
+F1:0.3333333333333333
+#############################
+########  Result  ###########
+ap:0.8867144075862943
+auc:0.9269722228304766
+best th:0.0012198854237794876 --> best f1:0.8041494928912147
