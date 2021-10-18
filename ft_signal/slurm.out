@@ -1,0 +1,214 @@
+#################################
+########  Folder 0  ############
+device:  cuda:0
+Namespace(batchsize=32, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[1], isize=128, istest=False, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=54, ndfs=32, ngf=64, ngfs=32, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.05, w_adv=1, workers=1)
+
+############ signal dataset ############
+train_s data size:(62436, 1, 320)
+val_s data size:(8025, 1, 320)
+test_s N data size:(17343, 1, 320)
+test_s S data size:(2723, 1, 320)
+test_s V data size:(6307, 1, 320)
+test_s F data size:(721, 1, 320)
+test_s Q data size:(13, 1, 320)
+
+############ frequency dataset ############
+train_f data size:(62436, 1, 128, 128)
+val_f data size:(8025, 1, 128, 128)
+test_f N data size:(17343, 1, 128, 128)
+test_f S data size:(2723, 1, 128, 128)
+test_f V data size:(6307, 1, 128, 128)
+test_f F data size:(721, 1, 128, 128)
+test_f Q data size:(13, 1, 128, 128)
+load data success!!!
+/data/haenim/lab/ft_signal/experiments/ecg/network.py:25: UserWarning: nn.init.xavier_uniform is now deprecated in favor of nn.init.xavier_uniform_.
+  torch.nn.init.xavier_uniform(mod.weight)
+Generator(
+  (signal_encoder): Signal_Encoder(
+    (main): Sequential(
+      (0): Conv1d(1, 32, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (1): LeakyReLU(negative_slope=0.2, inplace=True)
+      (2): Conv1d(32, 64, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (4): LeakyReLU(negative_slope=0.2, inplace=True)
+      (5): Conv1d(64, 128, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (6): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (7): LeakyReLU(negative_slope=0.2, inplace=True)
+      (8): Conv1d(128, 256, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (9): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (10): LeakyReLU(negative_slope=0.2, inplace=True)
+      (11): Conv1d(256, 512, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (12): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (13): LeakyReLU(negative_slope=0.2, inplace=True)
+      (14): Conv1d(512, 50, kernel_size=(10,), stride=(1,), bias=False)
+    )
+  )
+  (freq_2d_encoder): Signal_Encoder(
+    (main): Sequential(
+      (0): Conv1d(1, 32, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (1): LeakyReLU(negative_slope=0.2, inplace=True)
+      (2): Conv1d(32, 64, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (4): LeakyReLU(negative_slope=0.2, inplace=True)
+      (5): Conv1d(64, 128, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (6): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (7): LeakyReLU(negative_slope=0.2, inplace=True)
+      (8): Conv1d(128, 256, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (9): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (10): LeakyReLU(negative_slope=0.2, inplace=True)
+      (11): Conv1d(256, 512, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (12): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (13): LeakyReLU(negative_slope=0.2, inplace=True)
+      (14): Conv1d(512, 50, kernel_size=(10,), stride=(1,), bias=False)
+    )
+  )
+  (linear_s): Linear(in_features=1, out_features=128, bias=True)
+  (linear_f): Linear(in_features=1, out_features=128, bias=True)
+  (linear1): Linear(in_features=100, out_features=50, bias=True)
+  (linear2): Linear(in_features=1, out_features=64, bias=True)
+  (linear3): Linear(in_features=64, out_features=128, bias=True)
+  (tf): Multimodal_Transformer(
+    (transformer_encoder): TransformerEncoder(
+      (layers): ModuleList(
+        (0): TransformerEncoderLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=50, out_features=50, bias=True)
+          )
+          (linear1): Linear(in_features=50, out_features=512, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=512, out_features=50, bias=True)
+          (norm1): LayerNorm((50,), eps=1e-05, elementwise_affine=True)
+          (norm2): LayerNorm((50,), eps=1e-05, elementwise_affine=True)
+          (dropout1): Dropout(p=0.0, inplace=False)
+          (dropout2): Dropout(p=0.0, inplace=False)
+        )
+        (1): TransformerEncoderLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=50, out_features=50, bias=True)
+          )
+          (linear1): Linear(in_features=50, out_features=512, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=512, out_features=50, bias=True)
+          (norm1): LayerNorm((50,), eps=1e-05, elementwise_affine=True)
+          (norm2): LayerNorm((50,), eps=1e-05, elementwise_affine=True)
+          (dropout1): Dropout(p=0.0, inplace=False)
+          (dropout2): Dropout(p=0.0, inplace=False)
+        )
+        (2): TransformerEncoderLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=50, out_features=50, bias=True)
+          )
+          (linear1): Linear(in_features=50, out_features=512, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=512, out_features=50, bias=True)
+          (norm1): LayerNorm((50,), eps=1e-05, elementwise_affine=True)
+          (norm2): LayerNorm((50,), eps=1e-05, elementwise_affine=True)
+          (dropout1): Dropout(p=0.0, inplace=False)
+          (dropout2): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+  )
+  (signal_decoder): Signal_Decoder(
+    (main): Sequential(
+      (0): ConvTranspose1d(50, 512, kernel_size=(10,), stride=(1,), bias=False)
+      (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): ConvTranspose1d(512, 256, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (4): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): ConvTranspose1d(256, 128, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (7): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (8): ReLU(inplace=True)
+      (9): ConvTranspose1d(128, 64, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (10): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (11): ReLU(inplace=True)
+      (12): ConvTranspose1d(64, 32, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (13): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (14): ReLU(inplace=True)
+      (15): ConvTranspose1d(32, 1, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (16): Tanh()
+    )
+  )
+)
+Total number of parameters: 3063664
+tensor([ 0.0710,  0.1183,  0.1384, -0.1375], device='cuda:0')
+tensor([ 0.0161,  0.2682, -0.0138,  0.0841], device='cuda:0')
+------
+tensor([ 0.0239,  0.2660, -0.0212,  0.1045], device='cuda:0')
+tensor([ 0.0161,  0.2682, -0.0138,  0.0841], device='cuda:0')
+Discriminator(
+  (features_s): Sequential(
+    (0): Conv1d(1, 32, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (1): LeakyReLU(negative_slope=0.2, inplace=True)
+    (2): Conv1d(32, 64, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (4): LeakyReLU(negative_slope=0.2, inplace=True)
+    (5): Conv1d(64, 128, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (6): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (7): LeakyReLU(negative_slope=0.2, inplace=True)
+    (8): Conv1d(128, 256, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (9): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): LeakyReLU(negative_slope=0.2, inplace=True)
+    (11): Conv1d(256, 512, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (12): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (13): LeakyReLU(negative_slope=0.2, inplace=True)
+  )
+  (classifier_s): Sequential(
+    (0): Conv1d(512, 1, kernel_size=(10,), stride=(1,), bias=False)
+    (Sigmoid): Sigmoid()
+  )
+)
+Total number of parameters: 703488
+
+model_device: cuda:0 
+
+################  Train  ##################
+Train model.
+Epoch: [1] [ 100/1951] D_loss_s(r/f): 0.004406/0.003312, D_loss_f(r/f): 0.004406/0.003312, D_loss(s/f): 0.007717/0.007717, G_loss(s/f): 0.446237/0.446237
+Epoch: [1] [ 200/1951] D_loss_s(r/f): 0.007953/0.007938, D_loss_f(r/f): 0.007953/0.007938, D_loss(s/f): 0.015891/0.015891, G_loss(s/f): 0.345834/0.345834
+Epoch: [1] [ 300/1951] D_loss_s(r/f): 0.000459/0.001557, D_loss_f(r/f): 0.000459/0.001557, D_loss(s/f): 0.002016/0.002016, G_loss(s/f): 0.402380/0.402380
+Epoch: [1] [ 400/1951] D_loss_s(r/f): 0.000834/0.000817, D_loss_f(r/f): 0.000834/0.000817, D_loss(s/f): 0.001651/0.001651, G_loss(s/f): 0.412894/0.412894
+Epoch: [1] [ 500/1951] D_loss_s(r/f): 0.000805/0.000738, D_loss_f(r/f): 0.000805/0.000738, D_loss(s/f): 0.001544/0.001544, G_loss(s/f): 0.439326/0.439326
+Epoch: [1] [ 600/1951] D_loss_s(r/f): 0.000701/0.001204, D_loss_f(r/f): 0.000701/0.001204, D_loss(s/f): 0.001905/0.001905, G_loss(s/f): 0.465666/0.465666
+Epoch: [1] [ 700/1951] D_loss_s(r/f): 0.000471/0.000722, D_loss_f(r/f): 0.000471/0.000722, D_loss(s/f): 0.001193/0.001193, G_loss(s/f): 0.456045/0.456045
+Epoch: [1] [ 800/1951] D_loss_s(r/f): 0.000081/0.000314, D_loss_f(r/f): 0.000081/0.000314, D_loss(s/f): 0.000394/0.000394, G_loss(s/f): 0.475220/0.475220
+Epoch: [1] [ 900/1951] D_loss_s(r/f): 0.000281/0.000307, D_loss_f(r/f): 0.000281/0.000307, D_loss(s/f): 0.000588/0.000588, G_loss(s/f): 0.476755/0.476755
+Epoch: [1] [1000/1951] D_loss_s(r/f): 0.000077/0.000672, D_loss_f(r/f): 0.000077/0.000672, D_loss(s/f): 0.000749/0.000749, G_loss(s/f): 0.515638/0.515638
+Epoch: [1] [1100/1951] D_loss_s(r/f): 0.000143/0.000417, D_loss_f(r/f): 0.000143/0.000417, D_loss(s/f): 0.000560/0.000560, G_loss(s/f): 0.463246/0.463246
+Epoch: [1] [1200/1951] D_loss_s(r/f): 0.000014/0.001670, D_loss_f(r/f): 0.000014/0.001670, D_loss(s/f): 0.001684/0.001684, G_loss(s/f): 0.502194/0.502194
+Epoch: [1] [1300/1951] D_loss_s(r/f): 0.000565/0.000180, D_loss_f(r/f): 0.000565/0.000180, D_loss(s/f): 0.000745/0.000745, G_loss(s/f): 0.488147/0.488147
+Epoch: [1] [1400/1951] D_loss_s(r/f): 0.000016/0.000129, D_loss_f(r/f): 0.000016/0.000129, D_loss(s/f): 0.000145/0.000145, G_loss(s/f): 0.506827/0.506827
+Epoch: [1] [1500/1951] D_loss_s(r/f): 0.000005/0.000097, D_loss_f(r/f): 0.000005/0.000097, D_loss(s/f): 0.000102/0.000102, G_loss(s/f): 0.571426/0.571426
+Epoch: [1] [1600/1951] D_loss_s(r/f): 0.000003/0.000121, D_loss_f(r/f): 0.000003/0.000121, D_loss(s/f): 0.000124/0.000124, G_loss(s/f): 0.555241/0.555241
+Epoch: [1] [1700/1951] D_loss_s(r/f): 0.000355/0.000183, D_loss_f(r/f): 0.000355/0.000183, D_loss(s/f): 0.000538/0.000538, G_loss(s/f): 0.499967/0.499967
+Epoch: [1] [1800/1951] D_loss_s(r/f): 0.000003/0.000027, D_loss_f(r/f): 0.000003/0.000027, D_loss(s/f): 0.000030/0.000030, G_loss(s/f): 0.602729/0.602729
+Epoch: [1] [1900/1951] D_loss_s(r/f): 0.001820/0.000127, D_loss_f(r/f): 0.001820/0.000127, D_loss(s/f): 0.001947/0.001947, G_loss(s/f): 0.468798/0.468798
+Traceback (most recent call last):
+  File "main.py", line 47, in <module>
+    model.train()
+  File "/data/haenim/lab/ft_signal/experiments/ecg/model.py", line 214, in train
+    self.train_epoch()
+  File "/data/haenim/lab/ft_signal/experiments/ecg/model.py", line 307, in train_epoch
+    real_input,fake_output = self.get_generated_x(x_type=x_type)
+  File "/data/haenim/lab/ft_signal/experiments/ecg/model.py", line 432, in get_generated_x
+    fake_s,fake_f = self.G(self.fixed_input_s, self.fixed_input_f)
+  File "/data/haenim/anaconda3/envs/venv/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/haenim/lab/ft_signal/experiments/ecg/model.py", line 82, in forward
+    x_freq = self.freq_2d_encoder(x_freq) #[bs,50,1]
+  File "/data/haenim/anaconda3/envs/venv/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/haenim/lab/ft_signal/experiments/ecg/network.py", line 127, in forward
+    output = self.main(input)
+  File "/data/haenim/anaconda3/envs/venv/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/haenim/anaconda3/envs/venv/lib/python3.8/site-packages/torch/nn/modules/container.py", line 139, in forward
+    input = module(input)
+  File "/data/haenim/anaconda3/envs/venv/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data/haenim/anaconda3/envs/venv/lib/python3.8/site-packages/torch/nn/modules/conv.py", line 298, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File "/data/haenim/anaconda3/envs/venv/lib/python3.8/site-packages/torch/nn/modules/conv.py", line 294, in _conv_forward
+    return F.conv1d(input, weight, bias, self.stride,
+RuntimeError: Expected 3-dimensional input for 3-dimensional weight [32, 1, 4], but got 4-dimensional input of size [32, 1, 128, 128] instead

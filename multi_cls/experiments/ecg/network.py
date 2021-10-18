@@ -64,7 +64,6 @@ class Multimodal_Transformer(nn.Module):
         #self.linear1 = nn.Linear(100,50)
         #self.linear2 = nn.Linear(1, 64)
         #self.linear3 = nn.Linear(64, 128)
-        nlayers=1
         encoder_layers = TransformerEncoderLayer(ninp, nhead, nhid, dropout, activation='gelu')
         self.transformer_encoder = TransformerEncoder(encoder_layers, nlayers)
         #self.transformer_encoder1 = TransformerEncoder(encoder_layers, nlayers)
@@ -408,8 +407,8 @@ class AD_MODEL(object):
     def load(self):
         save_dir = os.path.join(self.outf, self.model, self.dataset,"model")
         
-        self.G.load_state_dict(torch.load(os.path.join(save_dir, self.model+"_folder_"+str(self.opt.folder) + '_G_freq.pkl')))
-        self.D.load_state_dict(torch.load(os.path.join(save_dir, self.model+"_folder_"+str(self.opt.folder) + '_D_freq.pkl')))
+        self.G.load_state_dict(torch.load(os.path.join(save_dir, self.model+"_folder_"+str(self.opt.folder) + '_G_signal.pkl')))
+        self.D.load_state_dict(torch.load(os.path.join(save_dir, self.model+"_folder_"+str(self.opt.folder) + '_D_signal.pkl')))
         
         #self.G.load_state_dict(torch.load(os.path.join(save_dir, self.model+"_folder_"+str(self.opt.folder) + '_G.pkl')))
         #self.D.load_state_dict(torch.load(os.path.join(save_dir, self.model+"_folder_"+str(self.opt.folder) + '_D.pkl')))
