@@ -30,45 +30,45 @@ model_device: cuda:0
 ############   Analysis   #############
 ############   Threshold:0.169   #############
 *********  Type:S  *************
-TP:178
-FP:38
-TN:17305
-FN:2545
-Accuracy:0.8712747931824978
-Precision/ppv:0.8240740740740741
-sensitivity/Recall:0.06536907822254866
-specificity:0.9978089142593554
-F1:0.12112963593058863
+TP:143
+FP:20
+TN:17323
+FN:2580
+Accuracy:0.8704275889564438
+Precision/ppv:0.8773006134969326
+sensitivity/Recall:0.05251560778553067
+specificity:0.9988467969786081
+F1:0.0990990990990991
 *********  Type:V  *************
-TP:2120
-FP:38
-TN:17305
-FN:4187
-Accuracy:0.821353065539112
-Precision/ppv:0.9823911028730306
-sensitivity/Recall:0.33613445378151263
-specificity:0.9978089142593554
-F1:0.5008860011813349
+TP:2236
+FP:20
+TN:17323
+FN:4071
+Accuracy:0.8270190274841438
+Precision/ppv:0.9911347517730497
+sensitivity/Recall:0.3545267163469161
+specificity:0.9988467969786081
+F1:0.5222468760948266
 *********  Type:F  *************
 TP:12
-FP:38
-TN:17305
+FP:20
+TN:17323
 FN:709
-Accuracy:0.958647032772365
-Precision/ppv:0.24
+Accuracy:0.9596434898139947
+Precision/ppv:0.375
 sensitivity/Recall:0.016643550624133148
-specificity:0.9978089142593554
-F1:0.0311284046692607
+specificity:0.9988467969786081
+F1:0.03187250996015936
 *********  Type:Q  *************
 TP:5
-FP:38
-TN:17305
+FP:20
+TN:17323
 FN:8
-Accuracy:0.9973496197280479
-Precision/ppv:0.11627906976744186
+Accuracy:0.9983867250518552
+Precision/ppv:0.2
 sensitivity/Recall:0.38461538461538464
-specificity:0.9978089142593554
-F1:0.17857142857142858
+specificity:0.9988467969786081
+F1:0.2631578947368421
 /data/haenim/lab/multi_pe/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
   fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
 /data/haenim/lab/multi_pe/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
@@ -91,6 +91,6 @@ F1:0.17857142857142858
   fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
 #############################
 ########  Result  ###########
-ap:0.8708959800218261
-auc:0.9165660212391084
-best th:0.0056614140048623085 --> best f1:0.7717515675774635
+ap:0.8899719384809675
+auc:0.926397519900134
+best th:0.005989524535834789 --> best f1:0.7858728357914466

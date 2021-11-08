@@ -3,12 +3,12 @@
 #SBATCH --job-name=freq_pe
 #SBATCH --gres=gpu:1
 #SBATCH -o slurm.out
-#SBATCH --time=7:00:00
+#SBATCH --time=10:00:00
 
 . /data/haenim/anaconda3/etc/profile.d/conda.sh
 conda activate venv
 
-test=0   # 0 means train the model, 1 means evaluate the model
+test=1   # 0 means train the model, 1 means evaluate the model
 threshold=0.169
 fold_cnt=1
 

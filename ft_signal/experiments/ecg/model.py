@@ -317,14 +317,14 @@ class BeatGAN(AD_MODEL):
         self.input_s.resize_(input[0][0].size()).copy_(input[0][0])
         self.gt_s.resize_(input[0][1].size()).copy_(input[0][1])
 
-        self.input_f.resize_(input[1][0].size()).copy_(input[1][0])
-        self.gt_f.resize_(input[1][1].size()).copy_(input[1][1])
+        self.input_f.resize_(input[0][0].size()).copy_(input[0][0])
+        self.gt_f.resize_(input[0][1].size()).copy_(input[0][1])
 
 
         # fixed input for view
         if self.total_steps == self.opt.batchsize:
             self.fixed_input_s.resize_(input[0][0].size()).copy_(input[0][0])
-            self.fixed_input_f.resize_(input[1][0].size()).copy_(input[1][0])
+            self.fixed_input_f.resize_(input[0][0].size()).copy_(input[0][0])
 
 
     def optimize(self):

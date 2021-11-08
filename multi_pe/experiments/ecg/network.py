@@ -75,7 +75,7 @@ class PositionalEncoding(nn.Module):
 class Multimodal_Transformer(nn.Module):
     def __init__(self, bs, ntoken=128, ninp=50, nhead=5, nhid=512, dropout=0.0, nlayers=3):
         super(Multimodal_Transformer, self).__init__()
-        #from torch.nn import TransformerEncoder , TransformerEncoderLayer
+        from torch.nn import TransformerEncoder , TransformerEncoderLayer
 
         self.ntoken = ntoken
         self.ninp = ninp
@@ -91,30 +91,27 @@ class Multimodal_Transformer(nn.Module):
         #self.transformer_encoder2 = TransformerEncoder(encoder_layers, nlayers)
         #self.transformer_encoder3 = TransformerEncoder(encoder_layers, nlayers)
         self.pos_encoder = PositionalEncoding(bs, ninp, dropout)
-        self.encoder_layers1 = TransformerEncoderLayer(ninp, nhead, nhid, dropout, activation='gelu')
-        self.encoder_layers2 = TransformerEncoderLayer(ninp, nhead, nhid, dropout, activation='gelu')
-        self.encoder_layers3 = TransformerEncoderLayer(ninp, nhead, nhid, dropout, activation='gelu')
+        encoder_layers = TransformerEncoderLayer(ninp, nhead, nhid, dropout, activation='gelu')
+        self.transformer_encoder = TransformerEncoder(encoder_layers, nlayers)
         
         
     def forward(self, input_s, input_f, input_sf): #[bs,50,1] , [bs,50,1,1]
 
         # positional encoding
-        input_s = input_s.permute(0,2,1) #[bs,128,50]=[bs,token,dim]
-        input_s = self.pos_encoder(input_s).permute(1,0,2) #[128,bs,50]
+        #input_s = input_s.permute(0,2,1) #[bs,128,50]=[bs,token,dim]
+        #input_s = self.pos_encoder(input_s).permute(1,0,2) #[128,bs,50]
 
-        input_f = input_f.permute(0,2,1)
-        input_f = self.pos_encoder(input_f).permute(1,0,2)
+        #input_f = input_f.permute(0,2,1)
+        #input_f = self.pos_encoder(input_f).permute(1,0,2)
 
-        input_sf = input_sf.permute(0,2,1)
-        input_sf = self.pos_encoder(input_sf).permute(1,0,2)
+        input_sf = input_sf.permute(0,2,1) #bs 128 50 
+        input_sf = self.pos_encoder(input_sf).permute(1,0,2) #128 bs 50
         
-        #tf = self.transformer_encoder(input_sf)
+        tf = self.transformer_encoder(input_sf)
         #tf = self.transformer_encoder1(src_Q=input_sf, src_K=input_sf, src_V=input_sf) #output = V
         #tf = self.transformer_encoder2(src_Q=input_s, src_K=tf, src_V=tf)
         #tf = self.transformer_encoder3(src_Q=input_s, src_K=tf, src_V=tf)
-        tf = self.encoder_layers1(src_Q=input_sf, src_K=input_sf, src_V=input_sf)
-        tf = self.encoder_layers2(src_Q=tf, src_K=tf, src_V=tf)
-        tf = self.encoder_layers3(src_Q=tf, src_K=tf, src_V=tf)
+        
         
         tf = tf.permute(1,2,0) #[bs,50,128]
 

@@ -9,7 +9,7 @@
 conda activate venv
 
 test=1   # 0 means train the model, 1 means evaluate the model
-threshold=0.169
+threshold=0.003
 fold_cnt=1
 
 dataroot="../../../dataset"
