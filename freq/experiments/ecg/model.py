@@ -52,7 +52,7 @@ class Generator(nn.Module):
     def __init__(self, opt):
         super(Generator, self).__init__()
         self.encoder1 = Frequency_2D_Encoder(opt.ngpu,opt,opt.nz)
-        self.tf = Generator_Transformer(ninp=50, nhead=5, nhid=512, dropout=0.0, nlayers=3)
+        self.tf = Generator_Transformer(ninp=128, nhead=5, nhid=512, dropout=0.0, nlayers=3)
         self.decoder = Frequency_1D_Decoder(opt.ngpu,opt)
 
     def forward(self, x):

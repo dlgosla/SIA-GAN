@@ -1,7 +1,7 @@
 #################################
 ########  Folder 0  ############
 device:  cuda:0
-Namespace(batchsize=32, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[0], isize=128, istest=True, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=54, ndfs=32, ngf=64, ngfs=32, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.169, w_adv=1, workers=1)
+Namespace(batchsize=32, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[2], isize=128, istest=False, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=54, ndfs=32, ngf=64, ngfs=32, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.05, w_adv=1, workers=1)
 
 ############ signal dataset ############
 train_s data size:(62436, 1, 320)
@@ -21,56 +21,17 @@ test_f V data size:(6307, 1, 128, 128)
 test_f F data size:(721, 1, 128, 128)
 test_f Q data size:(13, 1, 128, 128)
 load data success!!!
-/data/haenim/lab/freq/experiments/ecg/network.py:24: UserWarning: nn.init.xavier_uniform is now deprecated in favor of nn.init.xavier_uniform_.
-  torch.nn.init.xavier_uniform(mod.weight)
-
-model_device: cuda:0 
-
-################  Eval  ##################
-############   Analysis   #############
-############   Threshold:0.169   #############
-*********  Type:S  *************
-TP:101
-FP:2
-TN:17341
-FN:2622
-Accuracy:0.8692315359314263
-Precision/ppv:0.9805825242718447
-sensitivity/Recall:0.037091443261109074
-specificity:0.9998846796978608
-F1:0.07147912243453644
-*********  Type:V  *************
-TP:1121
-FP:2
-TN:17341
-FN:5186
-Accuracy:0.7806342494714588
-Precision/ppv:0.9982190560997328
-sensitivity/Recall:0.17773902013635642
-specificity:0.9998846796978608
-F1:0.30174966352624494
-*********  Type:F  *************
-TP:10
-FP:2
-TN:17341
-FN:711
-Accuracy:0.9605292294065545
-Precision/ppv:0.8333333333333334
-sensitivity/Recall:0.013869625520110958
-specificity:0.9998846796978608
-F1:0.027285129604365622
-*********  Type:Q  *************
-TP:3
-FP:2
-TN:17341
-FN:10
-Accuracy:0.9993085964507951
-Precision/ppv:0.6
-sensitivity/Recall:0.23076923076923078
-specificity:0.9998846796978608
-F1:0.3333333333333333
-#############################
-########  Result  ###########
-ap:0.8867144075862943
-auc:0.9269722228304766
-best th:0.0012198854237794876 --> best f1:0.8041494928912147
+Traceback (most recent call last):
+  File "main.py", line 42, in <module>
+    model=MyModel(opt,dataloader,device)
+  File "/data/haenim/lab/freq/experiments/ecg/model.py", line 78, in __init__
+    self.G = Generator( opt).to(device)
+  File "/data/haenim/lab/freq/experiments/ecg/model.py", line 55, in __init__
+    self.tf = Generator_Transformer(ninp=128, nhead=5, nhid=512, dropout=0.0, nlayers=3)
+  File "/data/haenim/lab/freq/experiments/ecg/network.py", line 34, in __init__
+    encoder_layers = TransformerEncoderLayer(ninp, nhead, nhid, dropout, activation='gelu')
+  File "/data/haenim/anaconda3/envs/venv/lib/python3.8/site-packages/torch/nn/modules/transformer.py", line 290, in __init__
+    self.self_attn = MultiheadAttention(d_model, nhead, dropout=dropout, batch_first=batch_first,
+  File "/data/haenim/anaconda3/envs/venv/lib/python3.8/site-packages/torch/nn/modules/activation.py", line 922, in __init__
+    assert self.head_dim * num_heads == self.embed_dim, "embed_dim must be divisible by num_heads"
+AssertionError: embed_dim must be divisible by num_heads

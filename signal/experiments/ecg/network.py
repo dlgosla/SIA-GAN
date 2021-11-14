@@ -28,21 +28,23 @@ def weights_init(mod):
 
 
 class Generator_Transformer(nn.Module):
-    def __init__(self, ninp=128, nhead=8, nhid=512, dropout=0.0, nlayers=3):
+    def __init__(self, ninp=50, nhead=5, nhid=512, dropout=0.0, nlayers=3):
         super(Generator_Transformer, self).__init__()
         from torch.nn import TransformerEncoder, TransformerEncoderLayer
 
-        self.linear1 = nn.Linear(1,ninp)
+        self.linear1 = nn.Linear(1,128)
         encoder_layers = TransformerEncoderLayer(ninp, nhead, nhid, dropout, activation='gelu')
         self.transformer_encoder = TransformerEncoder(encoder_layers, nlayers)
-        self.linear2 = nn.Linear(ninp,1)
+        self.linear2 = nn.Linear(128,1)
 
     def forward(self, input): #input[bs,50,1]
-
-        li = self.linear1(input).permute(1,0,2) #[bs,50,D]
-        tf = self.transformer_encoder(li)  #[50, bs, D]
-        output = self.linear2(tf.permute(1,0,2)) #[bs,50,1]
-        return output
+        
+        li = self.linear1(input).permute(2,0,1) #[128, bs, 50]
+        tf = self.transformer_encoder(li) 
+        output = tf.permute(1,2,0) #[bs,50,128]
+        cls_token = tf[:,:,0].unsqueeze(2) #[bs,50,1]
+        
+        return cls_token
 
 
 class Encoder(nn.Module):
