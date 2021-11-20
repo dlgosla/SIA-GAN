@@ -1,7 +1,7 @@
 #################################
 ########  Folder 0  ############
 device:  cuda:0
-Namespace(batchsize=32, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[0], isize=128, istest=True, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=32, ndfs=32, ngf=32, ngfs=32, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.003, w_adv=1, workers=1)
+Namespace(batchsize=32, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[0], isize=128, istest=True, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=48, ndfs=48, ngf=48, ngfs=48, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.003, w_adv=1, workers=1)
 
 ############ signal dataset ############
 train_s data size:(62436, 1, 320)
@@ -30,45 +30,45 @@ model_device: cuda:0
 ############   Analysis   #############
 ############   Threshold:0.003   #############
 *********  Type:S  *************
-TP:2541
-FP:7785
-TN:9558
-FN:182
-Accuracy:0.6029602312369182
-Precision/ppv:0.24607786170830911
-sensitivity/Recall:0.9331619537275064
-specificity:0.5511157239231966
-F1:0.38945513066135334
+TP:2659
+FP:10816
+TN:6527
+FN:64
+Accuracy:0.4577892953254261
+Precision/ppv:0.19732838589981447
+sensitivity/Recall:0.9764965112008814
+specificity:0.3763478060312518
+F1:0.32831213730090136
 *********  Type:V  *************
-TP:6301
-FP:7785
-TN:9558
-FN:6
-Accuracy:0.6705708245243129
-Precision/ppv:0.4473235837001278
-sensitivity/Recall:0.9990486760742032
-specificity:0.5511157239231966
-F1:0.6179571421566223
+TP:6306
+FP:10816
+TN:6527
+FN:1
+Accuracy:0.5426215644820296
+Precision/ppv:0.36829809601682045
+sensitivity/Recall:0.9998414460123672
+specificity:0.3763478060312518
+F1:0.5383072260873276
 *********  Type:F  *************
-TP:668
-FP:7785
-TN:9558
-FN:53
-Accuracy:0.5660983170947741
-Precision/ppv:0.07902519815450136
-sensitivity/Recall:0.926490984743412
-specificity:0.5511157239231966
-F1:0.14562895138434706
+TP:689
+FP:10816
+TN:6527
+FN:32
+Accuracy:0.39946855624446415
+Precision/ppv:0.059887005649717516
+sensitivity/Recall:0.955617198335645
+specificity:0.3763478060312518
+F1:0.11271061671846884
 *********  Type:Q  *************
 TP:13
-FP:7785
-TN:9558
+FP:10816
+TN:6527
 FN:0
-Accuracy:0.5514519474533303
-Precision/ppv:0.0016670941266991536
+Accuracy:0.37681493431666285
+Precision/ppv:0.0012004801920768306
 sensitivity/Recall:1.0
-specificity:0.5511157239231966
-F1:0.003328639098706952
+specificity:0.3763478060312518
+F1:0.002398081534772182
 /data/haenim/lab/ndf_48/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
   fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
 /data/haenim/lab/ndf_48/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
@@ -107,6 +107,6 @@ F1:0.003328639098706952
   fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
 #############################
 ########  Result  ###########
-ap:0.8726699482447695
-auc:0.9169365928255324
-best th:0.00783393532037735 --> best f1:0.7704417517412461
+ap:0.8951464160202912
+auc:0.9305389023779627
+best th:0.00793368462473154 --> best f1:0.7966679288148428

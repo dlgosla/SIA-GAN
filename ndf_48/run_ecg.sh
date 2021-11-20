@@ -3,7 +3,7 @@
 #SBATCH --job-name=ndf
 #SBATCH --gres=gpu:1
 #SBATCH -o slurm.out
-#SBATCH --time=10:00:00  # 10 hours
+#SBATCH --time=15:00:00  # 10 hours
 
 . /data/haenim/anaconda3/etc/profile.d/conda.sh
 conda activate venv

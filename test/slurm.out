@@ -1,0 +1,5 @@
+#################################
+########  Folder 0  ############
+device:  cuda:0
+Namespace(batchsize=32, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[2], isize=128, istest=False, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=54, ndfs=32, ngf=64, ngfs=32, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.05, w_adv=1, workers=1)
+slurmstepd-node1: error: *** JOB 3448 ON node1 CANCELLED AT 2021-11-16T16:59:00 ***

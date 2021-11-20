@@ -135,11 +135,11 @@ class BeatGAN(AD_MODEL):
         tlqkf = {}
         tlqkf["linear_f.weight"] = pretrained_f["tf.linear1.weight"]
         tlqkf["linear_f.bias"] = pretrained_f["tf.linear1.bias"]
-        model_dict = self.G.state_dict()
-        model_dict.update(tlqkf)
-        for model,tldlqkf in model_dict.items():
-            if model == "linear_f.weight":
-                print(tldlqkf)
+        #model_dict = self.G.state_dict()
+        #model_dict.update(tlqkf)
+        #for model,tldlqkf in model_dict.items():
+        #    if model == "linear_f.weight":
+        #        print(tldlqkf)
         
         '''
         tlqkf = OrderedDict()
@@ -150,12 +150,29 @@ class BeatGAN(AD_MODEL):
         print(tlqkf["linear_f.weight"], "pretrained")
         '''
         
-        self.G.load_state_dict(model_dict, strict=True)
-        print(self.G.state_dict()["linear_f.weight"])
-        print("========")
+        self.G.load_state_dict(tlqkf, strict=False)
+        #print(self.G.state_dict()["linear_f.weight"], "after f")
+        #print("========")
         #print(self.G.state_dict()["linear_f.weight"], "after")
-        print(dktlqkf)
+
         #'''
+
+        original_signal_linear = self.G.state_dict()['linear_s.weight']
+        print(original_signal_linear, "original signal")
+        save_dir = os.path.join(self.outf, self.model, self.dataset,"model")
+        pretrained_s = torch.load(os.path.join(save_dir,'signal.pkl'))
+        
+
+        tlqkf = {}
+        tlqkf["linear_s.weight"] = pretrained_s["tf.linear1.weight"]
+        tlqkf["linear_s.bias"] = pretrained_s["tf.linear1.bias"]
+        #model_dict = self.G.state_dict()
+        #model_dict.update(tlqkf)
+        
+        self.G.load_state_dict(tlqkf, strict=False)
+        #print("========")
+        print(self.G.state_dict()["linear_s.weight"], "after signal")
+        #print(dktlqkf)
         
         
         #print(pretrained_s_linear)
