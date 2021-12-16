@@ -246,8 +246,8 @@ class BeatGAN(AD_MODEL):
         self.out_d_fake, self.feat_fake = self.D(self.fake)
         # --
 
-        self.err_d_real = self.bce_criterion(self.out_d_real, torch.full((self.batchsize,), self.real_label, device=self.device, dtype=torch.float32))
-        self.err_d_fake = self.bce_criterion(self.out_d_fake, torch.full((self.batchsize,), self.fake_label, device=self.device, dtype=torch.float32))
+        self.err_d_real = self.bce_criterion(self.out_d_real, torch.full((self.batchsize,), self.real_label, device=self.device))
+        self.err_d_fake = self.bce_criterion(self.out_d_fake, torch.full((self.batchsize,), self.fake_label, device=self.device))
 
 
         self.err_d=self.err_d_real+self.err_d_fake

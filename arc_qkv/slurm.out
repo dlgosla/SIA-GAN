@@ -1,0 +1,112 @@
+#################################
+########  Folder 0  ############
+device:  cuda:0
+Namespace(batchsize=32, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[0], isize=128, istest=True, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=64, ndfs=64, ngf=64, ngfs=64, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.003, w_adv=1, workers=1)
+
+############ signal dataset ############
+train_s data size:(62436, 1, 320)
+val_s data size:(8025, 1, 320)
+test_s N data size:(17343, 1, 320)
+test_s S data size:(2723, 1, 320)
+test_s V data size:(6307, 1, 320)
+test_s F data size:(721, 1, 320)
+test_s Q data size:(13, 1, 320)
+
+############ frequency dataset ############
+train_f data size:(62436, 1, 128, 128)
+val_f data size:(8025, 1, 128, 128)
+test_f N data size:(17343, 1, 128, 128)
+test_f S data size:(2723, 1, 128, 128)
+test_f V data size:(6307, 1, 128, 128)
+test_f F data size:(721, 1, 128, 128)
+test_f Q data size:(13, 1, 128, 128)
+load data success!!!
+/data/haenim/lab/arc_qkv/experiments/ecg/network.py:27: UserWarning: nn.init.xavier_uniform is now deprecated in favor of nn.init.xavier_uniform_.
+  torch.nn.init.xavier_uniform(mod.weight)
+
+model_device: cuda:0 
+
+################  Eval  ##################
+############   Analysis   #############
+############   Threshold:0.003   #############
+*********  Type:S  *************
+TP:2723
+FP:17279
+TN:64
+FN:0
+Accuracy:0.1388916575301505
+Precision/ppv:0.13613638636136385
+sensitivity/Recall:1.0
+specificity:0.0036902496684541315
+F1:0.23964796479647965
+*********  Type:V  *************
+TP:6307
+FP:17279
+TN:64
+FN:0
+Accuracy:0.2693868921775899
+Precision/ppv:0.26740439243619096
+sensitivity/Recall:1.0
+specificity:0.0036902496684541315
+F1:0.4219716990599806
+*********  Type:F  *************
+TP:720
+FP:17279
+TN:64
+FN:1
+Accuracy:0.043401240035429584
+Precision/ppv:0.04000222234568587
+sensitivity/Recall:0.9986130374479889
+specificity:0.0036902496684541315
+F1:0.07692307692307693
+*********  Type:Q  *************
+TP:13
+FP:17279
+TN:64
+FN:0
+Accuracy:0.004436506107398018
+Precision/ppv:0.000751792736525561
+sensitivity/Recall:1.0
+specificity:0.0036902496684541315
+F1:0.0015024559375902918
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+/data/haenim/lab/arc_qkv/experiments/ecg/plotUtil.py:196: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, ax = plt.subplots(2, 1, sharex=True,figsize=(6, 6),gridspec_kw = {'height_ratios':[6,1]})
+#############################
+########  Result  ###########
+ap:0.7685034186653846
+auc:0.8197685111466333
+best th:0.04216485843062401 --> best f1:0.6684764903898359

@@ -46,7 +46,7 @@ class Generator_Transformer(nn.Module):
         tf = tf.permute(1,2,0)
 
         #- parse cls token [bs,50,D] -> [bs,50,1]
-        cls_token = tf[:,:,9].unsqueeze(2)
+        cls_token = tf[:,:,0].unsqueeze(2)
 
         return cls_token
 

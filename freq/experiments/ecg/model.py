@@ -210,19 +210,14 @@ class BeatGAN(AD_MODEL):
                                         fake_output,
                                         is_train=True)
 
-
     def set_input(self, input):
-        self.input_s.resize_(input[0][0].size()).copy_(input[0][0])
-        self.gt_s.resize_(input[0][1].size()).copy_(input[0][1])
-
-        self.input_f.resize_(input[1][0].size()).copy_(input[1][0])
-        self.gt_f.resize_(input[1][1].size()).copy_(input[1][1])
-
+        self.input.resize_(input[0].size()).copy_(input[0])
+        self.gt.resize_(input[1].size()).copy_(input[1])
 
         # fixed input for view
         if self.total_steps == self.opt.batchsize:
-            self.fixed_input_s.resize_(input[0][0].size()).copy_(input[0][0])
-            self.fixed_input_f.resize_(input[1][0].size()).copy_(input[1][0])
+            self.fixed_input.resize_(input[0].size()).copy_(input[0])
+            
         '''  
         #self.input.data.resize_(input[0].size()).copy_(input[0])
         with torch.no_grad():

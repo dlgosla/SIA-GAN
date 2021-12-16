@@ -1,0 +1,65 @@
+#################################
+########  Folder 0  ############
+device:  cuda:0
+Namespace(batchsize=32, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[0], isize=320, istest=True, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=32, ngf=32, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.169, w_adv=1, workers=1)
+train data size:(62436, 1, 128, 128)
+val data size:(8025, 1, 128, 128)
+test N data size:(17343, 1, 128, 128)
+test S data size:(2723, 1, 128, 128)
+test V data size:(6307, 1, 128, 128)
+test F data size:(721, 1, 128, 128)
+test Q data size:(13, 1, 128, 128)
+load data success!!!
+/data/haenim/lab/b2i_32_tf/experiments/ecg/network.py:24: UserWarning: nn.init.xavier_uniform is now deprecated in favor of nn.init.xavier_uniform_.
+  torch.nn.init.xavier_uniform(mod.weight)
+
+model_device: cuda:0 
+
+################  Eval  ##################
+############   Analysis   #############
+############   Threshold:0.169   #############
+*********  Type:S  *************
+TP:1460
+FP:2299
+TN:15044
+FN:1263
+Accuracy:0.822485796870328
+Precision/ppv:0.3884011705240756
+sensitivity/Recall:0.5361733382298935
+specificity:0.8674393126909993
+F1:0.45047824745448933
+*********  Type:V  *************
+TP:6250
+FP:2299
+TN:15044
+FN:57
+Accuracy:0.9003805496828753
+Precision/ppv:0.7310796584395836
+sensitivity/Recall:0.9909624227049311
+specificity:0.8674393126909993
+F1:0.8414108777598277
+*********  Type:F  *************
+TP:411
+FP:2299
+TN:15044
+FN:310
+Accuracy:0.8555690876882197
+Precision/ppv:0.15166051660516605
+sensitivity/Recall:0.5700416088765603
+specificity:0.8674393126909993
+F1:0.23958029728941999
+*********  Type:Q  *************
+TP:13
+FP:2299
+TN:15044
+FN:0
+Accuracy:0.8675386033648306
+Precision/ppv:0.005622837370242215
+sensitivity/Recall:1.0
+specificity:0.8674393126909993
+F1:0.011182795698924731
+#############################
+########  Result  ###########
+ap:0.8937548871548626
+auc:0.9340134904438989
+best th:0.18316879868507385 --> best f1:0.8087864602088585

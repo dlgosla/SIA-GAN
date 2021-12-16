@@ -1,7 +1,7 @@
 #################################
 ########  Folder 0  ############
 device:  cuda:0
-Namespace(batchsize=32, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[0], isize=128, istest=True, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=54, ndfs=32, ngf=64, ngfs=32, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.169, w_adv=1, workers=1)
+Namespace(batchsize=32, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[2], isize=128, istest=False, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=54, ndfs=32, ngf=64, ngfs=32, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.05, w_adv=1, workers=1)
 
 ############ signal dataset ############
 train_s data size:(62436, 1, 320)
@@ -23,54 +23,2222 @@ test_f Q data size:(13, 1, 128, 128)
 load data success!!!
 /data/haenim/lab/freq_bs32/experiments/ecg/network.py:24: UserWarning: nn.init.xavier_uniform is now deprecated in favor of nn.init.xavier_uniform_.
   torch.nn.init.xavier_uniform(mod.weight)
+Generator(
+  (encoder1): Frequency_2D_Encoder(
+    (main): Sequential(
+      (0): Conv2d(1, 54, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+      (1): LeakyReLU(negative_slope=0.2, inplace=True)
+      (2): Conv2d(54, 108, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+      (3): BatchNorm2d(108, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (4): LeakyReLU(negative_slope=0.2, inplace=True)
+      (5): Conv2d(108, 216, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+      (6): BatchNorm2d(216, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (7): LeakyReLU(negative_slope=0.2, inplace=True)
+      (8): Conv2d(216, 432, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+      (9): BatchNorm2d(432, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (10): LeakyReLU(negative_slope=0.2, inplace=True)
+      (11): Conv2d(432, 864, kernel_size=(4, 4), stride=(1, 1), padding=(1, 1), bias=False)
+      (12): BatchNorm2d(864, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (13): LeakyReLU(negative_slope=0.2, inplace=True)
+      (14): Conv2d(864, 50, kernel_size=(7, 7), stride=(1, 1), bias=False)
+    )
+  )
+  (tf): Generator_Transformer(
+    (linear1): Linear(in_features=1, out_features=128, bias=True)
+    (transformer_encoder): TransformerEncoder(
+      (layers): ModuleList(
+        (0): TransformerEncoderLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=50, out_features=50, bias=True)
+          )
+          (linear1): Linear(in_features=50, out_features=512, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=512, out_features=50, bias=True)
+          (norm1): LayerNorm((50,), eps=1e-05, elementwise_affine=True)
+          (norm2): LayerNorm((50,), eps=1e-05, elementwise_affine=True)
+          (dropout1): Dropout(p=0.0, inplace=False)
+          (dropout2): Dropout(p=0.0, inplace=False)
+        )
+        (1): TransformerEncoderLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=50, out_features=50, bias=True)
+          )
+          (linear1): Linear(in_features=50, out_features=512, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=512, out_features=50, bias=True)
+          (norm1): LayerNorm((50,), eps=1e-05, elementwise_affine=True)
+          (norm2): LayerNorm((50,), eps=1e-05, elementwise_affine=True)
+          (dropout1): Dropout(p=0.0, inplace=False)
+          (dropout2): Dropout(p=0.0, inplace=False)
+        )
+        (2): TransformerEncoderLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=50, out_features=50, bias=True)
+          )
+          (linear1): Linear(in_features=50, out_features=512, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=512, out_features=50, bias=True)
+          (norm1): LayerNorm((50,), eps=1e-05, elementwise_affine=True)
+          (norm2): LayerNorm((50,), eps=1e-05, elementwise_affine=True)
+          (dropout1): Dropout(p=0.0, inplace=False)
+          (dropout2): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+  )
+  (decoder): Frequency_1D_Decoder(
+    (main): Sequential(
+      (0): ConvTranspose1d(50, 512, kernel_size=(10,), stride=(1,), bias=False)
+      (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): ConvTranspose1d(512, 256, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (4): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): ConvTranspose1d(256, 128, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (7): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (8): ReLU(inplace=True)
+      (9): ConvTranspose1d(128, 64, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (10): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (11): ReLU(inplace=True)
+      (12): ConvTranspose1d(64, 32, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (13): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (14): ReLU(inplace=True)
+      (15): ConvTranspose1d(32, 1, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (16): Tanh()
+    )
+  )
+)
+Total number of parameters: 11193598
+Discriminator(
+  (features): Sequential(
+    (0): Conv1d(1, 32, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (1): LeakyReLU(negative_slope=0.2, inplace=True)
+    (2): Conv1d(32, 64, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (4): LeakyReLU(negative_slope=0.2, inplace=True)
+    (5): Conv1d(64, 128, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (6): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (7): LeakyReLU(negative_slope=0.2, inplace=True)
+    (8): Conv1d(128, 256, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (9): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): LeakyReLU(negative_slope=0.2, inplace=True)
+    (11): Conv1d(256, 512, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (12): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (13): LeakyReLU(negative_slope=0.2, inplace=True)
+  )
+  (classifier): Sequential(
+    (0): Conv1d(512, 1, kernel_size=(10,), stride=(1,), bias=False)
+    (Sigmoid): Sigmoid()
+  )
+)
+Total number of parameters: 703488
 
 model_device: cuda:0 
 
-################  Eval  ##################
-############   Analysis   #############
-############   Threshold:0.169   #############
-*********  Type:S  *************
-TP:102
-FP:4
-TN:17339
-FN:2621
-Accuracy:0.8691817003887172
-Precision/ppv:0.9622641509433962
-sensitivity/Recall:0.0374586852735953
-specificity:0.9997693593957216
-F1:0.07211028632025451
-*********  Type:V  *************
-TP:1156
-FP:4
-TN:17339
-FN:5151
-Accuracy:0.782029598308668
-Precision/ppv:0.996551724137931
-sensitivity/Recall:0.18328840970350405
-specificity:0.9997693593957216
-F1:0.30962903441810635
-*********  Type:F  *************
-TP:11
-FP:4
-TN:17339
-FN:710
-Accuracy:0.9604738706820195
-Precision/ppv:0.7333333333333333
-sensitivity/Recall:0.015256588072122053
-specificity:0.9997693593957216
-F1:0.029891304347826088
-*********  Type:Q  *************
-TP:3
-FP:4
-TN:17339
-FN:10
-Accuracy:0.9991933625259276
-Precision/ppv:0.42857142857142855
-sensitivity/Recall:0.23076923076923078
-specificity:0.9997693593957216
-F1:0.3
-#############################
-########  Result  ###########
-ap:0.8754312237482664
-auc:0.920418713206369
-best th:0.0012650591088458896 --> best f1:0.7824285122254454
+################  Train  ##################
+Train model.
+Epoch: [1] [ 100/1951] D_loss(R/F): 0.366995/0.042557, G_loss: 0.275334
+Epoch: [1] [ 200/1951] D_loss(R/F): 0.157560/0.019451, G_loss: 0.366899
+Epoch: [1] [ 300/1951] D_loss(R/F): 0.028218/0.070215, G_loss: 0.287159
+Epoch: [1] [ 400/1951] D_loss(R/F): 0.008884/0.070066, G_loss: 0.294318
+Epoch: [1] [ 500/1951] D_loss(R/F): 0.004152/0.003715, G_loss: 0.358800
+Epoch: [1] [ 600/1951] D_loss(R/F): 0.038664/0.002904, G_loss: 0.325554
+Epoch: [1] [ 700/1951] D_loss(R/F): 0.160876/0.218314, G_loss: 0.160047
+Epoch: [1] [ 800/1951] D_loss(R/F): 0.025247/0.199875, G_loss: 0.222160
+Epoch: [1] [ 900/1951] D_loss(R/F): 0.028752/0.023113, G_loss: 0.275230
+Epoch: [1] [1000/1951] D_loss(R/F): 0.004372/0.182012, G_loss: 0.320853
+Epoch: [1] [1100/1951] D_loss(R/F): 0.020913/0.002111, G_loss: 0.329251
+Epoch: [1] [1200/1951] D_loss(R/F): 0.024087/0.002923, G_loss: 0.405439
+Epoch: [1] [1300/1951] D_loss(R/F): 0.002436/0.008010, G_loss: 0.378342
+Epoch: [1] [1400/1951] D_loss(R/F): 0.021881/1.228992, G_loss: 0.195007
+Epoch: [1] [1500/1951] D_loss(R/F): 0.183024/0.016979, G_loss: 0.221440
+Epoch: [1] [1600/1951] D_loss(R/F): 0.036521/0.003868, G_loss: 0.293292
+Epoch: [1] [1700/1951] D_loss(R/F): 0.006474/0.021587, G_loss: 0.279487
+Epoch: [1] [1800/1951] D_loss(R/F): 0.005641/0.007008, G_loss: 0.355285
+Epoch: [1] [1900/1951] D_loss(R/F): 0.006612/0.001258, G_loss: 0.279478
+[1] auc:0.9011 th:0.0103 f1:0.6159 	 best_auc:0.9011 in epoch[1]
+
+Epoch: [2] [ 100/1951] D_loss(R/F): 0.002281/0.000744, G_loss: 0.387557
+Epoch: [2] [ 200/1951] D_loss(R/F): 0.007191/0.000894, G_loss: 0.314976
+Epoch: [2] [ 300/1951] D_loss(R/F): 0.599236/0.038455, G_loss: 0.127749
+Epoch: [2] [ 400/1951] D_loss(R/F): 0.019005/0.005471, G_loss: 0.211944
+Epoch: [2] [ 500/1951] D_loss(R/F): 0.001567/0.003594, G_loss: 0.349627
+Epoch: [2] [ 600/1951] D_loss(R/F): 0.009254/0.000187, G_loss: 0.307781
+Epoch: [2] [ 700/1951] D_loss(R/F): 0.002219/0.012165, G_loss: 0.266921
+Epoch: [2] [ 800/1951] D_loss(R/F): 0.003427/0.000037, G_loss: 0.361655
+Epoch: [2] [ 900/1951] D_loss(R/F): 0.010853/0.002555, G_loss: 0.246178
+Epoch: [2] [1000/1951] D_loss(R/F): 0.001934/0.002554, G_loss: 0.312642
+Epoch: [2] [1100/1951] D_loss(R/F): 0.001089/0.004703, G_loss: 0.323474
+Epoch: [2] [1200/1951] D_loss(R/F): 0.099578/0.103506, G_loss: 0.169334
+Epoch: [2] [1300/1951] D_loss(R/F): 0.594514/0.049253, G_loss: 0.125943
+Epoch: [2] [1400/1951] D_loss(R/F): 0.039404/0.177941, G_loss: 0.179343
+Epoch: [2] [1500/1951] D_loss(R/F): 0.008068/0.112347, G_loss: 0.249985
+Epoch: [2] [1600/1951] D_loss(R/F): 0.006757/0.096405, G_loss: 0.250363
+Epoch: [2] [1700/1951] D_loss(R/F): 0.013464/0.003851, G_loss: 0.257782
+Epoch: [2] [1800/1951] D_loss(R/F): 0.002992/0.002130, G_loss: 0.347520
+Epoch: [2] [1900/1951] D_loss(R/F): 0.000767/0.020997, G_loss: 0.265980
+[2] auc:0.8960 th:0.0086 f1:0.6152 	 best_auc:0.9011 in epoch[1]
+
+Epoch: [3] [ 100/1951] D_loss(R/F): 0.000722/0.008901, G_loss: 0.295059
+Epoch: [3] [ 200/1951] D_loss(R/F): 0.006582/0.000369, G_loss: 0.265489
+Epoch: [3] [ 300/1951] D_loss(R/F): 0.000672/0.002833, G_loss: 0.353265
+Epoch: [3] [ 400/1951] D_loss(R/F): 0.001493/0.001094, G_loss: 0.335573
+Epoch: [3] [ 500/1951] D_loss(R/F): 0.001311/0.000315, G_loss: 0.321149
+Epoch: [3] [ 600/1951] D_loss(R/F): 0.002463/0.008434, G_loss: 0.287057
+Epoch: [3] [ 700/1951] D_loss(R/F): 0.053511/0.162247, G_loss: 0.177463
+Epoch: [3] [ 800/1951] D_loss(R/F): 0.007831/0.304670, G_loss: 0.247274
+Epoch: [3] [ 900/1951] D_loss(R/F): 0.102020/0.013256, G_loss: 0.245671
+Epoch: [3] [1000/1951] D_loss(R/F): 0.006222/0.068870, G_loss: 0.264011
+Epoch: [3] [1100/1951] D_loss(R/F): 0.002831/0.009159, G_loss: 0.313812
+Epoch: [3] [1200/1951] D_loss(R/F): 0.006285/0.002671, G_loss: 0.244621
+Epoch: [3] [1300/1951] D_loss(R/F): 0.001366/0.005617, G_loss: 0.304769
+Epoch: [3] [1400/1951] D_loss(R/F): 0.003322/0.001460, G_loss: 0.311763
+Epoch: [3] [1500/1951] D_loss(R/F): 0.042441/0.002917, G_loss: 0.210138
+Epoch: [3] [1600/1951] D_loss(R/F): 0.001822/0.002471, G_loss: 0.315276
+Epoch: [3] [1700/1951] D_loss(R/F): 0.000723/0.001735, G_loss: 0.404535
+Epoch: [3] [1800/1951] D_loss(R/F): 0.007236/0.001658, G_loss: 0.278757
+Epoch: [3] [1900/1951] D_loss(R/F): 0.001645/0.000284, G_loss: 0.284040
+[3] auc:0.8960 th:0.0093 f1:0.6242 	 best_auc:0.9011 in epoch[1]
+
+Epoch: [4] [ 100/1951] D_loss(R/F): 0.000258/0.000668, G_loss: 0.308831
+Epoch: [4] [ 200/1951] D_loss(R/F): 0.001317/0.000102, G_loss: 0.336026
+Epoch: [4] [ 300/1951] D_loss(R/F): 0.000644/0.006688, G_loss: 0.291808
+Epoch: [4] [ 400/1951] D_loss(R/F): 0.001615/0.000741, G_loss: 0.243054
+Epoch: [4] [ 500/1951] D_loss(R/F): 0.002133/0.000006, G_loss: 0.399877
+Epoch: [4] [ 600/1951] D_loss(R/F): 0.000222/0.000239, G_loss: 0.314305
+Epoch: [4] [ 700/1951] D_loss(R/F): 0.002396/0.002388, G_loss: 0.249799
+Epoch: [4] [ 800/1951] D_loss(R/F): 0.000751/0.000678, G_loss: 0.314225
+Epoch: [4] [ 900/1951] D_loss(R/F): 0.000881/0.000130, G_loss: 0.348951
+Epoch: [4] [1000/1951] D_loss(R/F): 0.001726/0.000011, G_loss: 0.466278
+Epoch: [4] [1100/1951] D_loss(R/F): 0.000567/0.000047, G_loss: 0.292135
+Epoch: [4] [1200/1951] D_loss(R/F): 1.013904/0.103888, G_loss: 0.065759
+Epoch: [4] [1300/1951] D_loss(R/F): 0.022163/0.113627, G_loss: 0.181491
+Epoch: [4] [1400/1951] D_loss(R/F): 0.076928/0.056869, G_loss: 0.180852
+Epoch: [4] [1500/1951] D_loss(R/F): 0.095016/0.046870, G_loss: 0.215318
+Epoch: [4] [1600/1951] D_loss(R/F): 0.005724/0.083633, G_loss: 0.219827
+Epoch: [4] [1700/1951] D_loss(R/F): 0.037030/0.074108, G_loss: 0.157225
+Epoch: [4] [1800/1951] D_loss(R/F): 0.009987/0.078371, G_loss: 0.204536
+Epoch: [4] [1900/1951] D_loss(R/F): 0.091685/0.039891, G_loss: 0.169881
+[4] auc:0.8990 th:0.0092 f1:0.6372 	 best_auc:0.9011 in epoch[1]
+
+Epoch: [5] [ 100/1951] D_loss(R/F): 0.009088/0.034491, G_loss: 0.237939
+Epoch: [5] [ 200/1951] D_loss(R/F): 0.006161/0.007349, G_loss: 0.235316
+Epoch: [5] [ 300/1951] D_loss(R/F): 0.049898/0.003010, G_loss: 0.187810
+Epoch: [5] [ 400/1951] D_loss(R/F): 0.003081/0.002897, G_loss: 0.252345
+Epoch: [5] [ 500/1951] D_loss(R/F): 0.002426/0.008390, G_loss: 0.234821
+Epoch: [5] [ 600/1951] D_loss(R/F): 0.000882/0.008196, G_loss: 0.249993
+Epoch: [5] [ 700/1951] D_loss(R/F): 0.000820/0.001957, G_loss: 0.295651
+Epoch: [5] [ 800/1951] D_loss(R/F): 0.000383/0.003909, G_loss: 0.256298
+Epoch: [5] [ 900/1951] D_loss(R/F): 0.000223/0.003807, G_loss: 0.284888
+Epoch: [5] [1000/1951] D_loss(R/F): 0.000436/0.006704, G_loss: 0.311153
+Epoch: [5] [1100/1951] D_loss(R/F): 0.011591/0.000189, G_loss: 0.242212
+Epoch: [5] [1200/1951] D_loss(R/F): 0.000943/0.004778, G_loss: 0.260393
+Epoch: [5] [1300/1951] D_loss(R/F): 0.000494/0.002227, G_loss: 0.367061
+Epoch: [5] [1400/1951] D_loss(R/F): 0.001173/0.000212, G_loss: 0.267421
+Epoch: [5] [1500/1951] D_loss(R/F): 0.001108/0.000029, G_loss: 0.289681
+Epoch: [5] [1600/1951] D_loss(R/F): 0.000393/0.000495, G_loss: 0.289604
+Epoch: [5] [1700/1951] D_loss(R/F): 0.035683/0.036445, G_loss: 0.216843
+Epoch: [5] [1800/1951] D_loss(R/F): 0.001568/0.050530, G_loss: 0.235350
+Epoch: [5] [1900/1951] D_loss(R/F): 0.002944/0.008024, G_loss: 0.206272
+[5] auc:0.9016 th:0.0079 f1:0.6369 	 best_auc:0.9016 in epoch[5]
+
+Epoch: [6] [ 100/1951] D_loss(R/F): 0.002750/0.000275, G_loss: 0.269830
+Epoch: [6] [ 200/1951] D_loss(R/F): 0.000159/0.000303, G_loss: 0.321165
+Epoch: [6] [ 300/1951] D_loss(R/F): 0.000431/0.001586, G_loss: 0.293445
+Epoch: [6] [ 400/1951] D_loss(R/F): 0.000935/0.000022, G_loss: 0.277683
+Epoch: [6] [ 500/1951] D_loss(R/F): 0.000531/0.000301, G_loss: 0.220069
+Epoch: [6] [ 600/1951] D_loss(R/F): 0.000207/0.000177, G_loss: 0.285378
+Epoch: [6] [ 700/1951] D_loss(R/F): 0.000413/0.000012, G_loss: 0.328737
+Epoch: [6] [ 800/1951] D_loss(R/F): 0.000244/0.000339, G_loss: 0.300879
+Epoch: [6] [ 900/1951] D_loss(R/F): 0.001437/0.000152, G_loss: 0.250945
+Epoch: [6] [1000/1951] D_loss(R/F): 0.001146/0.000889, G_loss: 0.282253
+Epoch: [6] [1100/1951] D_loss(R/F): 0.000460/0.000030, G_loss: 0.302801
+Epoch: [6] [1200/1951] D_loss(R/F): 0.000353/0.002406, G_loss: 0.278983
+Epoch: [6] [1300/1951] D_loss(R/F): 0.000341/0.000002, G_loss: 0.361327
+Epoch: [6] [1400/1951] D_loss(R/F): 0.117689/0.142565, G_loss: 0.123134
+Epoch: [6] [1500/1951] D_loss(R/F): 0.003370/0.011190, G_loss: 0.209327
+Epoch: [6] [1600/1951] D_loss(R/F): 0.006881/0.001116, G_loss: 0.213933
+Epoch: [6] [1700/1951] D_loss(R/F): 0.006369/0.000057, G_loss: 0.251533
+Epoch: [6] [1800/1951] D_loss(R/F): 0.000605/0.000706, G_loss: 0.241116
+Epoch: [6] [1900/1951] D_loss(R/F): 0.000332/0.000423, G_loss: 0.286839
+[6] auc:0.8965 th:0.0052 f1:0.6464 	 best_auc:0.9016 in epoch[5]
+
+Epoch: [7] [ 100/1951] D_loss(R/F): 0.000087/0.001323, G_loss: 0.304588
+Epoch: [7] [ 200/1951] D_loss(R/F): 0.000470/0.005148, G_loss: 0.210987
+Epoch: [7] [ 300/1951] D_loss(R/F): 0.000264/0.005422, G_loss: 0.201580
+Epoch: [7] [ 400/1951] D_loss(R/F): 0.000593/0.000021, G_loss: 0.265809
+Epoch: [7] [ 500/1951] D_loss(R/F): 0.002759/0.004313, G_loss: 0.189068
+Epoch: [7] [ 600/1951] D_loss(R/F): 0.000099/0.000068, G_loss: 0.329069
+Epoch: [7] [ 700/1951] D_loss(R/F): 0.000402/0.000151, G_loss: 0.282669
+Epoch: [7] [ 800/1951] D_loss(R/F): 0.000192/0.000656, G_loss: 0.271358
+Epoch: [7] [ 900/1951] D_loss(R/F): 0.000754/0.000037, G_loss: 0.259049
+Epoch: [7] [1000/1951] D_loss(R/F): 0.000533/0.000271, G_loss: 0.258517
+Epoch: [7] [1100/1951] D_loss(R/F): 0.000321/0.000104, G_loss: 0.297659
+Epoch: [7] [1200/1951] D_loss(R/F): 0.000181/0.002237, G_loss: 0.280516
+Epoch: [7] [1300/1951] D_loss(R/F): 0.001318/0.000052, G_loss: 0.245665
+Epoch: [7] [1400/1951] D_loss(R/F): 0.000110/0.000297, G_loss: 0.224346
+Epoch: [7] [1500/1951] D_loss(R/F): 0.000200/0.000129, G_loss: 0.330046
+Epoch: [7] [1600/1951] D_loss(R/F): 0.000124/0.000494, G_loss: 0.328289
+Epoch: [7] [1700/1951] D_loss(R/F): 0.000062/0.000073, G_loss: 0.288602
+Epoch: [7] [1800/1951] D_loss(R/F): 0.006651/1.664927, G_loss: 0.101111
+Epoch: [7] [1900/1951] D_loss(R/F): 1.268704/0.002097, G_loss: 0.110241
+[7] auc:0.9076 th:0.0075 f1:0.6498 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [8] [ 100/1951] D_loss(R/F): 0.068998/0.069849, G_loss: 0.172352
+Epoch: [8] [ 200/1951] D_loss(R/F): 0.002541/0.082630, G_loss: 0.168139
+Epoch: [8] [ 300/1951] D_loss(R/F): 0.011029/0.009741, G_loss: 0.167591
+Epoch: [8] [ 400/1951] D_loss(R/F): 0.004784/0.001217, G_loss: 0.187347
+Epoch: [8] [ 500/1951] D_loss(R/F): 0.001749/0.006251, G_loss: 0.191642
+Epoch: [8] [ 600/1951] D_loss(R/F): 0.000366/0.007185, G_loss: 0.209294
+Epoch: [8] [ 700/1951] D_loss(R/F): 0.004529/0.004819, G_loss: 0.178132
+Epoch: [8] [ 800/1951] D_loss(R/F): 0.003329/0.005593, G_loss: 0.207834
+Epoch: [8] [ 900/1951] D_loss(R/F): 0.001313/0.000955, G_loss: 0.232485
+Epoch: [8] [1000/1951] D_loss(R/F): 0.000478/0.004081, G_loss: 0.227607
+Epoch: [8] [1100/1951] D_loss(R/F): 0.000168/0.000377, G_loss: 0.227544
+Epoch: [8] [1200/1951] D_loss(R/F): 0.000091/0.003936, G_loss: 0.238305
+Epoch: [8] [1300/1951] D_loss(R/F): 0.000182/0.000163, G_loss: 0.270461
+Epoch: [8] [1400/1951] D_loss(R/F): 0.000106/0.000187, G_loss: 0.258438
+Epoch: [8] [1500/1951] D_loss(R/F): 0.000350/0.000621, G_loss: 0.223220
+Epoch: [8] [1600/1951] D_loss(R/F): 0.000083/0.000023, G_loss: 0.296025
+Epoch: [8] [1700/1951] D_loss(R/F): 0.000866/0.000137, G_loss: 0.236457
+Epoch: [8] [1800/1951] D_loss(R/F): 0.000525/0.000823, G_loss: 0.195709
+Epoch: [8] [1900/1951] D_loss(R/F): 0.000623/0.001448, G_loss: 0.308433
+[8] auc:0.9052 th:0.0092 f1:0.6494 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [9] [ 100/1951] D_loss(R/F): 0.000396/0.000020, G_loss: 0.280771
+Epoch: [9] [ 200/1951] D_loss(R/F): 0.000032/0.000017, G_loss: 0.309017
+Epoch: [9] [ 300/1951] D_loss(R/F): 0.000926/0.000241, G_loss: 0.216533
+Epoch: [9] [ 400/1951] D_loss(R/F): 0.000077/0.000002, G_loss: 0.295586
+Epoch: [9] [ 500/1951] D_loss(R/F): 0.000140/0.000066, G_loss: 0.330940
+Epoch: [9] [ 600/1951] D_loss(R/F): 0.000120/0.000004, G_loss: 0.262578
+Epoch: [9] [ 700/1951] D_loss(R/F): 0.000039/0.001343, G_loss: 0.211403
+Epoch: [9] [ 800/1951] D_loss(R/F): 0.000199/0.000193, G_loss: 0.228426
+Epoch: [9] [ 900/1951] D_loss(R/F): 0.000051/0.000023, G_loss: 0.307322
+Epoch: [9] [1000/1951] D_loss(R/F): 0.000061/0.000194, G_loss: 0.267096
+Epoch: [9] [1100/1951] D_loss(R/F): 0.000044/0.000032, G_loss: 0.264787
+Epoch: [9] [1200/1951] D_loss(R/F): 0.000404/0.000033, G_loss: 0.251810
+Epoch: [9] [1300/1951] D_loss(R/F): 0.000618/0.000010, G_loss: 0.292707
+Epoch: [9] [1400/1951] D_loss(R/F): 0.000135/0.000023, G_loss: 0.268725
+Epoch: [9] [1500/1951] D_loss(R/F): 0.000070/0.000069, G_loss: 0.274983
+Epoch: [9] [1600/1951] D_loss(R/F): 0.000036/0.000482, G_loss: 0.249572
+Epoch: [9] [1700/1951] D_loss(R/F): 0.000053/0.002152, G_loss: 0.255164
+Epoch: [9] [1800/1951] D_loss(R/F): 0.000053/0.000681, G_loss: 0.234783
+Epoch: [9] [1900/1951] D_loss(R/F): 0.000020/0.002274, G_loss: 0.249481
+[9] auc:0.9006 th:0.0095 f1:0.6558 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [10] [ 100/1951] D_loss(R/F): 0.000245/0.000001, G_loss: 0.311838
+Epoch: [10] [ 200/1951] D_loss(R/F): 0.000047/0.000002, G_loss: 0.296116
+Epoch: [10] [ 300/1951] D_loss(R/F): 0.000050/0.000997, G_loss: 0.224801
+Epoch: [10] [ 400/1951] D_loss(R/F): 0.999275/0.011792, G_loss: 0.060730
+Epoch: [10] [ 500/1951] D_loss(R/F): 0.216293/0.027649, G_loss: 0.115903
+Epoch: [10] [ 600/1951] D_loss(R/F): 0.010237/0.002378, G_loss: 0.161700
+Epoch: [10] [ 700/1951] D_loss(R/F): 0.002935/0.002088, G_loss: 0.204537
+Epoch: [10] [ 800/1951] D_loss(R/F): 0.000444/0.001320, G_loss: 0.224540
+Epoch: [10] [ 900/1951] D_loss(R/F): 0.001533/0.003035, G_loss: 0.220741
+Epoch: [10] [1000/1951] D_loss(R/F): 0.000433/0.000925, G_loss: 0.238767
+Epoch: [10] [1100/1951] D_loss(R/F): 0.001131/0.003508, G_loss: 0.223790
+Epoch: [10] [1200/1951] D_loss(R/F): 0.000300/0.000065, G_loss: 0.262018
+Epoch: [10] [1300/1951] D_loss(R/F): 0.001456/0.000060, G_loss: 0.277142
+Epoch: [10] [1400/1951] D_loss(R/F): 0.000214/0.000799, G_loss: 0.225921
+Epoch: [10] [1500/1951] D_loss(R/F): 0.000104/0.001010, G_loss: 0.257154
+Epoch: [10] [1600/1951] D_loss(R/F): 0.000149/0.001478, G_loss: 0.231888
+Epoch: [10] [1700/1951] D_loss(R/F): 0.000625/0.000003, G_loss: 0.290702
+Epoch: [10] [1800/1951] D_loss(R/F): 0.000184/0.000011, G_loss: 0.293019
+Epoch: [10] [1900/1951] D_loss(R/F): 0.000177/0.000890, G_loss: 0.233228
+[10] auc:0.8991 th:0.0086 f1:0.6522 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [11] [ 100/1951] D_loss(R/F): 0.000095/0.000118, G_loss: 0.236399
+Epoch: [11] [ 200/1951] D_loss(R/F): 0.000069/0.001949, G_loss: 0.263306
+Epoch: [11] [ 300/1951] D_loss(R/F): 0.000243/0.000005, G_loss: 0.261285
+Epoch: [11] [ 400/1951] D_loss(R/F): 0.000106/0.000069, G_loss: 0.275884
+Epoch: [11] [ 500/1951] D_loss(R/F): 0.000072/0.000000, G_loss: 0.301977
+Epoch: [11] [ 600/1951] D_loss(R/F): 0.000071/0.000001, G_loss: 0.303940
+Epoch: [11] [ 700/1951] D_loss(R/F): 0.000089/0.000099, G_loss: 0.255401
+Epoch: [11] [ 800/1951] D_loss(R/F): 0.000024/0.000022, G_loss: 0.272802
+Epoch: [11] [ 900/1951] D_loss(R/F): 0.000013/0.000167, G_loss: 0.287657
+Epoch: [11] [1000/1951] D_loss(R/F): 0.000348/0.000000, G_loss: 0.270333
+Epoch: [11] [1100/1951] D_loss(R/F): 0.000692/0.000058, G_loss: 0.264321
+Epoch: [11] [1200/1951] D_loss(R/F): 0.000085/0.000001, G_loss: 0.278566
+Epoch: [11] [1300/1951] D_loss(R/F): 0.000062/0.003607, G_loss: 0.186616
+Epoch: [11] [1400/1951] D_loss(R/F): 0.000016/0.000115, G_loss: 0.229707
+Epoch: [11] [1500/1951] D_loss(R/F): 0.000052/0.000000, G_loss: 0.322617
+Epoch: [11] [1600/1951] D_loss(R/F): 0.000112/0.000029, G_loss: 0.273502
+Epoch: [11] [1700/1951] D_loss(R/F): 0.000124/0.000002, G_loss: 0.287436
+Epoch: [11] [1800/1951] D_loss(R/F): 0.000047/0.001509, G_loss: 0.219136
+Epoch: [11] [1900/1951] D_loss(R/F): 0.000006/0.000004, G_loss: 0.303582
+/data/haenim/lab/freq_bs32/experiments/ecg/plotUtil.py:79: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig, axarr = plt.subplots(nrow, ncol, sharex=True, figsize=(6, 6))
+/data/haenim/lab/freq_bs32/experiments/ecg/model.py:373: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  fig = plt.figure(figsize=(5,10))
+[11] auc:0.8995 th:0.0073 f1:0.6553 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [12] [ 100/1951] D_loss(R/F): 0.000012/0.000002, G_loss: 0.319241
+Epoch: [12] [ 200/1951] D_loss(R/F): 0.000529/0.000002, G_loss: 0.267823
+Epoch: [12] [ 300/1951] D_loss(R/F): 0.000030/0.000076, G_loss: 0.265974
+Epoch: [12] [ 400/1951] D_loss(R/F): 0.000014/0.000024, G_loss: 0.279708
+Epoch: [12] [ 500/1951] D_loss(R/F): 0.000011/0.000004, G_loss: 0.292780
+Epoch: [12] [ 600/1951] D_loss(R/F): 0.000052/0.000000, G_loss: 0.326742
+Epoch: [12] [ 700/1951] D_loss(R/F): 0.242550/0.140022, G_loss: 0.086905
+Epoch: [12] [ 800/1951] D_loss(R/F): 0.005830/0.135743, G_loss: 0.140481
+Epoch: [12] [ 900/1951] D_loss(R/F): 0.001198/0.008377, G_loss: 0.200527
+Epoch: [12] [1000/1951] D_loss(R/F): 0.002248/0.000820, G_loss: 0.185103
+Epoch: [12] [1100/1951] D_loss(R/F): 0.000292/0.000061, G_loss: 0.261073
+Epoch: [12] [1200/1951] D_loss(R/F): 0.000511/0.000801, G_loss: 0.223676
+Epoch: [12] [1300/1951] D_loss(R/F): 0.000807/0.002114, G_loss: 0.171531
+Epoch: [12] [1400/1951] D_loss(R/F): 0.000577/0.000417, G_loss: 0.220034
+Epoch: [12] [1500/1951] D_loss(R/F): 0.000153/0.000351, G_loss: 0.262482
+Epoch: [12] [1600/1951] D_loss(R/F): 0.000679/0.000188, G_loss: 0.243181
+Epoch: [12] [1700/1951] D_loss(R/F): 0.000941/0.002515, G_loss: 0.257769
+Epoch: [12] [1800/1951] D_loss(R/F): 0.000400/0.000025, G_loss: 0.280199
+Epoch: [12] [1900/1951] D_loss(R/F): 0.000145/0.000850, G_loss: 0.230473
+[12] auc:0.9000 th:0.0078 f1:0.6560 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [13] [ 100/1951] D_loss(R/F): 0.001162/0.000112, G_loss: 0.204262
+Epoch: [13] [ 200/1951] D_loss(R/F): 0.000111/0.000131, G_loss: 0.220631
+Epoch: [13] [ 300/1951] D_loss(R/F): 0.000290/0.000190, G_loss: 0.208441
+Epoch: [13] [ 400/1951] D_loss(R/F): 0.000054/0.000364, G_loss: 0.215624
+Epoch: [13] [ 500/1951] D_loss(R/F): 0.000160/0.000027, G_loss: 0.277997
+Epoch: [13] [ 600/1951] D_loss(R/F): 0.000109/0.000874, G_loss: 0.224566
+Epoch: [13] [ 700/1951] D_loss(R/F): 0.000118/0.000142, G_loss: 0.205733
+Epoch: [13] [ 800/1951] D_loss(R/F): 0.000025/0.000041, G_loss: 0.257491
+Epoch: [13] [ 900/1951] D_loss(R/F): 0.000080/0.000001, G_loss: 0.225132
+Epoch: [13] [1000/1951] D_loss(R/F): 0.000024/0.000143, G_loss: 0.233735
+Epoch: [13] [1100/1951] D_loss(R/F): 0.000081/0.000157, G_loss: 0.209495
+Epoch: [13] [1200/1951] D_loss(R/F): 0.000368/0.000002, G_loss: 0.253604
+Epoch: [13] [1300/1951] D_loss(R/F): 0.000957/0.000014, G_loss: 0.271372
+Epoch: [13] [1400/1951] D_loss(R/F): 0.000010/0.002863, G_loss: 0.202152
+Epoch: [13] [1500/1951] D_loss(R/F): 0.140699/0.071639, G_loss: 0.075283
+Epoch: [13] [1600/1951] D_loss(R/F): 0.042494/0.321286, G_loss: 0.102967
+Epoch: [13] [1700/1951] D_loss(R/F): 0.005688/0.004768, G_loss: 0.156146
+Epoch: [13] [1800/1951] D_loss(R/F): 0.005515/0.002844, G_loss: 0.162084
+Epoch: [13] [1900/1951] D_loss(R/F): 0.001961/0.002382, G_loss: 0.186126
+[13] auc:0.9050 th:0.0083 f1:0.6553 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [14] [ 100/1951] D_loss(R/F): 0.000206/0.000166, G_loss: 0.252934
+Epoch: [14] [ 200/1951] D_loss(R/F): 0.000405/0.000419, G_loss: 0.226705
+Epoch: [14] [ 300/1951] D_loss(R/F): 0.000158/0.000194, G_loss: 0.239002
+Epoch: [14] [ 400/1951] D_loss(R/F): 0.000246/0.000104, G_loss: 0.239243
+Epoch: [14] [ 500/1951] D_loss(R/F): 0.000249/0.004096, G_loss: 0.207146
+Epoch: [14] [ 600/1951] D_loss(R/F): 0.000164/0.000562, G_loss: 0.244541
+Epoch: [14] [ 700/1951] D_loss(R/F): 0.000224/0.000270, G_loss: 0.231936
+Epoch: [14] [ 800/1951] D_loss(R/F): 0.000062/0.001085, G_loss: 0.228702
+Epoch: [14] [ 900/1951] D_loss(R/F): 0.000995/0.000201, G_loss: 0.243218
+Epoch: [14] [1000/1951] D_loss(R/F): 0.000266/0.000031, G_loss: 0.258838
+Epoch: [14] [1100/1951] D_loss(R/F): 0.000117/0.000001, G_loss: 0.262032
+Epoch: [14] [1200/1951] D_loss(R/F): 0.000560/0.000907, G_loss: 0.186703
+Epoch: [14] [1300/1951] D_loss(R/F): 0.000164/0.000143, G_loss: 0.214158
+Epoch: [14] [1400/1951] D_loss(R/F): 0.000032/0.000045, G_loss: 0.281533
+Epoch: [14] [1500/1951] D_loss(R/F): 0.000068/0.000087, G_loss: 0.251906
+Epoch: [14] [1600/1951] D_loss(R/F): 0.000398/0.000011, G_loss: 0.254455
+Epoch: [14] [1700/1951] D_loss(R/F): 0.000104/0.000028, G_loss: 0.230793
+Epoch: [14] [1800/1951] D_loss(R/F): 0.000022/0.000396, G_loss: 0.211228
+Epoch: [14] [1900/1951] D_loss(R/F): 0.000154/0.000271, G_loss: 0.215962
+[14] auc:0.8961 th:0.0068 f1:0.6593 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [15] [ 100/1951] D_loss(R/F): 0.000351/0.000130, G_loss: 0.223583
+Epoch: [15] [ 200/1951] D_loss(R/F): 0.000071/0.000001, G_loss: 0.243135
+Epoch: [15] [ 300/1951] D_loss(R/F): 0.000166/0.000077, G_loss: 0.223173
+Epoch: [15] [ 400/1951] D_loss(R/F): 0.000135/0.000001, G_loss: 0.256760
+Epoch: [15] [ 500/1951] D_loss(R/F): 0.000068/0.000005, G_loss: 0.267176
+Epoch: [15] [ 600/1951] D_loss(R/F): 0.000059/0.000155, G_loss: 0.229294
+Epoch: [15] [ 700/1951] D_loss(R/F): 0.000013/0.000430, G_loss: 0.201262
+Epoch: [15] [ 800/1951] D_loss(R/F): 0.000042/0.000002, G_loss: 0.257388
+Epoch: [15] [ 900/1951] D_loss(R/F): 0.000016/0.000093, G_loss: 0.213945
+Epoch: [15] [1000/1951] D_loss(R/F): 0.254565/0.088715, G_loss: 0.068237
+Epoch: [15] [1100/1951] D_loss(R/F): 0.071085/0.100580, G_loss: 0.095125
+Epoch: [15] [1200/1951] D_loss(R/F): 0.035561/0.035433, G_loss: 0.134667
+Epoch: [15] [1300/1951] D_loss(R/F): 0.016990/0.000556, G_loss: 0.145765
+Epoch: [15] [1400/1951] D_loss(R/F): 0.001947/0.000723, G_loss: 0.195885
+Epoch: [15] [1500/1951] D_loss(R/F): 0.000263/0.001636, G_loss: 0.243691
+Epoch: [15] [1600/1951] D_loss(R/F): 0.001437/0.001506, G_loss: 0.178031
+Epoch: [15] [1700/1951] D_loss(R/F): 0.001096/0.000602, G_loss: 0.178787
+Epoch: [15] [1800/1951] D_loss(R/F): 0.000548/0.001661, G_loss: 0.173365
+Epoch: [15] [1900/1951] D_loss(R/F): 0.000696/0.001488, G_loss: 0.164423
+[15] auc:0.9022 th:0.0091 f1:0.6598 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [16] [ 100/1951] D_loss(R/F): 0.000612/0.000031, G_loss: 0.220785
+Epoch: [16] [ 200/1951] D_loss(R/F): 0.000151/0.000527, G_loss: 0.189876
+Epoch: [16] [ 300/1951] D_loss(R/F): 0.000049/0.001261, G_loss: 0.226509
+Epoch: [16] [ 400/1951] D_loss(R/F): 0.000542/0.000061, G_loss: 0.219178
+Epoch: [16] [ 500/1951] D_loss(R/F): 0.000814/0.000309, G_loss: 0.189944
+Epoch: [16] [ 600/1951] D_loss(R/F): 0.001653/0.002630, G_loss: 0.186000
+Epoch: [16] [ 700/1951] D_loss(R/F): 0.000194/0.000249, G_loss: 0.249802
+Epoch: [16] [ 800/1951] D_loss(R/F): 0.000110/0.000050, G_loss: 0.224008
+Epoch: [16] [ 900/1951] D_loss(R/F): 0.000234/0.000079, G_loss: 0.207785
+Epoch: [16] [1000/1951] D_loss(R/F): 0.000045/0.000256, G_loss: 0.254392
+Epoch: [16] [1100/1951] D_loss(R/F): 0.000235/0.000207, G_loss: 0.184979
+Epoch: [16] [1200/1951] D_loss(R/F): 0.000063/0.000009, G_loss: 0.236555
+Epoch: [16] [1300/1951] D_loss(R/F): 0.000030/0.000164, G_loss: 0.245100
+Epoch: [16] [1400/1951] D_loss(R/F): 0.000154/0.000660, G_loss: 0.182544
+Epoch: [16] [1500/1951] D_loss(R/F): 0.000410/0.000016, G_loss: 0.189803
+Epoch: [16] [1600/1951] D_loss(R/F): 0.000132/0.000074, G_loss: 0.216615
+Epoch: [16] [1700/1951] D_loss(R/F): 0.000253/0.000168, G_loss: 0.196807
+Epoch: [16] [1800/1951] D_loss(R/F): 0.000061/0.000284, G_loss: 0.222375
+Epoch: [16] [1900/1951] D_loss(R/F): 0.000029/0.000003, G_loss: 0.301868
+[16] auc:0.8973 th:0.0072 f1:0.6586 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [17] [ 100/1951] D_loss(R/F): 0.000252/0.000019, G_loss: 0.216447
+Epoch: [17] [ 200/1951] D_loss(R/F): 0.000050/0.000023, G_loss: 0.254720
+Epoch: [17] [ 300/1951] D_loss(R/F): 0.000101/0.000113, G_loss: 0.185431
+Epoch: [17] [ 400/1951] D_loss(R/F): 0.000246/0.000014, G_loss: 0.222278
+Epoch: [17] [ 500/1951] D_loss(R/F): 0.000088/0.000031, G_loss: 0.208223
+Epoch: [17] [ 600/1951] D_loss(R/F): 0.000037/0.000013, G_loss: 0.253850
+Epoch: [17] [ 700/1951] D_loss(R/F): 0.000259/0.000004, G_loss: 0.245780
+Epoch: [17] [ 800/1951] D_loss(R/F): 0.000032/0.000026, G_loss: 0.266869
+Epoch: [17] [ 900/1951] D_loss(R/F): 0.000973/0.000662, G_loss: 0.220909
+Epoch: [17] [1000/1951] D_loss(R/F): 0.000013/0.000007, G_loss: 0.270785
+Epoch: [17] [1100/1951] D_loss(R/F): 0.000028/0.000000, G_loss: 0.292554
+Epoch: [17] [1200/1951] D_loss(R/F): 0.000092/0.000003, G_loss: 0.263191
+Epoch: [17] [1300/1951] D_loss(R/F): 0.000003/0.000419, G_loss: 0.210856
+Epoch: [17] [1400/1951] D_loss(R/F): 0.000071/0.000000, G_loss: 0.256703
+Epoch: [17] [1500/1951] D_loss(R/F): 0.000031/0.000028, G_loss: 0.213852
+Epoch: [17] [1600/1951] D_loss(R/F): 0.000069/0.000068, G_loss: 0.232506
+Epoch: [17] [1700/1951] D_loss(R/F): 0.000005/0.000042, G_loss: 0.242048
+Epoch: [17] [1800/1951] D_loss(R/F): 0.000006/0.000004, G_loss: 0.258322
+Epoch: [17] [1900/1951] D_loss(R/F): 0.000018/0.000000, G_loss: 0.287909
+[17] auc:0.8902 th:0.0088 f1:0.6555 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [18] [ 100/1951] D_loss(R/F): 0.093047/0.273541, G_loss: 0.051426
+Epoch: [18] [ 200/1951] D_loss(R/F): 0.120016/0.100244, G_loss: 0.090198
+Epoch: [18] [ 300/1951] D_loss(R/F): 0.124149/0.181809, G_loss: 0.084576
+Epoch: [18] [ 400/1951] D_loss(R/F): 0.141247/0.009727, G_loss: 0.092604
+Epoch: [18] [ 500/1951] D_loss(R/F): 0.105008/0.008140, G_loss: 0.106283
+Epoch: [18] [ 600/1951] D_loss(R/F): 0.000580/0.151086, G_loss: 0.180602
+Epoch: [18] [ 700/1951] D_loss(R/F): 0.002801/0.010226, G_loss: 0.168371
+Epoch: [18] [ 800/1951] D_loss(R/F): 0.000968/0.000302, G_loss: 0.227277
+Epoch: [18] [ 900/1951] D_loss(R/F): 0.001280/0.001515, G_loss: 0.186060
+Epoch: [18] [1000/1951] D_loss(R/F): 0.000526/0.002121, G_loss: 0.197848
+Epoch: [18] [1100/1951] D_loss(R/F): 0.002158/0.001455, G_loss: 0.203046
+Epoch: [18] [1200/1951] D_loss(R/F): 0.000401/0.000327, G_loss: 0.220728
+Epoch: [18] [1300/1951] D_loss(R/F): 0.000832/0.000615, G_loss: 0.214965
+Epoch: [18] [1400/1951] D_loss(R/F): 0.000124/0.000080, G_loss: 0.245719
+Epoch: [18] [1500/1951] D_loss(R/F): 0.000106/0.002527, G_loss: 0.210928
+Epoch: [18] [1600/1951] D_loss(R/F): 0.000402/0.002020, G_loss: 0.192927
+Epoch: [18] [1700/1951] D_loss(R/F): 0.000239/0.000757, G_loss: 0.179338
+Epoch: [18] [1800/1951] D_loss(R/F): 0.000274/0.000490, G_loss: 0.204286
+Epoch: [18] [1900/1951] D_loss(R/F): 0.000767/0.000029, G_loss: 0.246553
+[18] auc:0.8888 th:0.0096 f1:0.6587 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [19] [ 100/1951] D_loss(R/F): 0.000138/0.000255, G_loss: 0.203335
+Epoch: [19] [ 200/1951] D_loss(R/F): 0.000070/0.001454, G_loss: 0.168624
+Epoch: [19] [ 300/1951] D_loss(R/F): 0.000116/0.000019, G_loss: 0.259576
+Epoch: [19] [ 400/1951] D_loss(R/F): 0.000056/0.000005, G_loss: 0.246287
+Epoch: [19] [ 500/1951] D_loss(R/F): 0.001570/0.000012, G_loss: 0.207307
+Epoch: [19] [ 600/1951] D_loss(R/F): 0.000413/0.000203, G_loss: 0.228238
+Epoch: [19] [ 700/1951] D_loss(R/F): 0.000118/0.000004, G_loss: 0.252526
+Epoch: [19] [ 800/1951] D_loss(R/F): 0.000229/0.000196, G_loss: 0.179547
+Epoch: [19] [ 900/1951] D_loss(R/F): 0.000028/0.007932, G_loss: 0.175775
+Epoch: [19] [1000/1951] D_loss(R/F): 0.000156/0.000014, G_loss: 0.245536
+Epoch: [19] [1100/1951] D_loss(R/F): 0.000047/0.000217, G_loss: 0.196349
+Epoch: [19] [1200/1951] D_loss(R/F): 0.000116/0.000573, G_loss: 0.181909
+Epoch: [19] [1300/1951] D_loss(R/F): 0.000009/0.000000, G_loss: 0.277931
+Epoch: [19] [1400/1951] D_loss(R/F): 0.000243/0.000117, G_loss: 0.212996
+Epoch: [19] [1500/1951] D_loss(R/F): 0.000009/0.000481, G_loss: 0.222741
+Epoch: [19] [1600/1951] D_loss(R/F): 0.000013/0.000007, G_loss: 0.260315
+Epoch: [19] [1700/1951] D_loss(R/F): 0.000212/0.000058, G_loss: 0.200674
+Epoch: [19] [1800/1951] D_loss(R/F): 0.000011/0.000753, G_loss: 0.227332
+Epoch: [19] [1900/1951] D_loss(R/F): 0.000139/0.000001, G_loss: 0.241584
+[19] auc:0.8918 th:0.0091 f1:0.6599 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [20] [ 100/1951] D_loss(R/F): 0.000016/0.000013, G_loss: 0.230043
+Epoch: [20] [ 200/1951] D_loss(R/F): 0.000213/0.000107, G_loss: 0.203213
+Epoch: [20] [ 300/1951] D_loss(R/F): 0.000037/0.000001, G_loss: 0.232597
+Epoch: [20] [ 400/1951] D_loss(R/F): 0.000008/0.000569, G_loss: 0.194628
+Epoch: [20] [ 500/1951] D_loss(R/F): 0.000012/0.000045, G_loss: 0.211070
+Epoch: [20] [ 600/1951] D_loss(R/F): 0.000008/0.001628, G_loss: 0.203288
+Epoch: [20] [ 700/1951] D_loss(R/F): 0.000020/0.000011, G_loss: 0.230168
+Epoch: [20] [ 800/1951] D_loss(R/F): 3.081868/0.120784, G_loss: 0.042370
+Epoch: [20] [ 900/1951] D_loss(R/F): 0.011792/1.180449, G_loss: 0.084631
+Epoch: [20] [1000/1951] D_loss(R/F): 0.055749/0.061472, G_loss: 0.078910
+Epoch: [20] [1100/1951] D_loss(R/F): 0.003803/0.406658, G_loss: 0.135702
+Epoch: [20] [1200/1951] D_loss(R/F): 0.099038/0.000785, G_loss: 0.133418
+Epoch: [20] [1300/1951] D_loss(R/F): 0.003000/0.007629, G_loss: 0.146018
+Epoch: [20] [1400/1951] D_loss(R/F): 0.000181/0.004859, G_loss: 0.184667
+Epoch: [20] [1500/1951] D_loss(R/F): 0.000155/0.000809, G_loss: 0.222930
+Epoch: [20] [1600/1951] D_loss(R/F): 0.010266/0.002527, G_loss: 0.151273
+Epoch: [20] [1700/1951] D_loss(R/F): 0.000219/0.000242, G_loss: 0.194113
+Epoch: [20] [1800/1951] D_loss(R/F): 0.000521/0.001972, G_loss: 0.156603
+Epoch: [20] [1900/1951] D_loss(R/F): 0.000227/0.000040, G_loss: 0.230381
+[20] auc:0.8910 th:0.0073 f1:0.6598 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [21] [ 100/1951] D_loss(R/F): 0.000464/0.000570, G_loss: 0.183262
+Epoch: [21] [ 200/1951] D_loss(R/F): 0.000223/0.003913, G_loss: 0.181497
+Epoch: [21] [ 300/1951] D_loss(R/F): 0.000395/0.000305, G_loss: 0.176196
+Epoch: [21] [ 400/1951] D_loss(R/F): 0.000106/0.000225, G_loss: 0.194607
+Epoch: [21] [ 500/1951] D_loss(R/F): 0.000062/0.000979, G_loss: 0.201762
+Epoch: [21] [ 600/1951] D_loss(R/F): 0.012581/0.000327, G_loss: 0.177675
+Epoch: [21] [ 700/1951] D_loss(R/F): 0.000917/0.000037, G_loss: 0.207208
+Epoch: [21] [ 800/1951] D_loss(R/F): 0.053966/0.021194, G_loss: 0.112442
+Epoch: [21] [ 900/1951] D_loss(R/F): 0.002728/0.016213, G_loss: 0.135697
+Epoch: [21] [1000/1951] D_loss(R/F): 0.000330/0.000487, G_loss: 0.173403
+Epoch: [21] [1100/1951] D_loss(R/F): 0.000495/0.000204, G_loss: 0.191130
+Epoch: [21] [1200/1951] D_loss(R/F): 0.001506/0.000175, G_loss: 0.165089
+Epoch: [21] [1300/1951] D_loss(R/F): 0.000386/0.001536, G_loss: 0.160803
+Epoch: [21] [1400/1951] D_loss(R/F): 0.004754/0.000151, G_loss: 0.227837
+Epoch: [21] [1500/1951] D_loss(R/F): 0.000039/0.000010, G_loss: 0.237705
+Epoch: [21] [1600/1951] D_loss(R/F): 0.000241/0.000217, G_loss: 0.161478
+Epoch: [21] [1700/1951] D_loss(R/F): 0.000250/0.000025, G_loss: 0.193751
+Epoch: [21] [1800/1951] D_loss(R/F): 0.000037/0.000910, G_loss: 0.191555
+Epoch: [21] [1900/1951] D_loss(R/F): 0.000018/0.000208, G_loss: 0.210755
+[21] auc:0.8914 th:0.0100 f1:0.6528 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [22] [ 100/1951] D_loss(R/F): 0.000021/0.000005, G_loss: 0.256477
+Epoch: [22] [ 200/1951] D_loss(R/F): 0.000040/0.000021, G_loss: 0.230490
+Epoch: [22] [ 300/1951] D_loss(R/F): 0.000012/0.000179, G_loss: 0.201290
+Epoch: [22] [ 400/1951] D_loss(R/F): 0.000066/0.000074, G_loss: 0.201501
+Epoch: [22] [ 500/1951] D_loss(R/F): 0.000276/0.000058, G_loss: 0.211233
+Epoch: [22] [ 600/1951] D_loss(R/F): 0.000134/0.000004, G_loss: 0.210030
+Epoch: [22] [ 700/1951] D_loss(R/F): 0.000037/0.000002, G_loss: 0.261508
+Epoch: [22] [ 800/1951] D_loss(R/F): 0.000017/0.000006, G_loss: 0.269330
+Epoch: [22] [ 900/1951] D_loss(R/F): 0.000013/0.000005, G_loss: 0.256699
+Epoch: [22] [1000/1951] D_loss(R/F): 0.000055/0.000013, G_loss: 0.222385
+Epoch: [22] [1100/1951] D_loss(R/F): 0.000032/0.000005, G_loss: 0.253490
+Epoch: [22] [1200/1951] D_loss(R/F): 0.000058/0.000295, G_loss: 0.178679
+Epoch: [22] [1300/1951] D_loss(R/F): 0.000660/0.000010, G_loss: 0.247256
+Epoch: [22] [1400/1951] D_loss(R/F): 0.000009/0.000155, G_loss: 0.201523
+Epoch: [22] [1500/1951] D_loss(R/F): 0.000023/0.000078, G_loss: 0.228196
+Epoch: [22] [1600/1951] D_loss(R/F): 0.000079/0.000031, G_loss: 0.241182
+Epoch: [22] [1700/1951] D_loss(R/F): 0.000010/0.000016, G_loss: 0.210533
+Epoch: [22] [1800/1951] D_loss(R/F): 0.000007/0.000065, G_loss: 0.216076
+Epoch: [22] [1900/1951] D_loss(R/F): 0.000013/0.000027, G_loss: 0.214386
+[22] auc:0.8863 th:0.0120 f1:0.6511 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [23] [ 100/1951] D_loss(R/F): 0.000012/0.000001, G_loss: 0.238015
+Epoch: [23] [ 200/1951] D_loss(R/F): 0.000012/0.000003, G_loss: 0.225001
+Epoch: [23] [ 300/1951] D_loss(R/F): 0.000004/0.000000, G_loss: 0.279469
+Epoch: [23] [ 400/1951] D_loss(R/F): 0.000020/0.000001, G_loss: 0.223825
+Epoch: [23] [ 500/1951] D_loss(R/F): 0.000007/0.000004, G_loss: 0.221748
+Epoch: [23] [ 600/1951] D_loss(R/F): 0.000003/0.000000, G_loss: 0.285599
+Epoch: [23] [ 700/1951] D_loss(R/F): 0.000106/0.000475, G_loss: 0.189460
+Epoch: [23] [ 800/1951] D_loss(R/F): 0.033012/0.570302, G_loss: 0.083525
+Epoch: [23] [ 900/1951] D_loss(R/F): 0.102937/0.049744, G_loss: 0.101627
+Epoch: [23] [1000/1951] D_loss(R/F): 0.015113/0.109019, G_loss: 0.108540
+Epoch: [23] [1100/1951] D_loss(R/F): 0.001818/0.017748, G_loss: 0.144950
+Epoch: [23] [1200/1951] D_loss(R/F): 0.092906/0.001524, G_loss: 0.124741
+Epoch: [23] [1300/1951] D_loss(R/F): 0.000691/0.000850, G_loss: 0.178876
+Epoch: [23] [1400/1951] D_loss(R/F): 0.011569/0.000893, G_loss: 0.140961
+Epoch: [23] [1500/1951] D_loss(R/F): 0.000617/0.000545, G_loss: 0.201438
+Epoch: [23] [1600/1951] D_loss(R/F): 0.000377/0.003416, G_loss: 0.169154
+Epoch: [23] [1700/1951] D_loss(R/F): 0.000881/0.001049, G_loss: 0.145385
+Epoch: [23] [1800/1951] D_loss(R/F): 0.000319/0.000047, G_loss: 0.213390
+Epoch: [23] [1900/1951] D_loss(R/F): 0.000104/0.016807, G_loss: 0.176506
+[23] auc:0.8881 th:0.0111 f1:0.6571 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [24] [ 100/1951] D_loss(R/F): 0.000418/0.003720, G_loss: 0.180591
+Epoch: [24] [ 200/1951] D_loss(R/F): 0.000075/0.000141, G_loss: 0.177684
+Epoch: [24] [ 300/1951] D_loss(R/F): 0.000106/0.000524, G_loss: 0.199532
+Epoch: [24] [ 400/1951] D_loss(R/F): 0.000966/0.000001, G_loss: 0.238172
+Epoch: [24] [ 500/1951] D_loss(R/F): 0.000115/0.000036, G_loss: 0.240836
+Epoch: [24] [ 600/1951] D_loss(R/F): 0.000199/0.000108, G_loss: 0.201707
+Epoch: [24] [ 700/1951] D_loss(R/F): 0.108549/0.031358, G_loss: 0.065506
+Epoch: [24] [ 800/1951] D_loss(R/F): 0.000302/0.006711, G_loss: 0.194470
+Epoch: [24] [ 900/1951] D_loss(R/F): 0.045850/0.000020, G_loss: 0.199908
+Epoch: [24] [1000/1951] D_loss(R/F): 0.000071/0.035543, G_loss: 0.149660
+Epoch: [24] [1100/1951] D_loss(R/F): 0.000461/0.000082, G_loss: 0.171583
+Epoch: [24] [1200/1951] D_loss(R/F): 0.000240/0.000166, G_loss: 0.193662
+Epoch: [24] [1300/1951] D_loss(R/F): 0.000064/0.002607, G_loss: 0.207698
+Epoch: [24] [1400/1951] D_loss(R/F): 0.001432/0.000016, G_loss: 0.196456
+Epoch: [24] [1500/1951] D_loss(R/F): 0.000487/0.000004, G_loss: 0.211843
+Epoch: [24] [1600/1951] D_loss(R/F): 0.000089/0.000526, G_loss: 0.171705
+Epoch: [24] [1700/1951] D_loss(R/F): 0.000504/0.000041, G_loss: 0.176221
+Epoch: [24] [1800/1951] D_loss(R/F): 0.000075/0.000076, G_loss: 0.202448
+Epoch: [24] [1900/1951] D_loss(R/F): 0.000079/0.000265, G_loss: 0.171319
+[24] auc:0.8923 th:0.0083 f1:0.6615 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [25] [ 100/1951] D_loss(R/F): 0.000104/0.000029, G_loss: 0.198878
+Epoch: [25] [ 200/1951] D_loss(R/F): 0.000025/0.003735, G_loss: 0.168769
+Epoch: [25] [ 300/1951] D_loss(R/F): 0.001142/0.000074, G_loss: 0.191463
+Epoch: [25] [ 400/1951] D_loss(R/F): 0.000049/0.000033, G_loss: 0.192735
+Epoch: [25] [ 500/1951] D_loss(R/F): 0.000042/0.000523, G_loss: 0.203942
+Epoch: [25] [ 600/1951] D_loss(R/F): 0.000027/0.000578, G_loss: 0.173612
+Epoch: [25] [ 700/1951] D_loss(R/F): 0.000013/0.000006, G_loss: 0.232860
+Epoch: [25] [ 800/1951] D_loss(R/F): 0.000165/0.000024, G_loss: 0.180614
+Epoch: [25] [ 900/1951] D_loss(R/F): 0.000057/0.000023, G_loss: 0.201862
+Epoch: [25] [1000/1951] D_loss(R/F): 0.000059/0.000064, G_loss: 0.168653
+Epoch: [25] [1100/1951] D_loss(R/F): 0.000031/0.000001, G_loss: 0.237346
+Epoch: [25] [1200/1951] D_loss(R/F): 0.244092/0.017408, G_loss: 0.045543
+Epoch: [25] [1300/1951] D_loss(R/F): 0.001597/0.023764, G_loss: 0.094664
+Epoch: [25] [1400/1951] D_loss(R/F): 0.000217/0.017520, G_loss: 0.148746
+Epoch: [25] [1500/1951] D_loss(R/F): 0.004784/0.002891, G_loss: 0.156157
+Epoch: [25] [1600/1951] D_loss(R/F): 0.002342/0.000053, G_loss: 0.211585
+Epoch: [25] [1700/1951] D_loss(R/F): 0.000174/0.000202, G_loss: 0.191319
+Epoch: [25] [1800/1951] D_loss(R/F): 0.001353/0.000059, G_loss: 0.189349
+Epoch: [25] [1900/1951] D_loss(R/F): 0.001752/0.000131, G_loss: 0.156559
+[25] auc:0.8900 th:0.0094 f1:0.6528 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [26] [ 100/1951] D_loss(R/F): 0.000444/0.000002, G_loss: 0.243778
+Epoch: [26] [ 200/1951] D_loss(R/F): 0.000129/0.000323, G_loss: 0.168431
+Epoch: [26] [ 300/1951] D_loss(R/F): 0.000143/0.000148, G_loss: 0.175389
+Epoch: [26] [ 400/1951] D_loss(R/F): 0.000126/0.000272, G_loss: 0.196591
+Epoch: [26] [ 500/1951] D_loss(R/F): 0.000193/0.000051, G_loss: 0.171247
+Epoch: [26] [ 600/1951] D_loss(R/F): 0.000186/0.000999, G_loss: 0.168141
+Epoch: [26] [ 700/1951] D_loss(R/F): 0.000162/0.000034, G_loss: 0.177749
+Epoch: [26] [ 800/1951] D_loss(R/F): 0.000009/0.000004, G_loss: 0.223989
+Epoch: [26] [ 900/1951] D_loss(R/F): 0.003864/0.000014, G_loss: 0.192587
+Epoch: [26] [1000/1951] D_loss(R/F): 0.000041/0.000015, G_loss: 0.223858
+Epoch: [26] [1100/1951] D_loss(R/F): 0.000033/0.000022, G_loss: 0.226050
+Epoch: [26] [1200/1951] D_loss(R/F): 0.000015/0.000003, G_loss: 0.208304
+Epoch: [26] [1300/1951] D_loss(R/F): 0.000014/0.000068, G_loss: 0.185541
+Epoch: [26] [1400/1951] D_loss(R/F): 0.000047/0.000051, G_loss: 0.182430
+Epoch: [26] [1500/1951] D_loss(R/F): 0.000030/0.000002, G_loss: 0.263027
+Epoch: [26] [1600/1951] D_loss(R/F): 0.000009/0.000003, G_loss: 0.214587
+Epoch: [26] [1700/1951] D_loss(R/F): 0.000009/0.000045, G_loss: 0.178226
+Epoch: [26] [1800/1951] D_loss(R/F): 0.000253/0.000001, G_loss: 0.272677
+Epoch: [26] [1900/1951] D_loss(R/F): 0.000034/0.000316, G_loss: 0.183372
+[26] auc:0.8985 th:0.0081 f1:0.6592 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [27] [ 100/1951] D_loss(R/F): 0.000022/0.000001, G_loss: 0.234123
+Epoch: [27] [ 200/1951] D_loss(R/F): 0.000007/0.000030, G_loss: 0.217583
+Epoch: [27] [ 300/1951] D_loss(R/F): 0.000005/0.000045, G_loss: 0.273655
+Epoch: [27] [ 400/1951] D_loss(R/F): 0.000033/0.000000, G_loss: 0.243740
+Epoch: [27] [ 500/1951] D_loss(R/F): 0.000012/0.000680, G_loss: 0.172212
+Epoch: [27] [ 600/1951] D_loss(R/F): 0.000039/0.000009, G_loss: 0.188863
+Epoch: [27] [ 700/1951] D_loss(R/F): 0.000003/0.000000, G_loss: 0.266043
+Epoch: [27] [ 800/1951] D_loss(R/F): 0.000081/0.000001, G_loss: 0.261382
+Epoch: [27] [ 900/1951] D_loss(R/F): 0.000100/0.000020, G_loss: 0.173055
+Epoch: [27] [1000/1951] D_loss(R/F): 0.044643/0.158091, G_loss: 0.080665
+Epoch: [27] [1100/1951] D_loss(R/F): 0.175511/0.024597, G_loss: 0.093632
+Epoch: [27] [1200/1951] D_loss(R/F): 0.000844/0.020457, G_loss: 0.173520
+Epoch: [27] [1300/1951] D_loss(R/F): 0.004456/0.000277, G_loss: 0.177806
+Epoch: [27] [1400/1951] D_loss(R/F): 0.000129/0.007019, G_loss: 0.170104
+Epoch: [27] [1500/1951] D_loss(R/F): 0.000447/0.000207, G_loss: 0.161577
+Epoch: [27] [1600/1951] D_loss(R/F): 0.000927/0.000203, G_loss: 0.178038
+Epoch: [27] [1700/1951] D_loss(R/F): 0.000369/0.002753, G_loss: 0.163805
+Epoch: [27] [1800/1951] D_loss(R/F): 0.000124/0.000247, G_loss: 0.197321
+Epoch: [27] [1900/1951] D_loss(R/F): 0.003812/0.000755, G_loss: 0.123680
+[27] auc:0.8962 th:0.0070 f1:0.6601 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [28] [ 100/1951] D_loss(R/F): 0.000387/0.015547, G_loss: 0.144634
+Epoch: [28] [ 200/1951] D_loss(R/F): 0.000228/0.007593, G_loss: 0.149704
+Epoch: [28] [ 300/1951] D_loss(R/F): 0.000154/0.000091, G_loss: 0.174926
+Epoch: [28] [ 400/1951] D_loss(R/F): 0.000165/0.000005, G_loss: 0.224353
+Epoch: [28] [ 500/1951] D_loss(R/F): 0.000084/0.000172, G_loss: 0.191137
+Epoch: [28] [ 600/1951] D_loss(R/F): 0.000313/0.000025, G_loss: 0.201220
+Epoch: [28] [ 700/1951] D_loss(R/F): 0.000023/0.002899, G_loss: 0.183301
+Epoch: [28] [ 800/1951] D_loss(R/F): 0.000017/0.000046, G_loss: 0.203418
+Epoch: [28] [ 900/1951] D_loss(R/F): 0.000020/0.000237, G_loss: 0.215730
+Epoch: [28] [1000/1951] D_loss(R/F): 0.000042/0.000432, G_loss: 0.170127
+Epoch: [28] [1100/1951] D_loss(R/F): 0.000017/0.000019, G_loss: 0.221474
+Epoch: [28] [1200/1951] D_loss(R/F): 0.000118/0.000013, G_loss: 0.198110
+Epoch: [28] [1300/1951] D_loss(R/F): 0.000691/0.000009, G_loss: 0.199965
+Epoch: [28] [1400/1951] D_loss(R/F): 0.000017/0.000013, G_loss: 0.199601
+Epoch: [28] [1500/1951] D_loss(R/F): 0.000249/0.000165, G_loss: 0.183219
+Epoch: [28] [1600/1951] D_loss(R/F): 0.000143/0.000003, G_loss: 0.205893
+Epoch: [28] [1700/1951] D_loss(R/F): 0.000008/0.000032, G_loss: 0.204461
+Epoch: [28] [1800/1951] D_loss(R/F): 0.000061/0.000026, G_loss: 0.194252
+Epoch: [28] [1900/1951] D_loss(R/F): 0.000012/0.000000, G_loss: 0.304347
+[28] auc:0.8821 th:0.0077 f1:0.6613 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [29] [ 100/1951] D_loss(R/F): 0.000031/0.000004, G_loss: 0.232314
+Epoch: [29] [ 200/1951] D_loss(R/F): 0.000009/0.000025, G_loss: 0.225697
+Epoch: [29] [ 300/1951] D_loss(R/F): 0.000134/0.000191, G_loss: 0.182052
+Epoch: [29] [ 400/1951] D_loss(R/F): 0.000002/0.000431, G_loss: 0.176994
+Epoch: [29] [ 500/1951] D_loss(R/F): 0.000002/0.000035, G_loss: 0.214084
+Epoch: [29] [ 600/1951] D_loss(R/F): 0.000006/0.000013, G_loss: 0.219866
+Epoch: [29] [ 700/1951] D_loss(R/F): 0.000057/0.000010, G_loss: 0.203111
+Epoch: [29] [ 800/1951] D_loss(R/F): 0.000005/0.000001, G_loss: 0.248577
+Epoch: [29] [ 900/1951] D_loss(R/F): 0.000020/0.000002, G_loss: 0.213346
+Epoch: [29] [1000/1951] D_loss(R/F): 0.000009/0.000000, G_loss: 0.273970
+Epoch: [29] [1100/1951] D_loss(R/F): 0.000022/0.000000, G_loss: 0.230269
+Epoch: [29] [1200/1951] D_loss(R/F): 0.000077/0.000004, G_loss: 0.245809
+Epoch: [29] [1300/1951] D_loss(R/F): 0.000048/0.000009, G_loss: 0.185575
+Epoch: [29] [1400/1951] D_loss(R/F): 0.000017/0.000000, G_loss: 0.251323
+Epoch: [29] [1500/1951] D_loss(R/F): 0.000005/0.000001, G_loss: 0.224848
+Epoch: [29] [1600/1951] D_loss(R/F): 0.000011/0.000005, G_loss: 0.220360
+Epoch: [29] [1700/1951] D_loss(R/F): 0.000052/0.000007, G_loss: 0.177543
+Epoch: [29] [1800/1951] D_loss(R/F): 0.000022/0.000015, G_loss: 0.219793
+Epoch: [29] [1900/1951] D_loss(R/F): 0.000004/0.000001, G_loss: 0.253544
+[29] auc:0.8680 th:0.0083 f1:0.6610 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [30] [ 100/1951] D_loss(R/F): 13.705057/0.000000, G_loss: 0.049046
+Epoch: [30] [ 200/1951] D_loss(R/F): 0.343950/0.069890, G_loss: 0.085536
+Epoch: [30] [ 300/1951] D_loss(R/F): 0.025696/0.264221, G_loss: 0.082915
+Epoch: [30] [ 400/1951] D_loss(R/F): 0.014355/0.050984, G_loss: 0.124778
+Epoch: [30] [ 500/1951] D_loss(R/F): 0.033111/0.000974, G_loss: 0.122798
+Epoch: [30] [ 600/1951] D_loss(R/F): 0.002203/0.003119, G_loss: 0.155844
+Epoch: [30] [ 700/1951] D_loss(R/F): 0.001379/0.000168, G_loss: 0.170350
+Epoch: [30] [ 800/1951] D_loss(R/F): 0.001508/0.000147, G_loss: 0.163319
+Epoch: [30] [ 900/1951] D_loss(R/F): 0.001675/0.000302, G_loss: 0.164482
+Epoch: [30] [1000/1951] D_loss(R/F): 0.000596/0.000114, G_loss: 0.175191
+Epoch: [30] [1100/1951] D_loss(R/F): 0.000061/0.002567, G_loss: 0.208851
+Epoch: [30] [1200/1951] D_loss(R/F): 0.000312/0.000417, G_loss: 0.158479
+Epoch: [30] [1300/1951] D_loss(R/F): 0.000182/0.000549, G_loss: 0.193315
+Epoch: [30] [1400/1951] D_loss(R/F): 0.000081/0.000515, G_loss: 0.187639
+Epoch: [30] [1500/1951] D_loss(R/F): 0.000327/0.000798, G_loss: 0.177517
+Epoch: [30] [1600/1951] D_loss(R/F): 0.000037/0.000132, G_loss: 0.234182
+Epoch: [30] [1700/1951] D_loss(R/F): 0.000702/0.004902, G_loss: 0.185064
+Epoch: [30] [1800/1951] D_loss(R/F): 0.000050/0.000011, G_loss: 0.241216
+Epoch: [30] [1900/1951] D_loss(R/F): 0.000315/0.006844, G_loss: 0.148327
+[30] auc:0.8893 th:0.0080 f1:0.6575 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [31] [ 100/1951] D_loss(R/F): 0.000294/0.000030, G_loss: 0.203320
+Epoch: [31] [ 200/1951] D_loss(R/F): 0.000454/0.000364, G_loss: 0.180065
+Epoch: [31] [ 300/1951] D_loss(R/F): 0.000164/0.000439, G_loss: 0.157840
+Epoch: [31] [ 400/1951] D_loss(R/F): 0.000211/0.000025, G_loss: 0.182803
+Epoch: [31] [ 500/1951] D_loss(R/F): 0.001036/0.000150, G_loss: 0.155780
+Epoch: [31] [ 600/1951] D_loss(R/F): 0.000164/0.000061, G_loss: 0.182314
+Epoch: [31] [ 700/1951] D_loss(R/F): 0.000040/0.000116, G_loss: 0.207967
+Epoch: [31] [ 800/1951] D_loss(R/F): 0.000037/0.000097, G_loss: 0.204245
+Epoch: [31] [ 900/1951] D_loss(R/F): 0.000914/0.000045, G_loss: 0.172923
+Epoch: [31] [1000/1951] D_loss(R/F): 0.000153/0.000208, G_loss: 0.190008
+Epoch: [31] [1100/1951] D_loss(R/F): 0.000591/0.002395, G_loss: 0.178203
+Epoch: [31] [1200/1951] D_loss(R/F): 0.000029/0.000008, G_loss: 0.214798
+Epoch: [31] [1300/1951] D_loss(R/F): 0.000077/0.001471, G_loss: 0.189126
+Epoch: [31] [1400/1951] D_loss(R/F): 0.000107/0.000053, G_loss: 0.226844
+Epoch: [31] [1500/1951] D_loss(R/F): 0.000090/0.000082, G_loss: 0.178278
+Epoch: [31] [1600/1951] D_loss(R/F): 0.000014/0.000440, G_loss: 0.190000
+Epoch: [31] [1700/1951] D_loss(R/F): 0.000031/0.000000, G_loss: 0.245904
+Epoch: [31] [1800/1951] D_loss(R/F): 0.000027/0.000000, G_loss: 0.262452
+Epoch: [31] [1900/1951] D_loss(R/F): 0.000052/0.000014, G_loss: 0.211797
+[31] auc:0.8829 th:0.0084 f1:0.6572 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [32] [ 100/1951] D_loss(R/F): 0.000067/0.000033, G_loss: 0.212701
+Epoch: [32] [ 200/1951] D_loss(R/F): 0.000824/0.000005, G_loss: 0.164865
+Epoch: [32] [ 300/1951] D_loss(R/F): 0.001015/0.000010, G_loss: 0.179313
+Epoch: [32] [ 400/1951] D_loss(R/F): 0.000038/0.000149, G_loss: 0.177346
+Epoch: [32] [ 500/1951] D_loss(R/F): 0.000056/0.000012, G_loss: 0.198351
+Epoch: [32] [ 600/1951] D_loss(R/F): 0.000022/0.000000, G_loss: 0.225116
+Epoch: [32] [ 700/1951] D_loss(R/F): 0.000047/0.000000, G_loss: 0.263429
+Epoch: [32] [ 800/1951] D_loss(R/F): 0.000007/0.000172, G_loss: 0.172898
+Epoch: [32] [ 900/1951] D_loss(R/F): 0.000027/0.000054, G_loss: 0.182666
+Epoch: [32] [1000/1951] D_loss(R/F): 0.000065/0.000036, G_loss: 0.170052
+Epoch: [32] [1100/1951] D_loss(R/F): 0.000006/0.000080, G_loss: 0.197046
+Epoch: [32] [1200/1951] D_loss(R/F): 0.000004/0.000022, G_loss: 0.218156
+Epoch: [32] [1300/1951] D_loss(R/F): 0.000148/0.000118, G_loss: 0.195321
+Epoch: [32] [1400/1951] D_loss(R/F): 0.000014/0.000000, G_loss: 0.265616
+Epoch: [32] [1500/1951] D_loss(R/F): 0.000042/0.000027, G_loss: 0.212945
+Epoch: [32] [1600/1951] D_loss(R/F): 0.000011/0.000000, G_loss: 0.249054
+Epoch: [32] [1700/1951] D_loss(R/F): 0.000010/0.000007, G_loss: 0.208295
+Epoch: [32] [1800/1951] D_loss(R/F): 0.000004/0.000000, G_loss: 0.254738
+Epoch: [32] [1900/1951] D_loss(R/F): 0.000005/0.000005, G_loss: 0.213867
+[32] auc:0.8864 th:0.0097 f1:0.6554 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [33] [ 100/1951] D_loss(R/F): 0.000003/0.000002, G_loss: 0.227810
+Epoch: [33] [ 200/1951] D_loss(R/F): 0.000035/0.000000, G_loss: 0.221265
+Epoch: [33] [ 300/1951] D_loss(R/F): 0.000013/0.000001, G_loss: 0.244910
+Epoch: [33] [ 400/1951] D_loss(R/F): 0.000006/0.000002, G_loss: 0.249491
+Epoch: [33] [ 500/1951] D_loss(R/F): 0.000005/0.000001, G_loss: 0.255637
+Epoch: [33] [ 600/1951] D_loss(R/F): 0.000027/0.000000, G_loss: 0.236481
+Epoch: [33] [ 700/1951] D_loss(R/F): 0.000002/0.000032, G_loss: 0.185138
+Epoch: [33] [ 800/1951] D_loss(R/F): 0.000004/0.000071, G_loss: 0.200196
+Epoch: [33] [ 900/1951] D_loss(R/F): 0.000003/0.000004, G_loss: 0.209193
+Epoch: [33] [1000/1951] D_loss(R/F): 0.000003/0.000055, G_loss: 0.181392
+Epoch: [33] [1100/1951] D_loss(R/F): 0.000002/0.000002, G_loss: 0.230805
+Epoch: [33] [1200/1951] D_loss(R/F): 0.000084/0.000076, G_loss: 0.229048
+Epoch: [33] [1300/1951] D_loss(R/F): 0.000029/0.000003, G_loss: 0.212337
+Epoch: [33] [1400/1951] D_loss(R/F): 0.000000/0.000074, G_loss: 0.214157
+Epoch: [33] [1500/1951] D_loss(R/F): 0.000001/0.000001, G_loss: 0.242951
+Epoch: [33] [1600/1951] D_loss(R/F): 0.000005/0.000002, G_loss: 0.222738
+Epoch: [33] [1700/1951] D_loss(R/F): 0.000001/0.000001, G_loss: 0.258379
+Epoch: [33] [1800/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.243418
+Epoch: [33] [1900/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.261267
+[33] auc:0.8911 th:0.0070 f1:0.6581 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [34] [ 100/1951] D_loss(R/F): 0.244158/0.045445, G_loss: 0.054425
+Epoch: [34] [ 200/1951] D_loss(R/F): 0.481636/0.007075, G_loss: 0.064766
+Epoch: [34] [ 300/1951] D_loss(R/F): 0.013866/0.021244, G_loss: 0.100190
+Epoch: [34] [ 400/1951] D_loss(R/F): 0.012752/0.000629, G_loss: 0.135021
+Epoch: [34] [ 500/1951] D_loss(R/F): 0.000066/0.004812, G_loss: 0.150738
+Epoch: [34] [ 600/1951] D_loss(R/F): 0.000180/0.013516, G_loss: 0.144341
+Epoch: [34] [ 700/1951] D_loss(R/F): 0.003690/0.003748, G_loss: 0.131071
+Epoch: [34] [ 800/1951] D_loss(R/F): 0.000961/0.001345, G_loss: 0.146682
+Epoch: [34] [ 900/1951] D_loss(R/F): 0.000182/0.000273, G_loss: 0.171213
+Epoch: [34] [1000/1951] D_loss(R/F): 0.000138/0.002024, G_loss: 0.186192
+Epoch: [34] [1100/1951] D_loss(R/F): 0.000172/0.000282, G_loss: 0.171884
+Epoch: [34] [1200/1951] D_loss(R/F): 0.000028/0.001164, G_loss: 0.177441
+Epoch: [34] [1300/1951] D_loss(R/F): 0.000169/0.000842, G_loss: 0.148152
+Epoch: [34] [1400/1951] D_loss(R/F): 0.000188/0.000010, G_loss: 0.205924
+Epoch: [34] [1500/1951] D_loss(R/F): 0.000266/0.000725, G_loss: 0.194798
+Epoch: [34] [1600/1951] D_loss(R/F): 0.000195/0.000034, G_loss: 0.204700
+Epoch: [34] [1700/1951] D_loss(R/F): 0.003615/0.000173, G_loss: 0.150169
+Epoch: [34] [1800/1951] D_loss(R/F): 0.000176/0.000108, G_loss: 0.184036
+Epoch: [34] [1900/1951] D_loss(R/F): 0.000165/0.000054, G_loss: 0.227291
+[34] auc:0.8898 th:0.0108 f1:0.6584 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [35] [ 100/1951] D_loss(R/F): 0.000625/0.000013, G_loss: 0.188378
+Epoch: [35] [ 200/1951] D_loss(R/F): 0.000054/0.000107, G_loss: 0.173608
+Epoch: [35] [ 300/1951] D_loss(R/F): 0.000113/0.000171, G_loss: 0.175799
+Epoch: [35] [ 400/1951] D_loss(R/F): 0.000314/0.000472, G_loss: 0.184667
+Epoch: [35] [ 500/1951] D_loss(R/F): 0.001518/0.000482, G_loss: 0.171540
+Epoch: [35] [ 600/1951] D_loss(R/F): 0.000025/0.000018, G_loss: 0.205631
+Epoch: [35] [ 700/1951] D_loss(R/F): 0.000038/0.000128, G_loss: 0.176083
+Epoch: [35] [ 800/1951] D_loss(R/F): 0.000090/0.000005, G_loss: 0.188155
+Epoch: [35] [ 900/1951] D_loss(R/F): 0.000023/0.000050, G_loss: 0.212706
+Epoch: [35] [1000/1951] D_loss(R/F): 0.000021/0.000009, G_loss: 0.212644
+Epoch: [35] [1100/1951] D_loss(R/F): 0.000040/0.000753, G_loss: 0.188331
+Epoch: [35] [1200/1951] D_loss(R/F): 0.000077/0.000051, G_loss: 0.191399
+Epoch: [35] [1300/1951] D_loss(R/F): 0.000203/0.000095, G_loss: 0.179307
+Epoch: [35] [1400/1951] D_loss(R/F): 0.000260/0.000001, G_loss: 0.212933
+Epoch: [35] [1500/1951] D_loss(R/F): 0.000035/0.000000, G_loss: 0.276600
+Epoch: [35] [1600/1951] D_loss(R/F): 0.000027/0.000043, G_loss: 0.177736
+Epoch: [35] [1700/1951] D_loss(R/F): 0.000190/0.000007, G_loss: 0.239058
+Epoch: [35] [1800/1951] D_loss(R/F): 0.000130/0.000000, G_loss: 0.258191
+Epoch: [35] [1900/1951] D_loss(R/F): 0.000036/0.000005, G_loss: 0.209942
+[35] auc:0.8961 th:0.0096 f1:0.6610 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [36] [ 100/1951] D_loss(R/F): 0.000029/0.000000, G_loss: 0.247326
+Epoch: [36] [ 200/1951] D_loss(R/F): 0.000015/0.000010, G_loss: 0.198162
+Epoch: [36] [ 300/1951] D_loss(R/F): 0.000035/0.000004, G_loss: 0.209135
+Epoch: [36] [ 400/1951] D_loss(R/F): 0.000065/0.000069, G_loss: 0.195604
+Epoch: [36] [ 500/1951] D_loss(R/F): 0.000006/0.000000, G_loss: 0.285534
+Epoch: [36] [ 600/1951] D_loss(R/F): 0.000213/0.000060, G_loss: 0.193423
+Epoch: [36] [ 700/1951] D_loss(R/F): 0.000011/0.000486, G_loss: 0.184513
+Epoch: [36] [ 800/1951] D_loss(R/F): 0.003959/0.953725, G_loss: 0.075513
+Epoch: [36] [ 900/1951] D_loss(R/F): 0.000167/0.401135, G_loss: 0.162070
+Epoch: [36] [1000/1951] D_loss(R/F): 0.002505/0.005920, G_loss: 0.144437
+Epoch: [36] [1100/1951] D_loss(R/F): 0.002476/0.002164, G_loss: 0.196784
+Epoch: [36] [1200/1951] D_loss(R/F): 0.000698/0.005863, G_loss: 0.115711
+Epoch: [36] [1300/1951] D_loss(R/F): 0.000208/0.000341, G_loss: 0.176454
+Epoch: [36] [1400/1951] D_loss(R/F): 0.002977/0.000030, G_loss: 0.200423
+Epoch: [36] [1500/1951] D_loss(R/F): 0.000397/0.000474, G_loss: 0.181606
+Epoch: [36] [1600/1951] D_loss(R/F): 0.000046/0.035059, G_loss: 0.175196
+Epoch: [36] [1700/1951] D_loss(R/F): 0.000271/0.000208, G_loss: 0.141271
+Epoch: [36] [1800/1951] D_loss(R/F): 0.000071/0.000053, G_loss: 0.199224
+Epoch: [36] [1900/1951] D_loss(R/F): 0.000079/0.000254, G_loss: 0.162780
+[36] auc:0.8857 th:0.0085 f1:0.6642 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [37] [ 100/1951] D_loss(R/F): 0.000034/0.000280, G_loss: 0.205845
+Epoch: [37] [ 200/1951] D_loss(R/F): 0.000199/0.000014, G_loss: 0.173682
+Epoch: [37] [ 300/1951] D_loss(R/F): 0.000178/0.000056, G_loss: 0.198844
+Epoch: [37] [ 400/1951] D_loss(R/F): 0.000159/0.000005, G_loss: 0.228160
+Epoch: [37] [ 500/1951] D_loss(R/F): 0.000055/0.000088, G_loss: 0.179432
+Epoch: [37] [ 600/1951] D_loss(R/F): 0.000043/0.000025, G_loss: 0.186001
+Epoch: [37] [ 700/1951] D_loss(R/F): 0.000083/0.000105, G_loss: 0.181178
+Epoch: [37] [ 800/1951] D_loss(R/F): 0.000033/0.001378, G_loss: 0.179127
+Epoch: [37] [ 900/1951] D_loss(R/F): 0.000013/0.000029, G_loss: 0.221962
+Epoch: [37] [1000/1951] D_loss(R/F): 0.000054/0.000000, G_loss: 0.284613
+Epoch: [37] [1100/1951] D_loss(R/F): 0.000021/0.000005, G_loss: 0.210729
+Epoch: [37] [1200/1951] D_loss(R/F): 0.000027/0.000012, G_loss: 0.206292
+Epoch: [37] [1300/1951] D_loss(R/F): 0.000049/0.000062, G_loss: 0.199830
+Epoch: [37] [1400/1951] D_loss(R/F): 0.000014/0.000008, G_loss: 0.193201
+Epoch: [37] [1500/1951] D_loss(R/F): 0.000111/0.000004, G_loss: 0.201577
+Epoch: [37] [1600/1951] D_loss(R/F): 0.000027/0.000001, G_loss: 0.199008
+Epoch: [37] [1700/1951] D_loss(R/F): 0.000063/0.000014, G_loss: 0.175672
+Epoch: [37] [1800/1951] D_loss(R/F): 0.000013/0.000052, G_loss: 0.201646
+Epoch: [37] [1900/1951] D_loss(R/F): 0.000035/0.000072, G_loss: 0.196069
+[37] auc:0.8730 th:0.0117 f1:0.6609 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [38] [ 100/1951] D_loss(R/F): 0.000037/0.000103, G_loss: 0.183558
+Epoch: [38] [ 200/1951] D_loss(R/F): 0.000008/0.000006, G_loss: 0.204746
+Epoch: [38] [ 300/1951] D_loss(R/F): 0.000010/0.000000, G_loss: 0.236749
+Epoch: [38] [ 400/1951] D_loss(R/F): 0.000003/0.000031, G_loss: 0.186872
+Epoch: [38] [ 500/1951] D_loss(R/F): 0.000011/0.000092, G_loss: 0.169910
+Epoch: [38] [ 600/1951] D_loss(R/F): 0.000003/0.000094, G_loss: 0.180514
+Epoch: [38] [ 700/1951] D_loss(R/F): 0.382095/0.031349, G_loss: 0.036190
+Epoch: [38] [ 800/1951] D_loss(R/F): 0.007661/0.259217, G_loss: 0.100397
+Epoch: [38] [ 900/1951] D_loss(R/F): 0.005997/1.259224, G_loss: 0.065323
+Epoch: [38] [1000/1951] D_loss(R/F): 0.000717/0.057067, G_loss: 0.132508
+Epoch: [38] [1100/1951] D_loss(R/F): 0.000341/0.011655, G_loss: 0.142261
+Epoch: [38] [1200/1951] D_loss(R/F): 0.001438/0.001936, G_loss: 0.123095
+Epoch: [38] [1300/1951] D_loss(R/F): 0.012469/0.000980, G_loss: 0.120011
+Epoch: [38] [1400/1951] D_loss(R/F): 0.000877/0.001737, G_loss: 0.154038
+Epoch: [38] [1500/1951] D_loss(R/F): 0.000262/0.000371, G_loss: 0.167733
+Epoch: [38] [1600/1951] D_loss(R/F): 0.000362/0.000329, G_loss: 0.155840
+Epoch: [38] [1700/1951] D_loss(R/F): 0.001487/0.000041, G_loss: 0.168847
+Epoch: [38] [1800/1951] D_loss(R/F): 0.000263/0.000303, G_loss: 0.196911
+Epoch: [38] [1900/1951] D_loss(R/F): 0.000100/0.000108, G_loss: 0.180196
+[38] auc:0.8980 th:0.0098 f1:0.6564 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [39] [ 100/1951] D_loss(R/F): 0.000177/0.000004, G_loss: 0.190295
+Epoch: [39] [ 200/1951] D_loss(R/F): 0.000205/0.000057, G_loss: 0.155960
+Epoch: [39] [ 300/1951] D_loss(R/F): 0.000043/0.000024, G_loss: 0.210845
+Epoch: [39] [ 400/1951] D_loss(R/F): 0.000329/0.000092, G_loss: 0.210689
+Epoch: [39] [ 500/1951] D_loss(R/F): 0.000142/0.000302, G_loss: 0.189471
+Epoch: [39] [ 600/1951] D_loss(R/F): 0.000015/0.000063, G_loss: 0.221202
+Epoch: [39] [ 700/1951] D_loss(R/F): 0.000036/0.000017, G_loss: 0.204569
+Epoch: [39] [ 800/1951] D_loss(R/F): 0.000185/0.000047, G_loss: 0.194996
+Epoch: [39] [ 900/1951] D_loss(R/F): 0.000012/0.000003, G_loss: 0.197609
+Epoch: [39] [1000/1951] D_loss(R/F): 0.000014/0.000001, G_loss: 0.234827
+Epoch: [39] [1100/1951] D_loss(R/F): 0.000029/0.000834, G_loss: 0.188483
+Epoch: [39] [1200/1951] D_loss(R/F): 0.000014/0.000094, G_loss: 0.199584
+Epoch: [39] [1300/1951] D_loss(R/F): 0.000030/0.000012, G_loss: 0.197288
+Epoch: [39] [1400/1951] D_loss(R/F): 0.000124/0.000026, G_loss: 0.188172
+Epoch: [39] [1500/1951] D_loss(R/F): 0.000031/0.000000, G_loss: 0.259796
+Epoch: [39] [1600/1951] D_loss(R/F): 0.000011/0.000001, G_loss: 0.224588
+Epoch: [39] [1700/1951] D_loss(R/F): 0.000034/0.000104, G_loss: 0.188286
+Epoch: [39] [1800/1951] D_loss(R/F): 0.000019/0.000000, G_loss: 0.273826
+Epoch: [39] [1900/1951] D_loss(R/F): 0.000295/0.000004, G_loss: 0.207338
+[39] auc:0.8892 th:0.0080 f1:0.6594 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [40] [ 100/1951] D_loss(R/F): 0.000069/0.000009, G_loss: 0.202344
+Epoch: [40] [ 200/1951] D_loss(R/F): 0.000004/0.000005, G_loss: 0.204141
+Epoch: [40] [ 300/1951] D_loss(R/F): 0.000374/0.000001, G_loss: 0.198217
+Epoch: [40] [ 400/1951] D_loss(R/F): 0.222576/0.215965, G_loss: 0.057820
+Epoch: [40] [ 500/1951] D_loss(R/F): 0.058375/0.061075, G_loss: 0.100622
+Epoch: [40] [ 600/1951] D_loss(R/F): 0.003436/0.078542, G_loss: 0.094546
+Epoch: [40] [ 700/1951] D_loss(R/F): 0.011602/0.007296, G_loss: 0.129550
+Epoch: [40] [ 800/1951] D_loss(R/F): 0.003023/0.001556, G_loss: 0.124103
+Epoch: [40] [ 900/1951] D_loss(R/F): 0.000802/0.000402, G_loss: 0.136217
+Epoch: [40] [1000/1951] D_loss(R/F): 0.000055/0.000068, G_loss: 0.196416
+Epoch: [40] [1100/1951] D_loss(R/F): 0.001795/0.000982, G_loss: 0.133746
+Epoch: [40] [1200/1951] D_loss(R/F): 0.000435/0.000093, G_loss: 0.241350
+Epoch: [40] [1300/1951] D_loss(R/F): 0.000278/0.000228, G_loss: 0.179940
+Epoch: [40] [1400/1951] D_loss(R/F): 0.000076/0.000278, G_loss: 0.168527
+Epoch: [40] [1500/1951] D_loss(R/F): 0.001899/0.000030, G_loss: 0.180997
+Epoch: [40] [1600/1951] D_loss(R/F): 0.000147/0.000388, G_loss: 0.176643
+Epoch: [40] [1700/1951] D_loss(R/F): 0.000097/0.000268, G_loss: 0.172659
+Epoch: [40] [1800/1951] D_loss(R/F): 0.000119/0.000020, G_loss: 0.187620
+Epoch: [40] [1900/1951] D_loss(R/F): 0.000143/0.000065, G_loss: 0.242846
+[40] auc:0.8853 th:0.0100 f1:0.6628 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [41] [ 100/1951] D_loss(R/F): 0.000040/0.000007, G_loss: 0.200896
+Epoch: [41] [ 200/1951] D_loss(R/F): 0.000095/0.000000, G_loss: 0.224313
+Epoch: [41] [ 300/1951] D_loss(R/F): 0.000318/0.000061, G_loss: 0.151273
+Epoch: [41] [ 400/1951] D_loss(R/F): 0.000022/0.000011, G_loss: 0.211159
+Epoch: [41] [ 500/1951] D_loss(R/F): 0.000339/0.000001, G_loss: 0.195829
+Epoch: [41] [ 600/1951] D_loss(R/F): 0.000042/0.000007, G_loss: 0.206456
+Epoch: [41] [ 700/1951] D_loss(R/F): 0.000104/0.000039, G_loss: 0.183164
+Epoch: [41] [ 800/1951] D_loss(R/F): 0.000082/0.000008, G_loss: 0.163846
+Epoch: [41] [ 900/1951] D_loss(R/F): 0.000023/0.000054, G_loss: 0.193706
+Epoch: [41] [1000/1951] D_loss(R/F): 0.000003/0.000005, G_loss: 0.226790
+Epoch: [41] [1100/1951] D_loss(R/F): 0.000008/0.000001, G_loss: 0.227706
+Epoch: [41] [1200/1951] D_loss(R/F): 0.000036/0.000000, G_loss: 0.250355
+Epoch: [41] [1300/1951] D_loss(R/F): 0.000010/0.000015, G_loss: 0.167999
+Epoch: [41] [1400/1951] D_loss(R/F): 0.000018/0.000271, G_loss: 0.151502
+Epoch: [41] [1500/1951] D_loss(R/F): 0.000185/0.000006, G_loss: 0.173769
+Epoch: [41] [1600/1951] D_loss(R/F): 0.000023/0.000000, G_loss: 0.203550
+Epoch: [41] [1700/1951] D_loss(R/F): 0.000026/0.000003, G_loss: 0.195706
+Epoch: [41] [1800/1951] D_loss(R/F): 0.000033/0.000087, G_loss: 0.170588
+Epoch: [41] [1900/1951] D_loss(R/F): 0.000019/0.000015, G_loss: 0.155349
+[41] auc:0.8799 th:0.0086 f1:0.6588 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [42] [ 100/1951] D_loss(R/F): 0.000025/0.000048, G_loss: 0.170049
+Epoch: [42] [ 200/1951] D_loss(R/F): 0.000019/0.000000, G_loss: 0.235082
+Epoch: [42] [ 300/1951] D_loss(R/F): 0.000042/0.000013, G_loss: 0.185283
+Epoch: [42] [ 400/1951] D_loss(R/F): 0.000015/0.000012, G_loss: 0.203435
+Epoch: [42] [ 500/1951] D_loss(R/F): 0.000010/0.000101, G_loss: 0.156362
+Epoch: [42] [ 600/1951] D_loss(R/F): 0.000014/0.000004, G_loss: 0.233116
+Epoch: [42] [ 700/1951] D_loss(R/F): 0.000011/0.000007, G_loss: 0.205154
+Epoch: [42] [ 800/1951] D_loss(R/F): 0.000008/0.000001, G_loss: 0.200834
+Epoch: [42] [ 900/1951] D_loss(R/F): 0.000023/0.000002, G_loss: 0.192395
+Epoch: [42] [1000/1951] D_loss(R/F): 0.000030/0.000516, G_loss: 0.171856
+Epoch: [42] [1100/1951] D_loss(R/F): 0.000404/0.000000, G_loss: 0.219572
+Epoch: [42] [1200/1951] D_loss(R/F): 0.000001/0.000888, G_loss: 0.163373
+Epoch: [42] [1300/1951] D_loss(R/F): 0.000006/0.000073, G_loss: 0.168234
+Epoch: [42] [1400/1951] D_loss(R/F): 0.000033/0.000178, G_loss: 0.156085
+Epoch: [42] [1500/1951] D_loss(R/F): 0.000002/0.000757, G_loss: 0.163237
+Epoch: [42] [1600/1951] D_loss(R/F): 0.000006/0.000046, G_loss: 0.205937
+Epoch: [42] [1700/1951] D_loss(R/F): 0.000002/0.000011, G_loss: 0.227378
+Epoch: [42] [1800/1951] D_loss(R/F): 0.000001/0.000114, G_loss: 0.196712
+Epoch: [42] [1900/1951] D_loss(R/F): 0.000006/0.000021, G_loss: 0.212043
+[42] auc:0.8930 th:0.0097 f1:0.6604 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [43] [ 100/1951] D_loss(R/F): 0.000001/0.000002, G_loss: 0.209092
+Epoch: [43] [ 200/1951] D_loss(R/F): 0.000001/0.000007, G_loss: 0.221377
+Epoch: [43] [ 300/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.303258
+Epoch: [43] [ 400/1951] D_loss(R/F): 0.000002/0.000000, G_loss: 0.252834
+Epoch: [43] [ 500/1951] D_loss(R/F): 0.000164/0.000000, G_loss: 0.229301
+Epoch: [43] [ 600/1951] D_loss(R/F): 0.000009/0.000002, G_loss: 0.222525
+Epoch: [43] [ 700/1951] D_loss(R/F): 0.000006/0.000019, G_loss: 0.213751
+Epoch: [43] [ 800/1951] D_loss(R/F): 0.000006/0.000007, G_loss: 0.205798
+Epoch: [43] [ 900/1951] D_loss(R/F): 0.000003/0.000000, G_loss: 0.215938
+Epoch: [43] [1000/1951] D_loss(R/F): 0.000004/0.000001, G_loss: 0.213451
+Epoch: [43] [1100/1951] D_loss(R/F): 0.000014/0.000008, G_loss: 0.194584
+Epoch: [43] [1200/1951] D_loss(R/F): 0.000001/0.000010, G_loss: 0.194826
+Epoch: [43] [1300/1951] D_loss(R/F): 0.000006/0.000038, G_loss: 0.203435
+Epoch: [43] [1400/1951] D_loss(R/F): 0.000001/0.000005, G_loss: 0.206939
+Epoch: [43] [1500/1951] D_loss(R/F): 0.000006/0.000036, G_loss: 0.186794
+Epoch: [43] [1600/1951] D_loss(R/F): 0.321730/0.039887, G_loss: 0.026680
+Epoch: [43] [1700/1951] D_loss(R/F): 0.265713/0.035801, G_loss: 0.054460
+Epoch: [43] [1800/1951] D_loss(R/F): 0.004742/0.058392, G_loss: 0.077391
+Epoch: [43] [1900/1951] D_loss(R/F): 0.002879/0.021373, G_loss: 0.105052
+[43] auc:0.8978 th:0.0101 f1:0.6583 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [44] [ 100/1951] D_loss(R/F): 0.001626/0.000703, G_loss: 0.132125
+Epoch: [44] [ 200/1951] D_loss(R/F): 0.000112/0.001547, G_loss: 0.141668
+Epoch: [44] [ 300/1951] D_loss(R/F): 0.000118/0.000046, G_loss: 0.155234
+Epoch: [44] [ 400/1951] D_loss(R/F): 0.000105/0.001669, G_loss: 0.136048
+Epoch: [44] [ 500/1951] D_loss(R/F): 0.000197/0.000373, G_loss: 0.184724
+Epoch: [44] [ 600/1951] D_loss(R/F): 0.000083/0.000520, G_loss: 0.170733
+Epoch: [44] [ 700/1951] D_loss(R/F): 0.000047/0.000129, G_loss: 0.165058
+Epoch: [44] [ 800/1951] D_loss(R/F): 0.000688/0.000052, G_loss: 0.139503
+Epoch: [44] [ 900/1951] D_loss(R/F): 0.000215/0.000130, G_loss: 0.189870
+Epoch: [44] [1000/1951] D_loss(R/F): 0.000145/0.000184, G_loss: 0.165345
+Epoch: [44] [1100/1951] D_loss(R/F): 0.001183/0.000046, G_loss: 0.141743
+Epoch: [44] [1200/1951] D_loss(R/F): 0.000107/0.000080, G_loss: 0.168350
+Epoch: [44] [1300/1951] D_loss(R/F): 0.000492/0.000000, G_loss: 0.208889
+Epoch: [44] [1400/1951] D_loss(R/F): 0.647091/0.042190, G_loss: 0.046351
+Epoch: [44] [1500/1951] D_loss(R/F): 0.065366/0.075187, G_loss: 0.060733
+Epoch: [44] [1600/1951] D_loss(R/F): 0.007751/0.002237, G_loss: 0.105262
+Epoch: [44] [1700/1951] D_loss(R/F): 0.004129/0.000522, G_loss: 0.142142
+Epoch: [44] [1800/1951] D_loss(R/F): 0.005660/0.000201, G_loss: 0.159864
+Epoch: [44] [1900/1951] D_loss(R/F): 0.000107/0.000233, G_loss: 0.148985
+[44] auc:0.8975 th:0.0096 f1:0.6574 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [45] [ 100/1951] D_loss(R/F): 0.000181/0.000064, G_loss: 0.172429
+Epoch: [45] [ 200/1951] D_loss(R/F): 0.000139/0.000559, G_loss: 0.135271
+Epoch: [45] [ 300/1951] D_loss(R/F): 0.000150/0.000025, G_loss: 0.179738
+Epoch: [45] [ 400/1951] D_loss(R/F): 0.000830/0.000060, G_loss: 0.150384
+Epoch: [45] [ 500/1951] D_loss(R/F): 0.000125/0.000073, G_loss: 0.163247
+Epoch: [45] [ 600/1951] D_loss(R/F): 0.000026/0.000377, G_loss: 0.165772
+Epoch: [45] [ 700/1951] D_loss(R/F): 0.000042/0.000558, G_loss: 0.146980
+Epoch: [45] [ 800/1951] D_loss(R/F): 0.000011/0.001768, G_loss: 0.158507
+Epoch: [45] [ 900/1951] D_loss(R/F): 0.000454/0.003213, G_loss: 0.124354
+Epoch: [45] [1000/1951] D_loss(R/F): 0.000077/0.000082, G_loss: 0.154848
+Epoch: [45] [1100/1951] D_loss(R/F): 0.000967/0.000007, G_loss: 0.168681
+Epoch: [45] [1200/1951] D_loss(R/F): 0.000390/0.000210, G_loss: 0.140848
+Epoch: [45] [1300/1951] D_loss(R/F): 0.000009/0.000338, G_loss: 0.159122
+Epoch: [45] [1400/1951] D_loss(R/F): 0.000056/0.000161, G_loss: 0.175575
+Epoch: [45] [1500/1951] D_loss(R/F): 0.000033/0.000012, G_loss: 0.185974
+Epoch: [45] [1600/1951] D_loss(R/F): 0.000016/0.000018, G_loss: 0.193790
+Epoch: [45] [1700/1951] D_loss(R/F): 0.000039/0.000016, G_loss: 0.207051
+Epoch: [45] [1800/1951] D_loss(R/F): 0.000014/0.000086, G_loss: 0.158977
+Epoch: [45] [1900/1951] D_loss(R/F): 0.000044/0.000201, G_loss: 0.175576
+[45] auc:0.8923 th:0.0104 f1:0.6617 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [46] [ 100/1951] D_loss(R/F): 0.000008/0.000007, G_loss: 0.180776
+Epoch: [46] [ 200/1951] D_loss(R/F): 0.000008/0.000037, G_loss: 0.228471
+Epoch: [46] [ 300/1951] D_loss(R/F): 0.098548/0.175628, G_loss: 0.048450
+Epoch: [46] [ 400/1951] D_loss(R/F): 0.001030/0.001526, G_loss: 0.127605
+Epoch: [46] [ 500/1951] D_loss(R/F): 0.000386/0.000145, G_loss: 0.173141
+Epoch: [46] [ 600/1951] D_loss(R/F): 0.000962/0.000241, G_loss: 0.127301
+Epoch: [46] [ 700/1951] D_loss(R/F): 0.001529/0.000001, G_loss: 0.275482
+Epoch: [46] [ 800/1951] D_loss(R/F): 0.000005/0.000056, G_loss: 0.221490
+Epoch: [46] [ 900/1951] D_loss(R/F): 0.003185/0.000054, G_loss: 0.159050
+Epoch: [46] [1000/1951] D_loss(R/F): 0.000057/0.000074, G_loss: 0.190257
+Epoch: [46] [1100/1951] D_loss(R/F): 0.000089/0.000009, G_loss: 0.230114
+Epoch: [46] [1200/1951] D_loss(R/F): 0.000023/0.000080, G_loss: 0.180684
+Epoch: [46] [1300/1951] D_loss(R/F): 0.000006/0.000047, G_loss: 0.177451
+Epoch: [46] [1400/1951] D_loss(R/F): 0.000047/0.000098, G_loss: 0.160477
+Epoch: [46] [1500/1951] D_loss(R/F): 0.000041/0.000006, G_loss: 0.190105
+Epoch: [46] [1600/1951] D_loss(R/F): 0.000199/0.000096, G_loss: 0.145166
+Epoch: [46] [1700/1951] D_loss(R/F): 0.000013/0.000003, G_loss: 0.205189
+Epoch: [46] [1800/1951] D_loss(R/F): 0.000027/0.000008, G_loss: 0.207681
+Epoch: [46] [1900/1951] D_loss(R/F): 0.000144/0.000112, G_loss: 0.175979
+[46] auc:0.8883 th:0.0081 f1:0.6580 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [47] [ 100/1951] D_loss(R/F): 0.000009/0.000096, G_loss: 0.180510
+Epoch: [47] [ 200/1951] D_loss(R/F): 0.000114/0.000020, G_loss: 0.178874
+Epoch: [47] [ 300/1951] D_loss(R/F): 0.000008/0.000650, G_loss: 0.167994
+Epoch: [47] [ 400/1951] D_loss(R/F): 0.000043/0.000008, G_loss: 0.172061
+Epoch: [47] [ 500/1951] D_loss(R/F): 0.000007/0.000971, G_loss: 0.169280
+Epoch: [47] [ 600/1951] D_loss(R/F): 0.000009/0.000005, G_loss: 0.200177
+Epoch: [47] [ 700/1951] D_loss(R/F): 0.000004/0.000013, G_loss: 0.185919
+Epoch: [47] [ 800/1951] D_loss(R/F): 0.000005/0.000005, G_loss: 0.205176
+Epoch: [47] [ 900/1951] D_loss(R/F): 0.000016/0.000009, G_loss: 0.194824
+Epoch: [47] [1000/1951] D_loss(R/F): 0.000063/0.000023, G_loss: 0.163983
+Epoch: [47] [1100/1951] D_loss(R/F): 0.000053/0.000015, G_loss: 0.177196
+Epoch: [47] [1200/1951] D_loss(R/F): 0.000072/0.000083, G_loss: 0.183024
+Epoch: [47] [1300/1951] D_loss(R/F): 0.000011/0.000010, G_loss: 0.179990
+Epoch: [47] [1400/1951] D_loss(R/F): 0.000009/0.000002, G_loss: 0.191197
+Epoch: [47] [1500/1951] D_loss(R/F): 0.000026/0.000003, G_loss: 0.207931
+Epoch: [47] [1600/1951] D_loss(R/F): 0.000003/0.000004, G_loss: 0.219496
+Epoch: [47] [1700/1951] D_loss(R/F): 0.000002/0.000048, G_loss: 0.196850
+Epoch: [47] [1800/1951] D_loss(R/F): 0.000008/0.000018, G_loss: 0.175009
+Epoch: [47] [1900/1951] D_loss(R/F): 0.000012/0.000012, G_loss: 0.194233
+[47] auc:0.8886 th:0.0083 f1:0.6605 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [48] [ 100/1951] D_loss(R/F): 0.000011/0.000017, G_loss: 0.152634
+Epoch: [48] [ 200/1951] D_loss(R/F): 0.000018/0.000000, G_loss: 0.263208
+Epoch: [48] [ 300/1951] D_loss(R/F): 0.000002/0.000019, G_loss: 0.163302
+Epoch: [48] [ 400/1951] D_loss(R/F): 0.000005/0.000076, G_loss: 0.154235
+Epoch: [48] [ 500/1951] D_loss(R/F): 0.000026/0.000000, G_loss: 0.236584
+Epoch: [48] [ 600/1951] D_loss(R/F): 0.000005/0.000001, G_loss: 0.234381
+Epoch: [48] [ 700/1951] D_loss(R/F): 0.000014/0.000002, G_loss: 0.207437
+Epoch: [48] [ 800/1951] D_loss(R/F): 0.000012/0.000007, G_loss: 0.183302
+Epoch: [48] [ 900/1951] D_loss(R/F): 0.000003/0.000001, G_loss: 0.216121
+Epoch: [48] [1000/1951] D_loss(R/F): 0.000005/0.000000, G_loss: 0.238192
+Epoch: [48] [1100/1951] D_loss(R/F): 0.000001/0.000004, G_loss: 0.212021
+Epoch: [48] [1200/1951] D_loss(R/F): 0.000003/0.000002, G_loss: 0.185301
+Epoch: [48] [1300/1951] D_loss(R/F): 0.000000/0.000006, G_loss: 0.189304
+Epoch: [48] [1400/1951] D_loss(R/F): 0.000006/0.000001, G_loss: 0.244881
+Epoch: [48] [1500/1951] D_loss(R/F): 0.000090/0.000024, G_loss: 0.168216
+Epoch: [48] [1600/1951] D_loss(R/F): 0.000052/0.000001, G_loss: 0.202866
+Epoch: [48] [1700/1951] D_loss(R/F): 0.000014/0.000013, G_loss: 0.191114
+Epoch: [48] [1800/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.295720
+Epoch: [48] [1900/1951] D_loss(R/F): 0.000004/0.000009, G_loss: 0.208493
+[48] auc:0.8857 th:0.0099 f1:0.6589 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [49] [ 100/1951] D_loss(R/F): 0.000977/0.000001, G_loss: 0.200663
+Epoch: [49] [ 200/1951] D_loss(R/F): 0.000009/0.000002, G_loss: 0.217976
+Epoch: [49] [ 300/1951] D_loss(R/F): 0.000003/0.000000, G_loss: 0.223914
+Epoch: [49] [ 400/1951] D_loss(R/F): 0.000004/0.000000, G_loss: 0.241252
+Epoch: [49] [ 500/1951] D_loss(R/F): 0.604894/0.063143, G_loss: 0.059753
+Epoch: [49] [ 600/1951] D_loss(R/F): 0.008673/0.255578, G_loss: 0.083685
+Epoch: [49] [ 700/1951] D_loss(R/F): 0.088439/0.058762, G_loss: 0.078170
+Epoch: [49] [ 800/1951] D_loss(R/F): 0.003858/0.004569, G_loss: 0.146472
+Epoch: [49] [ 900/1951] D_loss(R/F): 0.004782/0.001926, G_loss: 0.129807
+Epoch: [49] [1000/1951] D_loss(R/F): 0.000772/0.000729, G_loss: 0.145556
+Epoch: [49] [1100/1951] D_loss(R/F): 0.001183/0.000725, G_loss: 0.126255
+Epoch: [49] [1200/1951] D_loss(R/F): 0.000055/0.068011, G_loss: 0.159144
+Epoch: [49] [1300/1951] D_loss(R/F): 0.004346/0.000200, G_loss: 0.143474
+Epoch: [49] [1400/1951] D_loss(R/F): 0.000432/0.000342, G_loss: 0.159546
+Epoch: [49] [1500/1951] D_loss(R/F): 0.000308/0.000613, G_loss: 0.196108
+Epoch: [49] [1600/1951] D_loss(R/F): 0.000146/0.000970, G_loss: 0.169201
+Epoch: [49] [1700/1951] D_loss(R/F): 0.000544/0.000081, G_loss: 0.155735
+Epoch: [49] [1800/1951] D_loss(R/F): 0.000099/0.005031, G_loss: 0.164711
+Epoch: [49] [1900/1951] D_loss(R/F): 0.001319/0.000091, G_loss: 0.178640
+[49] auc:0.8857 th:0.0063 f1:0.6683 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [50] [ 100/1951] D_loss(R/F): 0.000083/0.000024, G_loss: 0.226170
+Epoch: [50] [ 200/1951] D_loss(R/F): 0.000145/0.000566, G_loss: 0.179961
+Epoch: [50] [ 300/1951] D_loss(R/F): 0.000116/0.000015, G_loss: 0.203225
+Epoch: [50] [ 400/1951] D_loss(R/F): 0.000033/0.000185, G_loss: 0.214984
+Epoch: [50] [ 500/1951] D_loss(R/F): 0.000026/0.000944, G_loss: 0.177335
+Epoch: [50] [ 600/1951] D_loss(R/F): 0.000180/0.000031, G_loss: 0.187285
+Epoch: [50] [ 700/1951] D_loss(R/F): 0.000005/0.000238, G_loss: 0.157235
+Epoch: [50] [ 800/1951] D_loss(R/F): 0.000049/0.000022, G_loss: 0.170491
+Epoch: [50] [ 900/1951] D_loss(R/F): 0.000195/0.000245, G_loss: 0.153436
+Epoch: [50] [1000/1951] D_loss(R/F): 0.000136/0.000020, G_loss: 0.180109
+Epoch: [50] [1100/1951] D_loss(R/F): 0.000048/0.000060, G_loss: 0.155058
+Epoch: [50] [1200/1951] D_loss(R/F): 0.000093/0.000088, G_loss: 0.169170
+Epoch: [50] [1300/1951] D_loss(R/F): 0.000059/0.002431, G_loss: 0.116081
+Epoch: [50] [1400/1951] D_loss(R/F): 0.000015/0.000460, G_loss: 0.175939
+Epoch: [50] [1500/1951] D_loss(R/F): 0.000030/0.000014, G_loss: 0.177925
+Epoch: [50] [1600/1951] D_loss(R/F): 0.000008/0.000480, G_loss: 0.191073
+Epoch: [50] [1700/1951] D_loss(R/F): 0.000102/0.000005, G_loss: 0.193446
+Epoch: [50] [1800/1951] D_loss(R/F): 0.000031/0.000000, G_loss: 0.200686
+Epoch: [50] [1900/1951] D_loss(R/F): 0.000004/0.000035, G_loss: 0.161840
+[50] auc:0.8822 th:0.0080 f1:0.6588 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [51] [ 100/1951] D_loss(R/F): 0.000004/0.000002, G_loss: 0.203448
+Epoch: [51] [ 200/1951] D_loss(R/F): 0.000007/0.000032, G_loss: 0.169323
+Epoch: [51] [ 300/1951] D_loss(R/F): 0.000006/0.000001, G_loss: 0.221600
+Epoch: [51] [ 400/1951] D_loss(R/F): 0.000024/0.000001, G_loss: 0.214602
+Epoch: [51] [ 500/1951] D_loss(R/F): 0.000005/0.000001, G_loss: 0.242687
+Epoch: [51] [ 600/1951] D_loss(R/F): 0.000001/0.000135, G_loss: 0.195557
+Epoch: [51] [ 700/1951] D_loss(R/F): 0.000008/0.000089, G_loss: 0.171482
+Epoch: [51] [ 800/1951] D_loss(R/F): 0.000008/0.000005, G_loss: 0.195600
+Epoch: [51] [ 900/1951] D_loss(R/F): 0.000037/0.000004, G_loss: 0.190067
+Epoch: [51] [1000/1951] D_loss(R/F): 0.000033/0.000005, G_loss: 0.166623
+Epoch: [51] [1100/1951] D_loss(R/F): 0.000002/0.000000, G_loss: 0.262397
+Epoch: [51] [1200/1951] D_loss(R/F): 0.000016/0.000001, G_loss: 0.216125
+Epoch: [51] [1300/1951] D_loss(R/F): 0.000484/0.000000, G_loss: 0.238193
+Epoch: [51] [1400/1951] D_loss(R/F): 0.000054/0.000005, G_loss: 0.167362
+Epoch: [51] [1500/1951] D_loss(R/F): 0.000002/0.000019, G_loss: 0.189470
+Epoch: [51] [1600/1951] D_loss(R/F): 0.001880/0.000000, G_loss: 0.201762
+Epoch: [51] [1700/1951] D_loss(R/F): 0.000000/0.000010, G_loss: 0.205147
+Epoch: [51] [1800/1951] D_loss(R/F): 0.000009/0.000004, G_loss: 0.226580
+Epoch: [51] [1900/1951] D_loss(R/F): 0.000017/0.000003, G_loss: 0.194965
+[51] auc:0.8905 th:0.0079 f1:0.6633 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [52] [ 100/1951] D_loss(R/F): 0.000002/0.000000, G_loss: 0.230563
+Epoch: [52] [ 200/1951] D_loss(R/F): 0.000002/0.000000, G_loss: 0.240336
+Epoch: [52] [ 300/1951] D_loss(R/F): 0.000057/0.000000, G_loss: 0.230079
+Epoch: [52] [ 400/1951] D_loss(R/F): 0.000004/0.000005, G_loss: 0.199183
+Epoch: [52] [ 500/1951] D_loss(R/F): 0.000007/0.000001, G_loss: 0.217970
+Epoch: [52] [ 600/1951] D_loss(R/F): 0.000013/0.000002, G_loss: 0.223236
+Epoch: [52] [ 700/1951] D_loss(R/F): 0.000002/0.000012, G_loss: 0.205720
+Epoch: [52] [ 800/1951] D_loss(R/F): 0.000020/0.000006, G_loss: 0.181041
+Epoch: [52] [ 900/1951] D_loss(R/F): 0.000001/0.000001, G_loss: 0.196860
+Epoch: [52] [1000/1951] D_loss(R/F): 0.000046/0.000004, G_loss: 0.179498
+Epoch: [52] [1100/1951] D_loss(R/F): 0.000000/0.000062, G_loss: 0.217059
+Epoch: [52] [1200/1951] D_loss(R/F): 0.000004/0.000236, G_loss: 0.187810
+Epoch: [52] [1300/1951] D_loss(R/F): 0.000004/0.000007, G_loss: 0.172212
+Epoch: [52] [1400/1951] D_loss(R/F): 0.000003/0.000000, G_loss: 0.216828
+Epoch: [52] [1500/1951] D_loss(R/F): 0.000002/0.000001, G_loss: 0.201369
+Epoch: [52] [1600/1951] D_loss(R/F): 0.000000/0.000001, G_loss: 0.227922
+Epoch: [52] [1700/1951] D_loss(R/F): 0.000006/0.000000, G_loss: 0.204025
+Epoch: [52] [1800/1951] D_loss(R/F): 0.000029/0.000002, G_loss: 0.197330
+Epoch: [52] [1900/1951] D_loss(R/F): 0.000065/0.000095, G_loss: 0.184341
+[52] auc:0.8968 th:0.0109 f1:0.6578 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [53] [ 100/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.251191
+Epoch: [53] [ 200/1951] D_loss(R/F): 0.000000/0.000001, G_loss: 0.233407
+Epoch: [53] [ 300/1951] D_loss(R/F): 0.000001/0.000002, G_loss: 0.190623
+Epoch: [53] [ 400/1951] D_loss(R/F): 0.000005/0.000004, G_loss: 0.191133
+Epoch: [53] [ 500/1951] D_loss(R/F): 0.000000/0.000000, G_loss: 0.267124
+Epoch: [53] [ 600/1951] D_loss(R/F): 0.000099/0.000000, G_loss: 0.220197
+Epoch: [53] [ 700/1951] D_loss(R/F): 0.966094/0.113532, G_loss: 0.033351
+Epoch: [53] [ 800/1951] D_loss(R/F): 0.199072/0.195413, G_loss: 0.037756
+Epoch: [53] [ 900/1951] D_loss(R/F): 0.018050/0.619685, G_loss: 0.069857
+Epoch: [53] [1000/1951] D_loss(R/F): 0.135867/0.045017, G_loss: 0.070102
+Epoch: [53] [1100/1951] D_loss(R/F): 0.006802/0.041465, G_loss: 0.095873
+Epoch: [53] [1200/1951] D_loss(R/F): 0.023118/0.007758, G_loss: 0.073458
+Epoch: [53] [1300/1951] D_loss(R/F): 0.000798/0.000057, G_loss: 0.161758
+Epoch: [53] [1400/1951] D_loss(R/F): 0.001337/0.001937, G_loss: 0.121419
+Epoch: [53] [1500/1951] D_loss(R/F): 0.001799/0.000550, G_loss: 0.131321
+Epoch: [53] [1600/1951] D_loss(R/F): 0.000144/0.001152, G_loss: 0.148573
+Epoch: [53] [1700/1951] D_loss(R/F): 0.000147/0.000075, G_loss: 0.166581
+Epoch: [53] [1800/1951] D_loss(R/F): 0.000640/0.000364, G_loss: 0.147560
+Epoch: [53] [1900/1951] D_loss(R/F): 0.000365/0.000064, G_loss: 0.170908
+[53] auc:0.8853 th:0.0083 f1:0.6613 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [54] [ 100/1951] D_loss(R/F): 0.000073/0.000297, G_loss: 0.147215
+Epoch: [54] [ 200/1951] D_loss(R/F): 0.000023/0.000212, G_loss: 0.196908
+Epoch: [54] [ 300/1951] D_loss(R/F): 0.000006/0.004520, G_loss: 0.154353
+Epoch: [54] [ 400/1951] D_loss(R/F): 0.000033/0.000005, G_loss: 0.202399
+Epoch: [54] [ 500/1951] D_loss(R/F): 0.000380/0.000044, G_loss: 0.173801
+Epoch: [54] [ 600/1951] D_loss(R/F): 0.000100/0.000242, G_loss: 0.132468
+Epoch: [54] [ 700/1951] D_loss(R/F): 0.000024/0.000007, G_loss: 0.205533
+Epoch: [54] [ 800/1951] D_loss(R/F): 0.000016/0.000213, G_loss: 0.172252
+Epoch: [54] [ 900/1951] D_loss(R/F): 0.000016/0.000427, G_loss: 0.156985
+Epoch: [54] [1000/1951] D_loss(R/F): 0.000034/0.000009, G_loss: 0.178941
+Epoch: [54] [1100/1951] D_loss(R/F): 0.000064/0.000003, G_loss: 0.186066
+Epoch: [54] [1200/1951] D_loss(R/F): 0.000013/0.000204, G_loss: 0.186024
+Epoch: [54] [1300/1951] D_loss(R/F): 0.000586/0.000136, G_loss: 0.166790
+Epoch: [54] [1400/1951] D_loss(R/F): 0.000053/0.000001, G_loss: 0.205734
+Epoch: [54] [1500/1951] D_loss(R/F): 0.000019/0.000038, G_loss: 0.167583
+Epoch: [54] [1600/1951] D_loss(R/F): 0.000007/0.000058, G_loss: 0.175979
+Epoch: [54] [1700/1951] D_loss(R/F): 0.000022/0.000212, G_loss: 0.156885
+Epoch: [54] [1800/1951] D_loss(R/F): 0.000003/0.000029, G_loss: 0.166516
+Epoch: [54] [1900/1951] D_loss(R/F): 0.489751/0.084341, G_loss: 0.042104
+[54] auc:0.8886 th:0.0071 f1:0.6636 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [55] [ 100/1951] D_loss(R/F): 0.007124/0.002375, G_loss: 0.111102
+Epoch: [55] [ 200/1951] D_loss(R/F): 0.000721/0.008493, G_loss: 0.128981
+Epoch: [55] [ 300/1951] D_loss(R/F): 0.000070/0.005614, G_loss: 0.123924
+Epoch: [55] [ 400/1951] D_loss(R/F): 0.000267/0.000003, G_loss: 0.192518
+Epoch: [55] [ 500/1951] D_loss(R/F): 0.000424/0.000556, G_loss: 0.135220
+Epoch: [55] [ 600/1951] D_loss(R/F): 0.002045/0.000098, G_loss: 0.156082
+Epoch: [55] [ 700/1951] D_loss(R/F): 0.000027/0.001018, G_loss: 0.178649
+Epoch: [55] [ 800/1951] D_loss(R/F): 0.000311/0.000023, G_loss: 0.168310
+Epoch: [55] [ 900/1951] D_loss(R/F): 0.000046/0.000020, G_loss: 0.195804
+Epoch: [55] [1000/1951] D_loss(R/F): 0.000115/0.000093, G_loss: 0.160534
+Epoch: [55] [1100/1951] D_loss(R/F): 0.000022/0.000589, G_loss: 0.147379
+Epoch: [55] [1200/1951] D_loss(R/F): 0.000059/0.000027, G_loss: 0.157681
+Epoch: [55] [1300/1951] D_loss(R/F): 0.000008/0.000345, G_loss: 0.193697
+Epoch: [55] [1400/1951] D_loss(R/F): 0.000073/0.000085, G_loss: 0.167776
+Epoch: [55] [1500/1951] D_loss(R/F): 0.000053/0.000009, G_loss: 0.213639
+Epoch: [55] [1600/1951] D_loss(R/F): 0.000005/0.000010, G_loss: 0.199175
+Epoch: [55] [1700/1951] D_loss(R/F): 0.000007/0.000028, G_loss: 0.198589
+Epoch: [55] [1800/1951] D_loss(R/F): 0.000016/0.000367, G_loss: 0.134699
+Epoch: [55] [1900/1951] D_loss(R/F): 0.000003/0.000113, G_loss: 0.179856
+[55] auc:0.8805 th:0.0091 f1:0.6585 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [56] [ 100/1951] D_loss(R/F): 0.000043/0.000028, G_loss: 0.184068
+Epoch: [56] [ 200/1951] D_loss(R/F): 0.000030/0.000295, G_loss: 0.135345
+Epoch: [56] [ 300/1951] D_loss(R/F): 0.000097/0.000002, G_loss: 0.183940
+Epoch: [56] [ 400/1951] D_loss(R/F): 0.000004/0.000154, G_loss: 0.184229
+Epoch: [56] [ 500/1951] D_loss(R/F): 0.000001/0.000598, G_loss: 0.172215
+Epoch: [56] [ 600/1951] D_loss(R/F): 0.000014/0.000033, G_loss: 0.186652
+Epoch: [56] [ 700/1951] D_loss(R/F): 0.000089/0.000012, G_loss: 0.177018
+Epoch: [56] [ 800/1951] D_loss(R/F): 0.000007/0.000017, G_loss: 0.173921
+Epoch: [56] [ 900/1951] D_loss(R/F): 0.000004/0.000005, G_loss: 0.208539
+Epoch: [56] [1000/1951] D_loss(R/F): 0.000004/0.000111, G_loss: 0.156373
+Epoch: [56] [1100/1951] D_loss(R/F): 0.000071/0.000709, G_loss: 0.145979
+Epoch: [56] [1200/1951] D_loss(R/F): 0.000041/0.000010, G_loss: 0.189547
+Epoch: [56] [1300/1951] D_loss(R/F): 0.000110/0.000001, G_loss: 0.194840
+Epoch: [56] [1400/1951] D_loss(R/F): 0.000008/0.000007, G_loss: 0.176249
+Epoch: [56] [1500/1951] D_loss(R/F): 0.000025/0.000044, G_loss: 0.212554
+Epoch: [56] [1600/1951] D_loss(R/F): 0.000003/0.000045, G_loss: 0.176326
+Epoch: [56] [1700/1951] D_loss(R/F): 0.000008/0.000006, G_loss: 0.182346
+Epoch: [56] [1800/1951] D_loss(R/F): 0.000004/0.000022, G_loss: 0.177540
+Epoch: [56] [1900/1951] D_loss(R/F): 0.000011/0.000001, G_loss: 0.208950
+[56] auc:0.8812 th:0.0083 f1:0.6608 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [57] [ 100/1951] D_loss(R/F): 0.000008/0.000057, G_loss: 0.155743
+Epoch: [57] [ 200/1951] D_loss(R/F): 0.000012/0.000000, G_loss: 0.222904
+Epoch: [57] [ 300/1951] D_loss(R/F): 0.000001/0.000028, G_loss: 0.182357
+Epoch: [57] [ 400/1951] D_loss(R/F): 0.000002/0.000006, G_loss: 0.189844
+Epoch: [57] [ 500/1951] D_loss(R/F): 0.000001/0.000002, G_loss: 0.199887
+Epoch: [57] [ 600/1951] D_loss(R/F): 0.000006/0.000187, G_loss: 0.159131
+Epoch: [57] [ 700/1951] D_loss(R/F): 0.000002/0.000002, G_loss: 0.197716
+Epoch: [57] [ 800/1951] D_loss(R/F): 0.000005/0.000001, G_loss: 0.208336
+Epoch: [57] [ 900/1951] D_loss(R/F): 0.000003/0.000011, G_loss: 0.182124
+Epoch: [57] [1000/1951] D_loss(R/F): 0.000016/0.000018, G_loss: 0.194922
+Epoch: [57] [1100/1951] D_loss(R/F): 0.000017/0.000060, G_loss: 0.173760
+Epoch: [57] [1200/1951] D_loss(R/F): 0.000038/0.000005, G_loss: 0.198832
+Epoch: [57] [1300/1951] D_loss(R/F): 0.000004/0.000005, G_loss: 0.167185
+Epoch: [57] [1400/1951] D_loss(R/F): 0.000000/0.000017, G_loss: 0.196218
+Epoch: [57] [1500/1951] D_loss(R/F): 0.000017/0.000090, G_loss: 0.161639
+Epoch: [57] [1600/1951] D_loss(R/F): 0.000000/0.000001, G_loss: 0.207042
+Epoch: [57] [1700/1951] D_loss(R/F): 0.000000/0.000017, G_loss: 0.212927
+Epoch: [57] [1800/1951] D_loss(R/F): 0.000002/0.000002, G_loss: 0.208978
+Epoch: [57] [1900/1951] D_loss(R/F): 0.000002/0.000003, G_loss: 0.184573
+[57] auc:0.8726 th:0.0085 f1:0.6646 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [58] [ 100/1951] D_loss(R/F): 0.000000/0.000001, G_loss: 0.209799
+Epoch: [58] [ 200/1951] D_loss(R/F): 0.000000/0.000000, G_loss: 0.253423
+Epoch: [58] [ 300/1951] D_loss(R/F): 0.000002/0.000001, G_loss: 0.198802
+Epoch: [58] [ 400/1951] D_loss(R/F): 0.000000/0.000004, G_loss: 0.205132
+Epoch: [58] [ 500/1951] D_loss(R/F): 0.000010/0.000009, G_loss: 0.181446
+Epoch: [58] [ 600/1951] D_loss(R/F): 0.000003/0.000000, G_loss: 0.229050
+Epoch: [58] [ 700/1951] D_loss(R/F): 0.000001/0.000010, G_loss: 0.179335
+Epoch: [58] [ 800/1951] D_loss(R/F): 0.000001/0.000004, G_loss: 0.188984
+Epoch: [58] [ 900/1951] D_loss(R/F): 0.000000/0.000074, G_loss: 0.188576
+Epoch: [58] [1000/1951] D_loss(R/F): 0.000005/0.000003, G_loss: 0.190458
+Epoch: [58] [1100/1951] D_loss(R/F): 0.000004/0.000000, G_loss: 0.210394
+Epoch: [58] [1200/1951] D_loss(R/F): 0.000004/0.000001, G_loss: 0.205925
+Epoch: [58] [1300/1951] D_loss(R/F): 0.000001/0.000001, G_loss: 0.212584
+Epoch: [58] [1400/1951] D_loss(R/F): 0.086572/0.027119, G_loss: 0.073579
+Epoch: [58] [1500/1951] D_loss(R/F): 0.022793/0.128721, G_loss: 0.088946
+Epoch: [58] [1600/1951] D_loss(R/F): 0.011981/0.102615, G_loss: 0.072702
+Epoch: [58] [1700/1951] D_loss(R/F): 0.000959/0.222673, G_loss: 0.092639
+Epoch: [58] [1800/1951] D_loss(R/F): 0.000675/0.005780, G_loss: 0.124943
+Epoch: [58] [1900/1951] D_loss(R/F): 0.000470/0.001240, G_loss: 0.133473
+[58] auc:0.8804 th:0.0092 f1:0.6632 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [59] [ 100/1951] D_loss(R/F): 0.000250/0.001603, G_loss: 0.117719
+Epoch: [59] [ 200/1951] D_loss(R/F): 0.002865/0.002629, G_loss: 0.120105
+Epoch: [59] [ 300/1951] D_loss(R/F): 0.000405/0.008394, G_loss: 0.141808
+Epoch: [59] [ 400/1951] D_loss(R/F): 0.000579/0.000036, G_loss: 0.155996
+Epoch: [59] [ 500/1951] D_loss(R/F): 0.003218/0.000056, G_loss: 0.154860
+Epoch: [59] [ 600/1951] D_loss(R/F): 0.000100/0.000258, G_loss: 0.153091
+Epoch: [59] [ 700/1951] D_loss(R/F): 0.000217/0.000092, G_loss: 0.147762
+Epoch: [59] [ 800/1951] D_loss(R/F): 0.000050/0.001275, G_loss: 0.144153
+Epoch: [59] [ 900/1951] D_loss(R/F): 0.000247/0.000015, G_loss: 0.169624
+Epoch: [59] [1000/1951] D_loss(R/F): 0.000042/0.000087, G_loss: 0.150799
+Epoch: [59] [1100/1951] D_loss(R/F): 0.000025/0.000121, G_loss: 0.144426
+Epoch: [59] [1200/1951] D_loss(R/F): 0.000019/0.000328, G_loss: 0.170505
+Epoch: [59] [1300/1951] D_loss(R/F): 0.000038/0.000193, G_loss: 0.146524
+Epoch: [59] [1400/1951] D_loss(R/F): 0.000275/0.000703, G_loss: 0.139470
+Epoch: [59] [1500/1951] D_loss(R/F): 0.000037/0.000046, G_loss: 0.180213
+Epoch: [59] [1600/1951] D_loss(R/F): 0.000208/0.000004, G_loss: 0.189198
+Epoch: [59] [1700/1951] D_loss(R/F): 0.000026/0.000120, G_loss: 0.176316
+Epoch: [59] [1800/1951] D_loss(R/F): 0.000020/0.000045, G_loss: 0.150588
+Epoch: [59] [1900/1951] D_loss(R/F): 0.001210/0.000013, G_loss: 0.217987
+[59] auc:0.8797 th:0.0086 f1:0.6527 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [60] [ 100/1951] D_loss(R/F): 0.000039/0.000002, G_loss: 0.175646
+Epoch: [60] [ 200/1951] D_loss(R/F): 0.000023/0.000002, G_loss: 0.217486
+Epoch: [60] [ 300/1951] D_loss(R/F): 0.000007/0.000001, G_loss: 0.189078
+Epoch: [60] [ 400/1951] D_loss(R/F): 0.000026/0.000113, G_loss: 0.182059
+Epoch: [60] [ 500/1951] D_loss(R/F): 0.033699/0.445378, G_loss: 0.061955
+Epoch: [60] [ 600/1951] D_loss(R/F): 0.266259/0.082673, G_loss: 0.046907
+Epoch: [60] [ 700/1951] D_loss(R/F): 0.100410/0.007179, G_loss: 0.065606
+Epoch: [60] [ 800/1951] D_loss(R/F): 0.002557/0.000063, G_loss: 0.174093
+Epoch: [60] [ 900/1951] D_loss(R/F): 0.000337/0.000568, G_loss: 0.132611
+Epoch: [60] [1000/1951] D_loss(R/F): 0.000110/0.000768, G_loss: 0.170481
+Epoch: [60] [1100/1951] D_loss(R/F): 0.159788/0.013489, G_loss: 0.073494
+Epoch: [60] [1200/1951] D_loss(R/F): 0.002174/0.001421, G_loss: 0.114732
+Epoch: [60] [1300/1951] D_loss(R/F): 0.001047/0.005316, G_loss: 0.096687
+Epoch: [60] [1400/1951] D_loss(R/F): 0.000819/0.003018, G_loss: 0.125641
+Epoch: [60] [1500/1951] D_loss(R/F): 0.000758/0.001684, G_loss: 0.122221
+Epoch: [60] [1600/1951] D_loss(R/F): 0.000404/0.000092, G_loss: 0.164193
+Epoch: [60] [1700/1951] D_loss(R/F): 0.000030/0.000092, G_loss: 0.133645
+Epoch: [60] [1800/1951] D_loss(R/F): 0.000374/0.000011, G_loss: 0.166128
+Epoch: [60] [1900/1951] D_loss(R/F): 0.000262/0.000685, G_loss: 0.127245
+[60] auc:0.8943 th:0.0080 f1:0.6593 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [61] [ 100/1951] D_loss(R/F): 0.000217/0.000024, G_loss: 0.136467
+Epoch: [61] [ 200/1951] D_loss(R/F): 0.000017/0.000920, G_loss: 0.152853
+Epoch: [61] [ 300/1951] D_loss(R/F): 0.000036/0.000020, G_loss: 0.178538
+Epoch: [61] [ 400/1951] D_loss(R/F): 0.000035/0.001107, G_loss: 0.139305
+Epoch: [61] [ 500/1951] D_loss(R/F): 0.000024/0.000092, G_loss: 0.156952
+Epoch: [61] [ 600/1951] D_loss(R/F): 0.000082/0.000009, G_loss: 0.189432
+Epoch: [61] [ 700/1951] D_loss(R/F): 0.000013/0.000197, G_loss: 0.153801
+Epoch: [61] [ 800/1951] D_loss(R/F): 0.000090/0.000023, G_loss: 0.161085
+Epoch: [61] [ 900/1951] D_loss(R/F): 0.000005/0.000015, G_loss: 0.186367
+Epoch: [61] [1000/1951] D_loss(R/F): 0.000075/0.000002, G_loss: 0.206053
+Epoch: [61] [1100/1951] D_loss(R/F): 0.000060/0.000107, G_loss: 0.134353
+Epoch: [61] [1200/1951] D_loss(R/F): 0.000004/0.000026, G_loss: 0.190719
+Epoch: [61] [1300/1951] D_loss(R/F): 0.000463/0.000010, G_loss: 0.159400
+Epoch: [61] [1400/1951] D_loss(R/F): 0.000035/0.000260, G_loss: 0.131980
+Epoch: [61] [1500/1951] D_loss(R/F): 0.000011/0.000211, G_loss: 0.165218
+Epoch: [61] [1600/1951] D_loss(R/F): 0.000011/0.000381, G_loss: 0.140940
+Epoch: [61] [1700/1951] D_loss(R/F): 0.000025/0.000140, G_loss: 0.147761
+Epoch: [61] [1800/1951] D_loss(R/F): 0.000009/0.000037, G_loss: 0.155084
+Epoch: [61] [1900/1951] D_loss(R/F): 0.000031/0.000433, G_loss: 0.150409
+[61] auc:0.8980 th:0.0070 f1:0.6616 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [62] [ 100/1951] D_loss(R/F): 0.000094/0.000017, G_loss: 0.152356
+Epoch: [62] [ 200/1951] D_loss(R/F): 0.000002/0.018121, G_loss: 0.152113
+Epoch: [62] [ 300/1951] D_loss(R/F): 0.016309/0.034137, G_loss: 0.071391
+Epoch: [62] [ 400/1951] D_loss(R/F): 0.003914/0.003362, G_loss: 0.092322
+Epoch: [62] [ 500/1951] D_loss(R/F): 0.000365/0.006190, G_loss: 0.095093
+Epoch: [62] [ 600/1951] D_loss(R/F): 0.000060/0.001632, G_loss: 0.159480
+Epoch: [62] [ 700/1951] D_loss(R/F): 0.000251/0.000685, G_loss: 0.100287
+Epoch: [62] [ 800/1951] D_loss(R/F): 0.000085/0.001141, G_loss: 0.127768
+Epoch: [62] [ 900/1951] D_loss(R/F): 0.000044/0.001658, G_loss: 0.137916
+Epoch: [62] [1000/1951] D_loss(R/F): 0.000063/0.000399, G_loss: 0.128660
+Epoch: [62] [1100/1951] D_loss(R/F): 0.000058/0.000302, G_loss: 0.130332
+Epoch: [62] [1200/1951] D_loss(R/F): 0.000076/0.000126, G_loss: 0.155105
+Epoch: [62] [1300/1951] D_loss(R/F): 0.000021/0.000951, G_loss: 0.141572
+Epoch: [62] [1400/1951] D_loss(R/F): 0.000063/0.001731, G_loss: 0.125132
+Epoch: [62] [1500/1951] D_loss(R/F): 0.000100/0.000033, G_loss: 0.172852
+Epoch: [62] [1600/1951] D_loss(R/F): 0.000160/0.000037, G_loss: 0.162851
+Epoch: [62] [1700/1951] D_loss(R/F): 0.000017/0.000086, G_loss: 0.153878
+Epoch: [62] [1800/1951] D_loss(R/F): 0.000032/0.000005, G_loss: 0.189780
+Epoch: [62] [1900/1951] D_loss(R/F): 0.000008/0.000157, G_loss: 0.145273
+[62] auc:0.8832 th:0.0079 f1:0.6642 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [63] [ 100/1951] D_loss(R/F): 0.000997/0.000199, G_loss: 0.158426
+Epoch: [63] [ 200/1951] D_loss(R/F): 0.000003/0.000005, G_loss: 0.200856
+Epoch: [63] [ 300/1951] D_loss(R/F): 0.000100/0.000046, G_loss: 0.155875
+Epoch: [63] [ 400/1951] D_loss(R/F): 0.000048/0.000021, G_loss: 0.143344
+Epoch: [63] [ 500/1951] D_loss(R/F): 0.000002/0.000002, G_loss: 0.238810
+Epoch: [63] [ 600/1951] D_loss(R/F): 0.000013/0.000028, G_loss: 0.179308
+Epoch: [63] [ 700/1951] D_loss(R/F): 0.000024/0.000001, G_loss: 0.186140
+Epoch: [63] [ 800/1951] D_loss(R/F): 0.000053/0.000006, G_loss: 0.165125
+Epoch: [63] [ 900/1951] D_loss(R/F): 0.000007/0.000010, G_loss: 0.163767
+Epoch: [63] [1000/1951] D_loss(R/F): 0.000014/0.000001, G_loss: 0.198526
+Epoch: [63] [1100/1951] D_loss(R/F): 0.000005/0.000102, G_loss: 0.155418
+Epoch: [63] [1200/1951] D_loss(R/F): 0.000060/0.000005, G_loss: 0.168538
+Epoch: [63] [1300/1951] D_loss(R/F): 0.000028/0.000001, G_loss: 0.179990
+Epoch: [63] [1400/1951] D_loss(R/F): 0.000090/0.000096, G_loss: 0.143836
+Epoch: [63] [1500/1951] D_loss(R/F): 0.000027/0.000033, G_loss: 0.196719
+Epoch: [63] [1600/1951] D_loss(R/F): 0.000001/0.000030, G_loss: 0.182837
+Epoch: [63] [1700/1951] D_loss(R/F): 0.000013/0.000263, G_loss: 0.129736
+Epoch: [63] [1800/1951] D_loss(R/F): 0.000030/0.000169, G_loss: 0.159721
+Epoch: [63] [1900/1951] D_loss(R/F): 0.000366/0.000001, G_loss: 0.144619
+[63] auc:0.8915 th:0.0087 f1:0.6606 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [64] [ 100/1951] D_loss(R/F): 0.000098/0.000000, G_loss: 0.192860
+Epoch: [64] [ 200/1951] D_loss(R/F): 0.000121/0.000016, G_loss: 0.165664
+Epoch: [64] [ 300/1951] D_loss(R/F): 0.000017/0.000001, G_loss: 0.191003
+Epoch: [64] [ 400/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.202365
+Epoch: [64] [ 500/1951] D_loss(R/F): 0.000011/0.000004, G_loss: 0.188493
+Epoch: [64] [ 600/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.226165
+Epoch: [64] [ 700/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.235406
+Epoch: [64] [ 800/1951] D_loss(R/F): 0.000002/0.000053, G_loss: 0.156374
+Epoch: [64] [ 900/1951] D_loss(R/F): 0.000073/0.000001, G_loss: 0.167877
+Epoch: [64] [1000/1951] D_loss(R/F): 0.000000/0.000000, G_loss: 0.255622
+Epoch: [64] [1100/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.235829
+Epoch: [64] [1200/1951] D_loss(R/F): 0.000006/0.000002, G_loss: 0.162229
+Epoch: [64] [1300/1951] D_loss(R/F): 0.000019/0.000005, G_loss: 0.160795
+Epoch: [64] [1400/1951] D_loss(R/F): 0.000002/0.000025, G_loss: 0.181964
+Epoch: [64] [1500/1951] D_loss(R/F): 0.000000/0.000002, G_loss: 0.207522
+Epoch: [64] [1600/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.238661
+Epoch: [64] [1700/1951] D_loss(R/F): 0.000000/0.000004, G_loss: 0.205717
+Epoch: [64] [1800/1951] D_loss(R/F): 0.000001/0.000001, G_loss: 0.197175
+Epoch: [64] [1900/1951] D_loss(R/F): 0.000000/0.000001, G_loss: 0.198176
+[64] auc:0.8890 th:0.0085 f1:0.6584 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [65] [ 100/1951] D_loss(R/F): 0.000002/0.000000, G_loss: 0.220762
+Epoch: [65] [ 200/1951] D_loss(R/F): 0.000011/0.000008, G_loss: 0.186461
+Epoch: [65] [ 300/1951] D_loss(R/F): 0.000003/0.000000, G_loss: 0.230196
+Epoch: [65] [ 400/1951] D_loss(R/F): 0.000000/0.000002, G_loss: 0.197725
+Epoch: [65] [ 500/1951] D_loss(R/F): 0.000056/0.000006, G_loss: 0.155880
+Epoch: [65] [ 600/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.205891
+Epoch: [65] [ 700/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.210533
+Epoch: [65] [ 800/1951] D_loss(R/F): 0.000009/0.000007, G_loss: 0.179946
+Epoch: [65] [ 900/1951] D_loss(R/F): 0.000003/0.000001, G_loss: 0.218790
+Epoch: [65] [1000/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.212047
+Epoch: [65] [1100/1951] D_loss(R/F): 0.000003/0.000000, G_loss: 0.217149
+Epoch: [65] [1200/1951] D_loss(R/F): 0.000001/0.000001, G_loss: 0.224912
+Epoch: [65] [1300/1951] D_loss(R/F): 0.000010/0.000101, G_loss: 0.162559
+Epoch: [65] [1400/1951] D_loss(R/F): 0.281660/0.383301, G_loss: 0.037258
+Epoch: [65] [1500/1951] D_loss(R/F): 0.035164/0.396110, G_loss: 0.050830
+Epoch: [65] [1600/1951] D_loss(R/F): 0.000875/1.592654, G_loss: 0.076132
+Epoch: [65] [1700/1951] D_loss(R/F): 0.000140/0.076926, G_loss: 0.125996
+Epoch: [65] [1800/1951] D_loss(R/F): 0.000414/0.011278, G_loss: 0.113405
+Epoch: [65] [1900/1951] D_loss(R/F): 0.003325/0.000677, G_loss: 0.165810
+[65] auc:0.8851 th:0.0089 f1:0.6631 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [66] [ 100/1951] D_loss(R/F): 0.000322/0.000009, G_loss: 0.200567
+Epoch: [66] [ 200/1951] D_loss(R/F): 0.001275/0.000254, G_loss: 0.131003
+Epoch: [66] [ 300/1951] D_loss(R/F): 0.000510/0.000112, G_loss: 0.169181
+Epoch: [66] [ 400/1951] D_loss(R/F): 0.001643/0.000049, G_loss: 0.143269
+Epoch: [66] [ 500/1951] D_loss(R/F): 0.000176/0.000786, G_loss: 0.122900
+Epoch: [66] [ 600/1951] D_loss(R/F): 0.001197/0.000159, G_loss: 0.144015
+Epoch: [66] [ 700/1951] D_loss(R/F): 0.000125/0.000021, G_loss: 0.188648
+Epoch: [66] [ 800/1951] D_loss(R/F): 0.000055/0.000355, G_loss: 0.145655
+Epoch: [66] [ 900/1951] D_loss(R/F): 0.000055/0.000061, G_loss: 0.132621
+Epoch: [66] [1000/1951] D_loss(R/F): 0.000011/0.000252, G_loss: 0.195418
+Epoch: [66] [1100/1951] D_loss(R/F): 0.000051/0.000005, G_loss: 0.181618
+Epoch: [66] [1200/1951] D_loss(R/F): 0.407965/0.092586, G_loss: 0.041012
+Epoch: [66] [1300/1951] D_loss(R/F): 0.013471/0.315266, G_loss: 0.067368
+Epoch: [66] [1400/1951] D_loss(R/F): 0.013225/0.117020, G_loss: 0.108572
+Epoch: [66] [1500/1951] D_loss(R/F): 0.001812/0.001686, G_loss: 0.114443
+Epoch: [66] [1600/1951] D_loss(R/F): 0.003321/0.000915, G_loss: 0.109189
+Epoch: [66] [1700/1951] D_loss(R/F): 0.000352/0.000577, G_loss: 0.117732
+Epoch: [66] [1800/1951] D_loss(R/F): 0.000143/0.000840, G_loss: 0.155947
+Epoch: [66] [1900/1951] D_loss(R/F): 0.000158/0.004450, G_loss: 0.139318
+[66] auc:0.8876 th:0.0099 f1:0.6595 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [67] [ 100/1951] D_loss(R/F): 0.000032/0.000238, G_loss: 0.164260
+Epoch: [67] [ 200/1951] D_loss(R/F): 0.002506/0.000083, G_loss: 0.143807
+Epoch: [67] [ 300/1951] D_loss(R/F): 0.000015/0.001158, G_loss: 0.140623
+Epoch: [67] [ 400/1951] D_loss(R/F): 0.000056/0.000296, G_loss: 0.166465
+Epoch: [67] [ 500/1951] D_loss(R/F): 0.000027/0.000523, G_loss: 0.149077
+Epoch: [67] [ 600/1951] D_loss(R/F): 0.002240/0.000031, G_loss: 0.166799
+Epoch: [67] [ 700/1951] D_loss(R/F): 0.000217/0.000072, G_loss: 0.147412
+Epoch: [67] [ 800/1951] D_loss(R/F): 0.000017/0.000293, G_loss: 0.192040
+Epoch: [67] [ 900/1951] D_loss(R/F): 0.000016/0.000019, G_loss: 0.185421
+Epoch: [67] [1000/1951] D_loss(R/F): 0.000109/0.000098, G_loss: 0.132769
+Epoch: [67] [1100/1951] D_loss(R/F): 0.000007/0.000026, G_loss: 0.184003
+Epoch: [67] [1200/1951] D_loss(R/F): 0.000030/0.000205, G_loss: 0.157411
+Epoch: [67] [1300/1951] D_loss(R/F): 0.000145/0.000095, G_loss: 0.153572
+Epoch: [67] [1400/1951] D_loss(R/F): 0.001047/0.000003, G_loss: 0.165196
+Epoch: [67] [1500/1951] D_loss(R/F): 0.000060/0.000054, G_loss: 0.148373
+Epoch: [67] [1600/1951] D_loss(R/F): 0.000003/0.000015, G_loss: 0.195610
+Epoch: [67] [1700/1951] D_loss(R/F): 0.000080/0.000004, G_loss: 0.192091
+Epoch: [67] [1800/1951] D_loss(R/F): 0.000001/0.000021, G_loss: 0.195302
+Epoch: [67] [1900/1951] D_loss(R/F): 0.000017/0.000129, G_loss: 0.153013
+[67] auc:0.8838 th:0.0093 f1:0.6585 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [68] [ 100/1951] D_loss(R/F): 0.000058/0.000003, G_loss: 0.172911
+Epoch: [68] [ 200/1951] D_loss(R/F): 0.000004/0.000001, G_loss: 0.235051
+Epoch: [68] [ 300/1951] D_loss(R/F): 0.000081/0.000006, G_loss: 0.147612
+Epoch: [68] [ 400/1951] D_loss(R/F): 0.000026/0.000005, G_loss: 0.154702
+Epoch: [68] [ 500/1951] D_loss(R/F): 0.000011/0.000003, G_loss: 0.172513
+Epoch: [68] [ 600/1951] D_loss(R/F): 0.000029/0.000035, G_loss: 0.196762
+Epoch: [68] [ 700/1951] D_loss(R/F): 0.000025/0.000030, G_loss: 0.156983
+Epoch: [68] [ 800/1951] D_loss(R/F): 0.000003/0.000082, G_loss: 0.156469
+Epoch: [68] [ 900/1951] D_loss(R/F): 0.000062/0.000035, G_loss: 0.172286
+Epoch: [68] [1000/1951] D_loss(R/F): 0.000005/0.000110, G_loss: 0.168280
+Epoch: [68] [1100/1951] D_loss(R/F): 0.000019/0.000000, G_loss: 0.197211
+Epoch: [68] [1200/1951] D_loss(R/F): 0.000005/0.000003, G_loss: 0.187970
+Epoch: [68] [1300/1951] D_loss(R/F): 0.010083/0.393297, G_loss: 0.084670
+Epoch: [68] [1400/1951] D_loss(R/F): 0.115116/0.020696, G_loss: 0.076815
+Epoch: [68] [1500/1951] D_loss(R/F): 0.000002/0.459515, G_loss: 0.138221
+Epoch: [68] [1600/1951] D_loss(R/F): 0.002027/0.000237, G_loss: 0.121097
+Epoch: [68] [1700/1951] D_loss(R/F): 0.001038/0.002467, G_loss: 0.105969
+Epoch: [68] [1800/1951] D_loss(R/F): 0.000194/0.000250, G_loss: 0.156695
+Epoch: [68] [1900/1951] D_loss(R/F): 0.000227/0.000115, G_loss: 0.131811
+[68] auc:0.8958 th:0.0066 f1:0.6660 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [69] [ 100/1951] D_loss(R/F): 0.000743/0.000089, G_loss: 0.137596
+Epoch: [69] [ 200/1951] D_loss(R/F): 0.000654/0.001346, G_loss: 0.125178
+Epoch: [69] [ 300/1951] D_loss(R/F): 0.000126/0.000280, G_loss: 0.167980
+Epoch: [69] [ 400/1951] D_loss(R/F): 0.000120/0.000073, G_loss: 0.140421
+Epoch: [69] [ 500/1951] D_loss(R/F): 0.000591/0.000121, G_loss: 0.161918
+Epoch: [69] [ 600/1951] D_loss(R/F): 0.000044/0.000016, G_loss: 0.176806
+Epoch: [69] [ 700/1951] D_loss(R/F): 0.000075/0.000029, G_loss: 0.188872
+Epoch: [69] [ 800/1951] D_loss(R/F): 0.000229/0.000078, G_loss: 0.140344
+Epoch: [69] [ 900/1951] D_loss(R/F): 0.000010/0.000016, G_loss: 0.165441
+Epoch: [69] [1000/1951] D_loss(R/F): 0.000016/0.000167, G_loss: 0.154043
+Epoch: [69] [1100/1951] D_loss(R/F): 0.000055/0.000691, G_loss: 0.143231
+Epoch: [69] [1200/1951] D_loss(R/F): 0.000025/0.000009, G_loss: 0.185662
+Epoch: [69] [1300/1951] D_loss(R/F): 0.002244/0.000003, G_loss: 0.188810
+Epoch: [69] [1400/1951] D_loss(R/F): 0.000005/0.000113, G_loss: 0.163849
+Epoch: [69] [1500/1951] D_loss(R/F): 0.000021/0.000003, G_loss: 0.184847
+Epoch: [69] [1600/1951] D_loss(R/F): 0.000025/0.000106, G_loss: 0.176751
+Epoch: [69] [1700/1951] D_loss(R/F): 0.000070/0.000080, G_loss: 0.195497
+Epoch: [69] [1800/1951] D_loss(R/F): 0.000020/0.000563, G_loss: 0.154012
+Epoch: [69] [1900/1951] D_loss(R/F): 0.000010/0.000169, G_loss: 0.136418
+[69] auc:0.8918 th:0.0071 f1:0.6572 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [70] [ 100/1951] D_loss(R/F): 0.000002/0.000006, G_loss: 0.194405
+Epoch: [70] [ 200/1951] D_loss(R/F): 0.000216/0.000041, G_loss: 0.144511
+Epoch: [70] [ 300/1951] D_loss(R/F): 0.000012/0.000021, G_loss: 0.158436
+Epoch: [70] [ 400/1951] D_loss(R/F): 0.000015/0.000496, G_loss: 0.131955
+Epoch: [70] [ 500/1951] D_loss(R/F): 0.000022/0.000005, G_loss: 0.193856
+Epoch: [70] [ 600/1951] D_loss(R/F): 0.027346/0.019599, G_loss: 0.058374
+Epoch: [70] [ 700/1951] D_loss(R/F): 0.003945/0.001025, G_loss: 0.135648
+Epoch: [70] [ 800/1951] D_loss(R/F): 0.000625/0.000080, G_loss: 0.190541
+Epoch: [70] [ 900/1951] D_loss(R/F): 0.000039/0.000872, G_loss: 0.146431
+Epoch: [70] [1000/1951] D_loss(R/F): 0.000196/0.000426, G_loss: 0.145647
+Epoch: [70] [1100/1951] D_loss(R/F): 0.000194/0.000941, G_loss: 0.125612
+Epoch: [70] [1200/1951] D_loss(R/F): 0.000088/0.000858, G_loss: 0.184478
+Epoch: [70] [1300/1951] D_loss(R/F): 0.000108/0.000034, G_loss: 0.178680
+Epoch: [70] [1400/1951] D_loss(R/F): 0.000003/0.000642, G_loss: 0.153596
+Epoch: [70] [1500/1951] D_loss(R/F): 0.000058/0.003185, G_loss: 0.128628
+Epoch: [70] [1600/1951] D_loss(R/F): 0.000047/0.000432, G_loss: 0.134136
+Epoch: [70] [1700/1951] D_loss(R/F): 0.000006/0.000103, G_loss: 0.145862
+Epoch: [70] [1800/1951] D_loss(R/F): 0.000197/0.000006, G_loss: 0.178675
+Epoch: [70] [1900/1951] D_loss(R/F): 0.000001/0.000345, G_loss: 0.175394
+[70] auc:0.8889 th:0.0092 f1:0.6597 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [71] [ 100/1951] D_loss(R/F): 0.000007/0.000068, G_loss: 0.156312
+Epoch: [71] [ 200/1951] D_loss(R/F): 0.000010/0.000524, G_loss: 0.139731
+Epoch: [71] [ 300/1951] D_loss(R/F): 0.000007/0.000014, G_loss: 0.161782
+Epoch: [71] [ 400/1951] D_loss(R/F): 0.000001/0.000005, G_loss: 0.162638
+Epoch: [71] [ 500/1951] D_loss(R/F): 0.000004/0.000001, G_loss: 0.234991
+Epoch: [71] [ 600/1951] D_loss(R/F): 0.000009/0.000059, G_loss: 0.163190
+Epoch: [71] [ 700/1951] D_loss(R/F): 0.000030/0.000016, G_loss: 0.156082
+Epoch: [71] [ 800/1951] D_loss(R/F): 0.000071/0.000003, G_loss: 0.187535
+Epoch: [71] [ 900/1951] D_loss(R/F): 0.000014/0.000002, G_loss: 0.187586
+Epoch: [71] [1000/1951] D_loss(R/F): 0.000012/0.000000, G_loss: 0.232353
+Epoch: [71] [1100/1951] D_loss(R/F): 0.000905/0.000067, G_loss: 0.133784
+Epoch: [71] [1200/1951] D_loss(R/F): 0.000010/0.000001, G_loss: 0.152113
+Epoch: [71] [1300/1951] D_loss(R/F): 0.000008/0.000001, G_loss: 0.205393
+Epoch: [71] [1400/1951] D_loss(R/F): 0.000038/0.000001, G_loss: 0.170198
+Epoch: [71] [1500/1951] D_loss(R/F): 0.000002/0.000008, G_loss: 0.181351
+Epoch: [71] [1600/1951] D_loss(R/F): 0.000010/0.000013, G_loss: 0.171036
+Epoch: [71] [1700/1951] D_loss(R/F): 0.000240/0.000017, G_loss: 0.120250
+Epoch: [71] [1800/1951] D_loss(R/F): 0.000005/0.000004, G_loss: 0.175377
+Epoch: [71] [1900/1951] D_loss(R/F): 0.000003/0.000109, G_loss: 0.170521
+[71] auc:0.8815 th:0.0081 f1:0.6605 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [72] [ 100/1951] D_loss(R/F): 0.000031/0.000082, G_loss: 0.168687
+Epoch: [72] [ 200/1951] D_loss(R/F): 0.000003/0.000014, G_loss: 0.167298
+Epoch: [72] [ 300/1951] D_loss(R/F): 0.000000/0.000000, G_loss: 0.261881
+Epoch: [72] [ 400/1951] D_loss(R/F): 0.000009/0.000001, G_loss: 0.225904
+Epoch: [72] [ 500/1951] D_loss(R/F): 0.000003/0.000009, G_loss: 0.198030
+Epoch: [72] [ 600/1951] D_loss(R/F): 0.000001/0.000257, G_loss: 0.160322
+Epoch: [72] [ 700/1951] D_loss(R/F): 0.000017/0.000029, G_loss: 0.154210
+Epoch: [72] [ 800/1951] D_loss(R/F): 0.000001/0.000014, G_loss: 0.185784
+Epoch: [72] [ 900/1951] D_loss(R/F): 0.000004/0.000001, G_loss: 0.226436
+Epoch: [72] [1000/1951] D_loss(R/F): 0.395805/0.066036, G_loss: 0.052128
+Epoch: [72] [1100/1951] D_loss(R/F): 0.023022/0.181478, G_loss: 0.057651
+Epoch: [72] [1200/1951] D_loss(R/F): 0.042997/0.034854, G_loss: 0.052041
+Epoch: [72] [1300/1951] D_loss(R/F): 0.002164/0.015310, G_loss: 0.092115
+Epoch: [72] [1400/1951] D_loss(R/F): 0.004970/0.002418, G_loss: 0.087340
+Epoch: [72] [1500/1951] D_loss(R/F): 0.002153/0.005159, G_loss: 0.089223
+Epoch: [72] [1600/1951] D_loss(R/F): 0.001335/0.000828, G_loss: 0.096822
+Epoch: [72] [1700/1951] D_loss(R/F): 0.000569/0.000056, G_loss: 0.120335
+Epoch: [72] [1800/1951] D_loss(R/F): 0.000429/0.000256, G_loss: 0.126673
+Epoch: [72] [1900/1951] D_loss(R/F): 0.001594/0.000054, G_loss: 0.114080
+[72] auc:0.8825 th:0.0087 f1:0.6632 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [73] [ 100/1951] D_loss(R/F): 0.001664/0.000227, G_loss: 0.107897
+Epoch: [73] [ 200/1951] D_loss(R/F): 0.000490/0.000208, G_loss: 0.142188
+Epoch: [73] [ 300/1951] D_loss(R/F): 0.000016/0.000856, G_loss: 0.121911
+Epoch: [73] [ 400/1951] D_loss(R/F): 0.000017/0.000033, G_loss: 0.166305
+Epoch: [73] [ 500/1951] D_loss(R/F): 0.000068/0.000389, G_loss: 0.129337
+Epoch: [73] [ 600/1951] D_loss(R/F): 0.000032/0.000840, G_loss: 0.117772
+Epoch: [73] [ 700/1951] D_loss(R/F): 0.000027/0.000070, G_loss: 0.147568
+Epoch: [73] [ 800/1951] D_loss(R/F): 0.000060/0.000004, G_loss: 0.165751
+Epoch: [73] [ 900/1951] D_loss(R/F): 0.000033/0.000262, G_loss: 0.119258
+Epoch: [73] [1000/1951] D_loss(R/F): 0.000173/0.000001, G_loss: 0.187762
+Epoch: [73] [1100/1951] D_loss(R/F): 0.000860/0.000029, G_loss: 0.148670
+Epoch: [73] [1200/1951] D_loss(R/F): 0.000039/0.000021, G_loss: 0.157162
+Epoch: [73] [1300/1951] D_loss(R/F): 0.000232/0.000002, G_loss: 0.173078
+Epoch: [73] [1400/1951] D_loss(R/F): 0.000048/0.000071, G_loss: 0.146539
+Epoch: [73] [1500/1951] D_loss(R/F): 0.000049/0.003411, G_loss: 0.133790
+Epoch: [73] [1600/1951] D_loss(R/F): 0.000169/0.000003, G_loss: 0.177761
+Epoch: [73] [1700/1951] D_loss(R/F): 0.000072/0.000048, G_loss: 0.132100
+Epoch: [73] [1800/1951] D_loss(R/F): 0.000038/0.000175, G_loss: 0.130222
+Epoch: [73] [1900/1951] D_loss(R/F): 0.251217/0.507053, G_loss: 0.028648
+[73] auc:0.8877 th:0.0089 f1:0.6638 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [74] [ 100/1951] D_loss(R/F): 0.053018/0.230508, G_loss: 0.075789
+Epoch: [74] [ 200/1951] D_loss(R/F): 0.445225/0.014931, G_loss: 0.050119
+Epoch: [74] [ 300/1951] D_loss(R/F): 0.058269/0.006012, G_loss: 0.070968
+Epoch: [74] [ 400/1951] D_loss(R/F): 0.003033/0.005658, G_loss: 0.095461
+Epoch: [74] [ 500/1951] D_loss(R/F): 0.000392/0.000847, G_loss: 0.137811
+Epoch: [74] [ 600/1951] D_loss(R/F): 0.000105/0.000997, G_loss: 0.139138
+Epoch: [74] [ 700/1951] D_loss(R/F): 0.000865/0.000451, G_loss: 0.112146
+Epoch: [74] [ 800/1951] D_loss(R/F): 0.000402/0.000032, G_loss: 0.144130
+Epoch: [74] [ 900/1951] D_loss(R/F): 0.002060/0.000015, G_loss: 0.141246
+Epoch: [74] [1000/1951] D_loss(R/F): 0.000060/0.000027, G_loss: 0.178780
+Epoch: [74] [1100/1951] D_loss(R/F): 0.000126/0.000305, G_loss: 0.141931
+Epoch: [74] [1200/1951] D_loss(R/F): 0.000272/0.000030, G_loss: 0.137427
+Epoch: [74] [1300/1951] D_loss(R/F): 0.000050/0.017755, G_loss: 0.104932
+Epoch: [74] [1400/1951] D_loss(R/F): 0.000010/0.000009, G_loss: 0.165762
+Epoch: [74] [1500/1951] D_loss(R/F): 0.000030/0.000047, G_loss: 0.173318
+Epoch: [74] [1600/1951] D_loss(R/F): 0.000189/0.000044, G_loss: 0.150456
+Epoch: [74] [1700/1951] D_loss(R/F): 0.000067/0.000030, G_loss: 0.160502
+Epoch: [74] [1800/1951] D_loss(R/F): 0.000076/0.000066, G_loss: 0.170108
+Epoch: [74] [1900/1951] D_loss(R/F): 0.000029/0.000311, G_loss: 0.149964
+[74] auc:0.8853 th:0.0093 f1:0.6621 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [75] [ 100/1951] D_loss(R/F): 0.000045/0.000153, G_loss: 0.158332
+Epoch: [75] [ 200/1951] D_loss(R/F): 0.003274/0.000008, G_loss: 0.172927
+Epoch: [75] [ 300/1951] D_loss(R/F): 0.000030/0.000416, G_loss: 0.129076
+Epoch: [75] [ 400/1951] D_loss(R/F): 0.000031/0.002070, G_loss: 0.121851
+Epoch: [75] [ 500/1951] D_loss(R/F): 0.000341/0.000011, G_loss: 0.127291
+Epoch: [75] [ 600/1951] D_loss(R/F): 0.000027/0.000210, G_loss: 0.150684
+Epoch: [75] [ 700/1951] D_loss(R/F): 0.000104/0.000235, G_loss: 0.119641
+Epoch: [75] [ 800/1951] D_loss(R/F): 0.000008/0.000001, G_loss: 0.207745
+Epoch: [75] [ 900/1951] D_loss(R/F): 0.000596/0.000022, G_loss: 0.162337
+Epoch: [75] [1000/1951] D_loss(R/F): 0.000016/0.000026, G_loss: 0.155826
+Epoch: [75] [1100/1951] D_loss(R/F): 0.000087/0.000129, G_loss: 0.147502
+Epoch: [75] [1200/1951] D_loss(R/F): 0.079195/0.198066, G_loss: 0.047668
+Epoch: [75] [1300/1951] D_loss(R/F): 0.023984/0.048320, G_loss: 0.086424
+Epoch: [75] [1400/1951] D_loss(R/F): 0.487163/0.002149, G_loss: 0.055713
+Epoch: [75] [1500/1951] D_loss(R/F): 0.002560/0.004542, G_loss: 0.113038
+Epoch: [75] [1600/1951] D_loss(R/F): 0.000118/0.021450, G_loss: 0.096155
+Epoch: [75] [1700/1951] D_loss(R/F): 0.000085/0.000006, G_loss: 0.179083
+Epoch: [75] [1800/1951] D_loss(R/F): 0.000062/0.000819, G_loss: 0.133062
+Epoch: [75] [1900/1951] D_loss(R/F): 0.000402/0.000528, G_loss: 0.127838
+[75] auc:0.8863 th:0.0070 f1:0.6566 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [76] [ 100/1951] D_loss(R/F): 0.000100/0.000016, G_loss: 0.167463
+Epoch: [76] [ 200/1951] D_loss(R/F): 0.000041/0.000697, G_loss: 0.127306
+Epoch: [76] [ 300/1951] D_loss(R/F): 0.000004/0.000566, G_loss: 0.170901
+Epoch: [76] [ 400/1951] D_loss(R/F): 0.000319/0.000002, G_loss: 0.164793
+Epoch: [76] [ 500/1951] D_loss(R/F): 0.000043/0.000258, G_loss: 0.136780
+Epoch: [76] [ 600/1951] D_loss(R/F): 0.000068/0.000005, G_loss: 0.184001
+Epoch: [76] [ 700/1951] D_loss(R/F): 0.000381/0.000006, G_loss: 0.140230
+Epoch: [76] [ 800/1951] D_loss(R/F): 0.000173/0.000060, G_loss: 0.133839
+Epoch: [76] [ 900/1951] D_loss(R/F): 0.000164/0.000097, G_loss: 0.119710
+Epoch: [76] [1000/1951] D_loss(R/F): 0.000063/0.000009, G_loss: 0.145449
+Epoch: [76] [1100/1951] D_loss(R/F): 0.000016/0.000266, G_loss: 0.185456
+Epoch: [76] [1200/1951] D_loss(R/F): 0.000013/0.000402, G_loss: 0.120373
+Epoch: [76] [1300/1951] D_loss(R/F): 0.004329/0.000005, G_loss: 0.169539
+Epoch: [76] [1400/1951] D_loss(R/F): 0.000003/0.000001, G_loss: 0.187763
+Epoch: [76] [1500/1951] D_loss(R/F): 0.000079/0.000000, G_loss: 0.202095
+Epoch: [76] [1600/1951] D_loss(R/F): 0.000077/0.000003, G_loss: 0.166021
+Epoch: [76] [1700/1951] D_loss(R/F): 0.000024/0.001079, G_loss: 0.126814
+Epoch: [76] [1800/1951] D_loss(R/F): 0.000042/0.000072, G_loss: 0.146010
+Epoch: [76] [1900/1951] D_loss(R/F): 0.000014/0.000112, G_loss: 0.153567
+[76] auc:0.8915 th:0.0073 f1:0.6542 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [77] [ 100/1951] D_loss(R/F): 0.000007/0.000340, G_loss: 0.146523
+Epoch: [77] [ 200/1951] D_loss(R/F): 0.000009/0.000080, G_loss: 0.148276
+Epoch: [77] [ 300/1951] D_loss(R/F): 0.000068/0.000814, G_loss: 0.122545
+Epoch: [77] [ 400/1951] D_loss(R/F): 0.000012/0.000023, G_loss: 0.160955
+Epoch: [77] [ 500/1951] D_loss(R/F): 0.000010/0.000007, G_loss: 0.191483
+Epoch: [77] [ 600/1951] D_loss(R/F): 0.000007/0.000165, G_loss: 0.136998
+Epoch: [77] [ 700/1951] D_loss(R/F): 0.000003/0.000038, G_loss: 0.154795
+Epoch: [77] [ 800/1951] D_loss(R/F): 0.000014/0.000013, G_loss: 0.188222
+Epoch: [77] [ 900/1951] D_loss(R/F): 0.000107/0.000000, G_loss: 0.212337
+Epoch: [77] [1000/1951] D_loss(R/F): 0.000010/0.000106, G_loss: 0.144360
+Epoch: [77] [1100/1951] D_loss(R/F): 0.000456/0.000049, G_loss: 0.139934
+Epoch: [77] [1200/1951] D_loss(R/F): 0.000003/0.000011, G_loss: 0.166476
+Epoch: [77] [1300/1951] D_loss(R/F): 0.000001/0.000146, G_loss: 0.148242
+Epoch: [77] [1400/1951] D_loss(R/F): 0.000017/0.000005, G_loss: 0.172627
+Epoch: [77] [1500/1951] D_loss(R/F): 0.000005/0.000000, G_loss: 0.221240
+Epoch: [77] [1600/1951] D_loss(R/F): 0.000272/0.000000, G_loss: 0.201767
+Epoch: [77] [1700/1951] D_loss(R/F): 0.000002/0.000049, G_loss: 0.179932
+Epoch: [77] [1800/1951] D_loss(R/F): 0.000003/0.000010, G_loss: 0.174969
+Epoch: [77] [1900/1951] D_loss(R/F): 0.000002/0.000007, G_loss: 0.161971
+[77] auc:0.8906 th:0.0079 f1:0.6586 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [78] [ 100/1951] D_loss(R/F): 0.000010/0.000107, G_loss: 0.131175
+Epoch: [78] [ 200/1951] D_loss(R/F): 0.000005/0.000001, G_loss: 0.182890
+Epoch: [78] [ 300/1951] D_loss(R/F): 0.000027/0.000008, G_loss: 0.145184
+Epoch: [78] [ 400/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.221663
+Epoch: [78] [ 500/1951] D_loss(R/F): 0.000009/0.000058, G_loss: 0.153349
+Epoch: [78] [ 600/1951] D_loss(R/F): 0.000005/0.000000, G_loss: 0.205276
+Epoch: [78] [ 700/1951] D_loss(R/F): 0.000009/0.000003, G_loss: 0.155678
+Epoch: [78] [ 800/1951] D_loss(R/F): 0.000001/0.000037, G_loss: 0.172325
+Epoch: [78] [ 900/1951] D_loss(R/F): 0.000011/0.000022, G_loss: 0.154929
+Epoch: [78] [1000/1951] D_loss(R/F): 0.000150/0.000001, G_loss: 0.192170
+Epoch: [78] [1100/1951] D_loss(R/F): 0.000008/0.000009, G_loss: 0.146541
+Epoch: [78] [1200/1951] D_loss(R/F): 0.000014/0.000001, G_loss: 0.175595
+Epoch: [78] [1300/1951] D_loss(R/F): 0.000022/0.000007, G_loss: 0.162462
+Epoch: [78] [1400/1951] D_loss(R/F): 0.000003/0.000000, G_loss: 0.198087
+Epoch: [78] [1500/1951] D_loss(R/F): 0.000005/0.000002, G_loss: 0.193988
+Epoch: [78] [1600/1951] D_loss(R/F): 0.000002/0.000000, G_loss: 0.204548
+Epoch: [78] [1700/1951] D_loss(R/F): 0.000040/0.000008, G_loss: 0.176278
+Epoch: [78] [1800/1951] D_loss(R/F): 0.000000/0.000000, G_loss: 0.214277
+Epoch: [78] [1900/1951] D_loss(R/F): 0.000002/0.000002, G_loss: 0.181049
+[78] auc:0.8854 th:0.0089 f1:0.6561 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [79] [ 100/1951] D_loss(R/F): 0.000002/0.000004, G_loss: 0.168787
+Epoch: [79] [ 200/1951] D_loss(R/F): 0.000002/0.000000, G_loss: 0.196763
+Epoch: [79] [ 300/1951] D_loss(R/F): 0.000000/0.000006, G_loss: 0.166916
+Epoch: [79] [ 400/1951] D_loss(R/F): 0.000074/0.000000, G_loss: 0.194403
+Epoch: [79] [ 500/1951] D_loss(R/F): 0.000001/0.000010, G_loss: 0.175243
+Epoch: [79] [ 600/1951] D_loss(R/F): 0.000001/0.000002, G_loss: 0.171894
+Epoch: [79] [ 700/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.235530
+Epoch: [79] [ 800/1951] D_loss(R/F): 0.000003/0.000002, G_loss: 0.152286
+Epoch: [79] [ 900/1951] D_loss(R/F): 0.000013/0.000002, G_loss: 0.169950
+Epoch: [79] [1000/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.210851
+Epoch: [79] [1100/1951] D_loss(R/F): 0.000012/0.000001, G_loss: 0.241756
+Epoch: [79] [1200/1951] D_loss(R/F): 0.055517/0.692285, G_loss: 0.039566
+Epoch: [79] [1300/1951] D_loss(R/F): 0.028602/0.558187, G_loss: 0.043128
+Epoch: [79] [1400/1951] D_loss(R/F): 0.605486/0.007364, G_loss: 0.066008
+Epoch: [79] [1500/1951] D_loss(R/F): 0.097913/0.011893, G_loss: 0.067445
+Epoch: [79] [1600/1951] D_loss(R/F): 1.100006/0.002162, G_loss: 0.058876
+Epoch: [79] [1700/1951] D_loss(R/F): 0.004053/0.001338, G_loss: 0.087852
+Epoch: [79] [1800/1951] D_loss(R/F): 0.000017/0.025941, G_loss: 0.137716
+Epoch: [79] [1900/1951] D_loss(R/F): 0.002609/0.001043, G_loss: 0.108873
+[79] auc:0.8865 th:0.0080 f1:0.6597 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [80] [ 100/1951] D_loss(R/F): 0.000054/0.002421, G_loss: 0.134492
+Epoch: [80] [ 200/1951] D_loss(R/F): 0.000133/0.000693, G_loss: 0.129839
+Epoch: [80] [ 300/1951] D_loss(R/F): 0.000120/0.000593, G_loss: 0.120677
+Epoch: [80] [ 400/1951] D_loss(R/F): 0.000034/0.000071, G_loss: 0.138209
+Epoch: [80] [ 500/1951] D_loss(R/F): 0.000155/0.000269, G_loss: 0.126203
+Epoch: [80] [ 600/1951] D_loss(R/F): 0.000194/0.000007, G_loss: 0.190937
+Epoch: [80] [ 700/1951] D_loss(R/F): 0.000032/0.004327, G_loss: 0.148295
+Epoch: [80] [ 800/1951] D_loss(R/F): 0.000493/0.000637, G_loss: 0.137806
+Epoch: [80] [ 900/1951] D_loss(R/F): 0.000043/0.000031, G_loss: 0.151513
+Epoch: [80] [1000/1951] D_loss(R/F): 0.000009/0.001233, G_loss: 0.143192
+Epoch: [80] [1100/1951] D_loss(R/F): 0.000011/0.000002, G_loss: 0.177244
+Epoch: [80] [1200/1951] D_loss(R/F): 0.000288/0.000009, G_loss: 0.158849
+Epoch: [80] [1300/1951] D_loss(R/F): 0.000116/0.000000, G_loss: 0.207782
+Epoch: [80] [1400/1951] D_loss(R/F): 0.000041/0.000274, G_loss: 0.118691
+Epoch: [80] [1500/1951] D_loss(R/F): 0.000042/0.000001, G_loss: 0.227453
+Epoch: [80] [1600/1951] D_loss(R/F): 0.000009/0.000001, G_loss: 0.202011
+Epoch: [80] [1700/1951] D_loss(R/F): 0.000025/0.000008, G_loss: 0.177516
+Epoch: [80] [1800/1951] D_loss(R/F): 0.000009/0.000194, G_loss: 0.165284
+Epoch: [80] [1900/1951] D_loss(R/F): 0.000002/0.001565, G_loss: 0.147161
+[80] auc:0.8912 th:0.0095 f1:0.6588 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [81] [ 100/1951] D_loss(R/F): 0.000088/0.000009, G_loss: 0.154773
+Epoch: [81] [ 200/1951] D_loss(R/F): 0.000020/0.000002, G_loss: 0.175408
+Epoch: [81] [ 300/1951] D_loss(R/F): 0.000472/0.000026, G_loss: 0.148901
+Epoch: [81] [ 400/1951] D_loss(R/F): 0.000026/0.000012, G_loss: 0.142187
+Epoch: [81] [ 500/1951] D_loss(R/F): 0.000025/0.000166, G_loss: 0.127171
+Epoch: [81] [ 600/1951] D_loss(R/F): 0.000139/0.000008, G_loss: 0.174382
+Epoch: [81] [ 700/1951] D_loss(R/F): 0.000050/0.000027, G_loss: 0.138017
+Epoch: [81] [ 800/1951] D_loss(R/F): 0.000000/0.000013, G_loss: 0.211427
+Epoch: [81] [ 900/1951] D_loss(R/F): 0.000069/0.000046, G_loss: 0.158632
+Epoch: [81] [1000/1951] D_loss(R/F): 0.000016/0.000004, G_loss: 0.161053
+Epoch: [81] [1100/1951] D_loss(R/F): 0.000013/0.000009, G_loss: 0.186321
+Epoch: [81] [1200/1951] D_loss(R/F): 0.000003/0.000053, G_loss: 0.167178
+Epoch: [81] [1300/1951] D_loss(R/F): 0.000007/0.000001, G_loss: 0.204586
+Epoch: [81] [1400/1951] D_loss(R/F): 0.000061/0.000001, G_loss: 0.192434
+Epoch: [81] [1500/1951] D_loss(R/F): 0.000007/0.000001, G_loss: 0.214184
+Epoch: [81] [1600/1951] D_loss(R/F): 0.000001/0.000103, G_loss: 0.187875
+Epoch: [81] [1700/1951] D_loss(R/F): 0.000014/0.000001, G_loss: 0.196964
+Epoch: [81] [1800/1951] D_loss(R/F): 0.000034/0.000136, G_loss: 0.144171
+Epoch: [81] [1900/1951] D_loss(R/F): 0.000013/0.000003, G_loss: 0.167213
+[81] auc:0.8878 th:0.0093 f1:0.6589 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [82] [ 100/1951] D_loss(R/F): 0.000009/0.000008, G_loss: 0.191591
+Epoch: [82] [ 200/1951] D_loss(R/F): 0.000052/0.000009, G_loss: 0.149097
+Epoch: [82] [ 300/1951] D_loss(R/F): 0.000057/0.000007, G_loss: 0.151204
+Epoch: [82] [ 400/1951] D_loss(R/F): 0.000043/0.000012, G_loss: 0.132335
+Epoch: [82] [ 500/1951] D_loss(R/F): 0.000104/0.000032, G_loss: 0.175114
+Epoch: [82] [ 600/1951] D_loss(R/F): 0.000003/0.000001, G_loss: 0.209633
+Epoch: [82] [ 700/1951] D_loss(R/F): 0.000003/0.000031, G_loss: 0.183827
+Epoch: [82] [ 800/1951] D_loss(R/F): 0.000000/0.005402, G_loss: 0.140365
+Epoch: [82] [ 900/1951] D_loss(R/F): 0.321048/0.013443, G_loss: 0.048411
+Epoch: [82] [1000/1951] D_loss(R/F): 0.000609/0.000353, G_loss: 0.130200
+Epoch: [82] [1100/1951] D_loss(R/F): 0.001358/0.000208, G_loss: 0.128005
+Epoch: [82] [1200/1951] D_loss(R/F): 0.000358/0.000084, G_loss: 0.136950
+Epoch: [82] [1300/1951] D_loss(R/F): 0.000101/0.000227, G_loss: 0.162765
+Epoch: [82] [1400/1951] D_loss(R/F): 0.135954/0.033888, G_loss: 0.041797
+Epoch: [82] [1500/1951] D_loss(R/F): 0.111260/0.005265, G_loss: 0.056557
+Epoch: [82] [1600/1951] D_loss(R/F): 0.006307/0.004513, G_loss: 0.076409
+Epoch: [82] [1700/1951] D_loss(R/F): 0.023594/0.049227, G_loss: 0.067679
+Epoch: [82] [1800/1951] D_loss(R/F): 0.000036/0.000758, G_loss: 0.157754
+Epoch: [82] [1900/1951] D_loss(R/F): 0.001533/0.000241, G_loss: 0.108296
+[82] auc:0.8871 th:0.0075 f1:0.6593 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [83] [ 100/1951] D_loss(R/F): 0.000029/0.000168, G_loss: 0.156240
+Epoch: [83] [ 200/1951] D_loss(R/F): 0.000315/0.000002, G_loss: 0.172612
+Epoch: [83] [ 300/1951] D_loss(R/F): 0.000038/0.000402, G_loss: 0.140573
+Epoch: [83] [ 400/1951] D_loss(R/F): 0.002952/0.000017, G_loss: 0.174602
+Epoch: [83] [ 500/1951] D_loss(R/F): 0.000241/0.000238, G_loss: 0.107473
+Epoch: [83] [ 600/1951] D_loss(R/F): 0.000019/0.003056, G_loss: 0.118951
+Epoch: [83] [ 700/1951] D_loss(R/F): 0.000061/0.000271, G_loss: 0.140856
+Epoch: [83] [ 800/1951] D_loss(R/F): 0.000146/0.000291, G_loss: 0.135208
+Epoch: [83] [ 900/1951] D_loss(R/F): 0.000065/0.000006, G_loss: 0.147332
+Epoch: [83] [1000/1951] D_loss(R/F): 0.000025/0.000023, G_loss: 0.179547
+Epoch: [83] [1100/1951] D_loss(R/F): 0.000021/0.000262, G_loss: 0.123054
+Epoch: [83] [1200/1951] D_loss(R/F): 0.000012/0.000034, G_loss: 0.147145
+Epoch: [83] [1300/1951] D_loss(R/F): 0.000053/0.000170, G_loss: 0.127118
+Epoch: [83] [1400/1951] D_loss(R/F): 0.000010/0.000051, G_loss: 0.154067
+Epoch: [83] [1500/1951] D_loss(R/F): 0.000024/0.000110, G_loss: 0.156959
+Epoch: [83] [1600/1951] D_loss(R/F): 0.000178/0.000001, G_loss: 0.159407
+Epoch: [83] [1700/1951] D_loss(R/F): 0.000010/0.001913, G_loss: 0.134138
+Epoch: [83] [1800/1951] D_loss(R/F): 0.000041/0.000306, G_loss: 0.116297
+Epoch: [83] [1900/1951] D_loss(R/F): 0.000014/0.000083, G_loss: 0.161568
+[83] auc:0.8847 th:0.0103 f1:0.6602 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [84] [ 100/1951] D_loss(R/F): 0.000049/0.000003, G_loss: 0.184135
+Epoch: [84] [ 200/1951] D_loss(R/F): 0.000015/0.000309, G_loss: 0.145352
+Epoch: [84] [ 300/1951] D_loss(R/F): 0.000007/0.000186, G_loss: 0.133496
+Epoch: [84] [ 400/1951] D_loss(R/F): 0.000001/0.000271, G_loss: 0.150630
+Epoch: [84] [ 500/1951] D_loss(R/F): 0.000062/0.000053, G_loss: 0.137041
+Epoch: [84] [ 600/1951] D_loss(R/F): 0.000062/0.000020, G_loss: 0.156928
+Epoch: [84] [ 700/1951] D_loss(R/F): 0.000005/0.000015, G_loss: 0.187470
+Epoch: [84] [ 800/1951] D_loss(R/F): 0.000001/0.000191, G_loss: 0.147709
+Epoch: [84] [ 900/1951] D_loss(R/F): 0.000540/0.000004, G_loss: 0.142696
+Epoch: [84] [1000/1951] D_loss(R/F): 0.000011/0.000036, G_loss: 0.153233
+Epoch: [84] [1100/1951] D_loss(R/F): 0.000007/0.001442, G_loss: 0.120051
+Epoch: [84] [1200/1951] D_loss(R/F): 0.000040/0.000029, G_loss: 0.160578
+Epoch: [84] [1300/1951] D_loss(R/F): 0.000154/0.000000, G_loss: 0.170819
+Epoch: [84] [1400/1951] D_loss(R/F): 0.000020/0.000001, G_loss: 0.194420
+Epoch: [84] [1500/1951] D_loss(R/F): 0.000031/0.000002, G_loss: 0.192676
+Epoch: [84] [1600/1951] D_loss(R/F): 0.000006/0.000207, G_loss: 0.155786
+Epoch: [84] [1700/1951] D_loss(R/F): 0.000060/0.000002, G_loss: 0.161801
+Epoch: [84] [1800/1951] D_loss(R/F): 0.000013/0.000006, G_loss: 0.156057
+Epoch: [84] [1900/1951] D_loss(R/F): 0.000001/0.000070, G_loss: 0.153969
+[84] auc:0.8833 th:0.0087 f1:0.6585 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [85] [ 100/1951] D_loss(R/F): 0.000021/0.000004, G_loss: 0.171034
+Epoch: [85] [ 200/1951] D_loss(R/F): 0.000002/0.000011, G_loss: 0.189102
+Epoch: [85] [ 300/1951] D_loss(R/F): 0.000002/0.000083, G_loss: 0.146196
+Epoch: [85] [ 400/1951] D_loss(R/F): 0.000011/0.000000, G_loss: 0.186947
+Epoch: [85] [ 500/1951] D_loss(R/F): 0.000005/0.000006, G_loss: 0.157407
+Epoch: [85] [ 600/1951] D_loss(R/F): 0.000018/0.000000, G_loss: 0.171411
+Epoch: [85] [ 700/1951] D_loss(R/F): 0.000055/0.000001, G_loss: 0.143664
+Epoch: [85] [ 800/1951] D_loss(R/F): 0.000003/0.000009, G_loss: 0.161171
+Epoch: [85] [ 900/1951] D_loss(R/F): 0.000005/0.000032, G_loss: 0.128405
+Epoch: [85] [1000/1951] D_loss(R/F): 0.000132/0.000000, G_loss: 0.167087
+Epoch: [85] [1100/1951] D_loss(R/F): 0.000014/0.000072, G_loss: 0.141038
+Epoch: [85] [1200/1951] D_loss(R/F): 0.000003/0.000003, G_loss: 0.176273
+Epoch: [85] [1300/1951] D_loss(R/F): 0.000003/0.000000, G_loss: 0.195262
+Epoch: [85] [1400/1951] D_loss(R/F): 0.000101/0.000003, G_loss: 0.141457
+Epoch: [85] [1500/1951] D_loss(R/F): 0.000014/0.000000, G_loss: 0.175085
+Epoch: [85] [1600/1951] D_loss(R/F): 0.000012/0.000028, G_loss: 0.143915
+Epoch: [85] [1700/1951] D_loss(R/F): 0.000004/0.000000, G_loss: 0.211667
+Epoch: [85] [1800/1951] D_loss(R/F): 0.000003/0.000000, G_loss: 0.197899
+Epoch: [85] [1900/1951] D_loss(R/F): 0.000001/0.000005, G_loss: 0.189023
+[85] auc:0.8796 th:0.0078 f1:0.6571 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [86] [ 100/1951] D_loss(R/F): 0.000012/0.000000, G_loss: 0.191602
+Epoch: [86] [ 200/1951] D_loss(R/F): 0.000007/0.000000, G_loss: 0.163949
+Epoch: [86] [ 300/1951] D_loss(R/F): 0.000018/0.000012, G_loss: 0.153659
+Epoch: [86] [ 400/1951] D_loss(R/F): 0.000005/0.000001, G_loss: 0.174599
+Epoch: [86] [ 500/1951] D_loss(R/F): 0.000004/0.000004, G_loss: 0.154855
+Epoch: [86] [ 600/1951] D_loss(R/F): 0.000011/0.000000, G_loss: 0.206653
+Epoch: [86] [ 700/1951] D_loss(R/F): 0.000087/0.000001, G_loss: 0.162488
+Epoch: [86] [ 800/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.212318
+Epoch: [86] [ 900/1951] D_loss(R/F): 0.000000/0.000027, G_loss: 0.202306
+Epoch: [86] [1000/1951] D_loss(R/F): 0.000005/0.000001, G_loss: 0.189386
+Epoch: [86] [1100/1951] D_loss(R/F): 0.000012/0.000000, G_loss: 0.217698
+Epoch: [86] [1200/1951] D_loss(R/F): 0.000031/0.000000, G_loss: 0.215697
+Epoch: [86] [1300/1951] D_loss(R/F): 0.000005/0.000002, G_loss: 0.174814
+Epoch: [86] [1400/1951] D_loss(R/F): 0.000032/0.000096, G_loss: 0.159880
+Epoch: [86] [1500/1951] D_loss(R/F): 0.000004/0.000000, G_loss: 0.230629
+Epoch: [86] [1600/1951] D_loss(R/F): 0.000001/0.000005, G_loss: 0.169801
+Epoch: [86] [1700/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.202951
+Epoch: [86] [1800/1951] D_loss(R/F): 0.000000/0.000041, G_loss: 0.164777
+Epoch: [86] [1900/1951] D_loss(R/F): 0.336048/0.297585, G_loss: 0.030410
+[86] auc:0.8848 th:0.0076 f1:0.6625 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [87] [ 100/1951] D_loss(R/F): 0.001819/2.073093, G_loss: 0.058626
+Epoch: [87] [ 200/1951] D_loss(R/F): 0.002843/0.050486, G_loss: 0.081135
+Epoch: [87] [ 300/1951] D_loss(R/F): 0.000343/0.000810, G_loss: 0.115231
+Epoch: [87] [ 400/1951] D_loss(R/F): 0.000360/0.003220, G_loss: 0.103975
+Epoch: [87] [ 500/1951] D_loss(R/F): 0.000198/0.000866, G_loss: 0.123100
+Epoch: [87] [ 600/1951] D_loss(R/F): 0.000084/0.004063, G_loss: 0.131361
+Epoch: [87] [ 700/1951] D_loss(R/F): 0.000012/0.001159, G_loss: 0.149366
+Epoch: [87] [ 800/1951] D_loss(R/F): 0.000081/0.000151, G_loss: 0.121001
+Epoch: [87] [ 900/1951] D_loss(R/F): 0.000216/0.000070, G_loss: 0.149637
+Epoch: [87] [1000/1951] D_loss(R/F): 0.000028/0.000569, G_loss: 0.107671
+Epoch: [87] [1100/1951] D_loss(R/F): 0.000023/0.000020, G_loss: 0.155935
+Epoch: [87] [1200/1951] D_loss(R/F): 0.000056/0.000081, G_loss: 0.165326
+Epoch: [87] [1300/1951] D_loss(R/F): 0.005610/0.030176, G_loss: 0.075912
+Epoch: [87] [1400/1951] D_loss(R/F): 0.000338/0.000349, G_loss: 0.100568
+Epoch: [87] [1500/1951] D_loss(R/F): 0.000353/0.000012, G_loss: 0.127278
+Epoch: [87] [1600/1951] D_loss(R/F): 0.000728/0.000015, G_loss: 0.120391
+Epoch: [87] [1700/1951] D_loss(R/F): 0.000074/0.000553, G_loss: 0.125527
+Epoch: [87] [1800/1951] D_loss(R/F): 0.000125/0.000393, G_loss: 0.118623
+Epoch: [87] [1900/1951] D_loss(R/F): 0.000441/0.001093, G_loss: 0.117666
+[87] auc:0.8720 th:0.0072 f1:0.6595 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [88] [ 100/1951] D_loss(R/F): 0.000046/0.000285, G_loss: 0.114764
+Epoch: [88] [ 200/1951] D_loss(R/F): 0.000157/0.000042, G_loss: 0.137930
+Epoch: [88] [ 300/1951] D_loss(R/F): 0.000012/0.000096, G_loss: 0.136649
+Epoch: [88] [ 400/1951] D_loss(R/F): 0.000032/0.000129, G_loss: 0.127298
+Epoch: [88] [ 500/1951] D_loss(R/F): 0.000010/0.000333, G_loss: 0.143854
+Epoch: [88] [ 600/1951] D_loss(R/F): 0.000022/0.000098, G_loss: 0.154756
+Epoch: [88] [ 700/1951] D_loss(R/F): 0.000006/0.002157, G_loss: 0.133518
+Epoch: [88] [ 800/1951] D_loss(R/F): 0.000052/0.000007, G_loss: 0.132558
+Epoch: [88] [ 900/1951] D_loss(R/F): 0.000013/0.000222, G_loss: 0.172068
+Epoch: [88] [1000/1951] D_loss(R/F): 0.000025/0.000022, G_loss: 0.182518
+Epoch: [88] [1100/1951] D_loss(R/F): 0.000093/0.000020, G_loss: 0.144134
+Epoch: [88] [1200/1951] D_loss(R/F): 0.000413/0.000040, G_loss: 0.143412
+Epoch: [88] [1300/1951] D_loss(R/F): 0.000003/0.000012, G_loss: 0.167319
+Epoch: [88] [1400/1951] D_loss(R/F): 0.000001/0.001227, G_loss: 0.117824
+Epoch: [88] [1500/1951] D_loss(R/F): 0.000013/0.000277, G_loss: 0.108516
+Epoch: [88] [1600/1951] D_loss(R/F): 0.000126/0.000000, G_loss: 0.220843
+Epoch: [88] [1700/1951] D_loss(R/F): 0.000004/0.000176, G_loss: 0.128564
+Epoch: [88] [1800/1951] D_loss(R/F): 0.000010/0.000007, G_loss: 0.145727
+Epoch: [88] [1900/1951] D_loss(R/F): 0.000020/0.000000, G_loss: 0.197815
+[88] auc:0.8798 th:0.0100 f1:0.6559 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [89] [ 100/1951] D_loss(R/F): 0.000020/0.000029, G_loss: 0.146802
+Epoch: [89] [ 200/1951] D_loss(R/F): 0.000099/0.000000, G_loss: 0.203711
+Epoch: [89] [ 300/1951] D_loss(R/F): 0.000011/0.000016, G_loss: 0.135730
+Epoch: [89] [ 400/1951] D_loss(R/F): 0.000010/0.000002, G_loss: 0.168971
+Epoch: [89] [ 500/1951] D_loss(R/F): 0.000004/0.000386, G_loss: 0.135561
+Epoch: [89] [ 600/1951] D_loss(R/F): 0.000006/0.000014, G_loss: 0.144149
+Epoch: [89] [ 700/1951] D_loss(R/F): 0.000002/0.000000, G_loss: 0.187561
+Epoch: [89] [ 800/1951] D_loss(R/F): 0.000005/0.000001, G_loss: 0.180875
+Epoch: [89] [ 900/1951] D_loss(R/F): 0.000007/0.000003, G_loss: 0.163052
+Epoch: [89] [1000/1951] D_loss(R/F): 0.000027/0.000035, G_loss: 0.114493
+Epoch: [89] [1100/1951] D_loss(R/F): 0.000004/0.000000, G_loss: 0.155966
+Epoch: [89] [1200/1951] D_loss(R/F): 0.000004/0.000005, G_loss: 0.181044
+Epoch: [89] [1300/1951] D_loss(R/F): 0.000009/0.000010, G_loss: 0.148346
+Epoch: [89] [1400/1951] D_loss(R/F): 0.000001/0.000215, G_loss: 0.172505
+Epoch: [89] [1500/1951] D_loss(R/F): 0.000008/0.000002, G_loss: 0.179217
+Epoch: [89] [1600/1951] D_loss(R/F): 0.000002/0.000000, G_loss: 0.194608
+Epoch: [89] [1700/1951] D_loss(R/F): 0.000002/0.000002, G_loss: 0.166485
+Epoch: [89] [1800/1951] D_loss(R/F): 0.000154/0.000002, G_loss: 0.178551
+Epoch: [89] [1900/1951] D_loss(R/F): 0.000008/0.000007, G_loss: 0.155004
+[89] auc:0.8813 th:0.0091 f1:0.6603 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [90] [ 100/1951] D_loss(R/F): 0.000002/0.000028, G_loss: 0.165426
+Epoch: [90] [ 200/1951] D_loss(R/F): 0.000002/0.000001, G_loss: 0.191656
+Epoch: [90] [ 300/1951] D_loss(R/F): 0.000003/0.000004, G_loss: 0.176250
+Epoch: [90] [ 400/1951] D_loss(R/F): 0.000014/0.000023, G_loss: 0.135962
+Epoch: [90] [ 500/1951] D_loss(R/F): 0.000005/0.000004, G_loss: 0.160216
+Epoch: [90] [ 600/1951] D_loss(R/F): 0.000009/0.000000, G_loss: 0.193931
+Epoch: [90] [ 700/1951] D_loss(R/F): 0.000010/0.000010, G_loss: 0.137544
+Epoch: [90] [ 800/1951] D_loss(R/F): 0.000002/0.000161, G_loss: 0.127620
+Epoch: [90] [ 900/1951] D_loss(R/F): 0.000003/0.000131, G_loss: 0.132900
+Epoch: [90] [1000/1951] D_loss(R/F): 0.000001/0.000004, G_loss: 0.180419
+Epoch: [90] [1100/1951] D_loss(R/F): 0.000002/0.000998, G_loss: 0.129590
+Epoch: [90] [1200/1951] D_loss(R/F): 0.000369/0.000015, G_loss: 0.155986
+Epoch: [90] [1300/1951] D_loss(R/F): 0.000000/0.000065, G_loss: 0.133046
+Epoch: [90] [1400/1951] D_loss(R/F): 0.690560/0.003021, G_loss: 0.055930
+Epoch: [90] [1500/1951] D_loss(R/F): 0.079384/0.076970, G_loss: 0.057757
+Epoch: [90] [1600/1951] D_loss(R/F): 0.000258/0.002387, G_loss: 0.135527
+Epoch: [90] [1700/1951] D_loss(R/F): 0.000219/0.001713, G_loss: 0.150364
+Epoch: [90] [1800/1951] D_loss(R/F): 0.000386/0.000475, G_loss: 0.143995
+Epoch: [90] [1900/1951] D_loss(R/F): 0.000167/0.000070, G_loss: 0.134327
+[90] auc:0.8791 th:0.0091 f1:0.6614 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [91] [ 100/1951] D_loss(R/F): 0.000382/0.000780, G_loss: 0.152206
+Epoch: [91] [ 200/1951] D_loss(R/F): 0.000023/0.000159, G_loss: 0.146254
+Epoch: [91] [ 300/1951] D_loss(R/F): 0.000001/0.006545, G_loss: 0.145023
+Epoch: [91] [ 400/1951] D_loss(R/F): 0.000005/0.000112, G_loss: 0.146037
+Epoch: [91] [ 500/1951] D_loss(R/F): 0.000099/0.000010, G_loss: 0.170128
+Epoch: [91] [ 600/1951] D_loss(R/F): 0.000013/0.000126, G_loss: 0.136359
+Epoch: [91] [ 700/1951] D_loss(R/F): 0.000059/0.000101, G_loss: 0.158084
+Epoch: [91] [ 800/1951] D_loss(R/F): 0.000140/0.000009, G_loss: 0.142449
+Epoch: [91] [ 900/1951] D_loss(R/F): 0.000055/0.000426, G_loss: 0.136214
+Epoch: [91] [1000/1951] D_loss(R/F): 0.000002/0.000378, G_loss: 0.198794
+Epoch: [91] [1100/1951] D_loss(R/F): 0.000017/0.000335, G_loss: 0.141862
+Epoch: [91] [1200/1951] D_loss(R/F): 0.000002/0.000157, G_loss: 0.150369
+Epoch: [91] [1300/1951] D_loss(R/F): 0.000000/0.000117, G_loss: 0.142289
+Epoch: [91] [1400/1951] D_loss(R/F): 0.000006/0.000015, G_loss: 0.154296
+Epoch: [91] [1500/1951] D_loss(R/F): 0.000096/0.000371, G_loss: 0.117094
+Epoch: [91] [1600/1951] D_loss(R/F): 0.000007/0.000275, G_loss: 0.148995
+Epoch: [91] [1700/1951] D_loss(R/F): 0.000009/0.000001, G_loss: 0.182400
+Epoch: [91] [1800/1951] D_loss(R/F): 0.000003/0.000171, G_loss: 0.148618
+Epoch: [91] [1900/1951] D_loss(R/F): 0.000005/0.000002, G_loss: 0.183364
+[91] auc:0.8821 th:0.0087 f1:0.6635 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [92] [ 100/1951] D_loss(R/F): 0.000003/0.000007, G_loss: 0.145117
+Epoch: [92] [ 200/1951] D_loss(R/F): 0.000002/0.000019, G_loss: 0.191884
+Epoch: [92] [ 300/1951] D_loss(R/F): 0.000010/0.000032, G_loss: 0.142560
+Epoch: [92] [ 400/1951] D_loss(R/F): 0.000006/0.000011, G_loss: 0.166506
+Epoch: [92] [ 500/1951] D_loss(R/F): 0.000032/0.000007, G_loss: 0.162319
+Epoch: [92] [ 600/1951] D_loss(R/F): 0.000005/0.000005, G_loss: 0.170275
+Epoch: [92] [ 700/1951] D_loss(R/F): 0.000004/0.000003, G_loss: 0.197957
+Epoch: [92] [ 800/1951] D_loss(R/F): 0.000005/0.000012, G_loss: 0.137090
+Epoch: [92] [ 900/1951] D_loss(R/F): 0.000000/0.000148, G_loss: 0.159757
+Epoch: [92] [1000/1951] D_loss(R/F): 0.000001/0.000004, G_loss: 0.193978
+Epoch: [92] [1100/1951] D_loss(R/F): 0.000003/0.000002, G_loss: 0.172463
+Epoch: [92] [1200/1951] D_loss(R/F): 0.000002/0.000006, G_loss: 0.160904
+Epoch: [92] [1300/1951] D_loss(R/F): 0.000015/0.000002, G_loss: 0.167329
+Epoch: [92] [1400/1951] D_loss(R/F): 0.000016/0.000002, G_loss: 0.170039
+Epoch: [92] [1500/1951] D_loss(R/F): 0.000002/0.000018, G_loss: 0.154403
+Epoch: [92] [1600/1951] D_loss(R/F): 0.000125/0.000005, G_loss: 0.173545
+Epoch: [92] [1700/1951] D_loss(R/F): 0.000007/0.000010, G_loss: 0.157448
+Epoch: [92] [1800/1951] D_loss(R/F): 0.000009/0.000221, G_loss: 0.148408
+Epoch: [92] [1900/1951] D_loss(R/F): 0.000000/0.000012, G_loss: 0.177511
+[92] auc:0.8864 th:0.0087 f1:0.6557 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [93] [ 100/1951] D_loss(R/F): 0.000002/0.000005, G_loss: 0.156436
+Epoch: [93] [ 200/1951] D_loss(R/F): 0.000007/0.000022, G_loss: 0.169982
+Epoch: [93] [ 300/1951] D_loss(R/F): 0.000005/0.000004, G_loss: 0.175171
+Epoch: [93] [ 400/1951] D_loss(R/F): 0.000001/0.000001, G_loss: 0.169755
+Epoch: [93] [ 500/1951] D_loss(R/F): 0.000007/0.000002, G_loss: 0.156677
+Epoch: [93] [ 600/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.232643
+Epoch: [93] [ 700/1951] D_loss(R/F): 0.000002/0.000001, G_loss: 0.177509
+Epoch: [93] [ 800/1951] D_loss(R/F): 0.000004/0.000062, G_loss: 0.161008
+Epoch: [93] [ 900/1951] D_loss(R/F): 0.000001/0.000017, G_loss: 0.211419
+Epoch: [93] [1000/1951] D_loss(R/F): 0.000004/0.000000, G_loss: 0.201607
+Epoch: [93] [1100/1951] D_loss(R/F): 0.000002/0.000005, G_loss: 0.190748
+Epoch: [93] [1200/1951] D_loss(R/F): 0.000012/0.000006, G_loss: 0.153791
+Epoch: [93] [1300/1951] D_loss(R/F): 0.000004/0.000001, G_loss: 0.191483
+Epoch: [93] [1400/1951] D_loss(R/F): 0.000004/0.000007, G_loss: 0.153409
+Epoch: [93] [1500/1951] D_loss(R/F): 0.000011/0.000001, G_loss: 0.196293
+Epoch: [93] [1600/1951] D_loss(R/F): 0.000001/0.000000, G_loss: 0.213624
+Epoch: [93] [1700/1951] D_loss(R/F): 0.000050/0.000000, G_loss: 0.185337
+Epoch: [93] [1800/1951] D_loss(R/F): 0.000000/0.000001, G_loss: 0.204670
+Epoch: [93] [1900/1951] D_loss(R/F): 0.000018/0.000004, G_loss: 0.151325
+[93] auc:0.8815 th:0.0068 f1:0.6585 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [94] [ 100/1951] D_loss(R/F): 0.000001/0.000014, G_loss: 0.154168
+Epoch: [94] [ 200/1951] D_loss(R/F): 0.000002/0.000003, G_loss: 0.172886
+Epoch: [94] [ 300/1951] D_loss(R/F): 0.000000/0.000000, G_loss: 0.203036
+Epoch: [94] [ 400/1951] D_loss(R/F): 0.059447/0.566621, G_loss: 0.023017
+Epoch: [94] [ 500/1951] D_loss(R/F): 0.003441/0.552077, G_loss: 0.053683
+Epoch: [94] [ 600/1951] D_loss(R/F): 0.000230/0.000761, G_loss: 0.159044
+Epoch: [94] [ 700/1951] D_loss(R/F): 0.000037/0.011321, G_loss: 0.116765
+Epoch: [94] [ 800/1951] D_loss(R/F): 0.002904/0.000008, G_loss: 0.145216
+Epoch: [94] [ 900/1951] D_loss(R/F): 0.001709/0.000282, G_loss: 0.130174
+Epoch: [94] [1000/1951] D_loss(R/F): 0.000026/0.000303, G_loss: 0.139334
+Epoch: [94] [1100/1951] D_loss(R/F): 0.000384/0.001161, G_loss: 0.136737
+Epoch: [94] [1200/1951] D_loss(R/F): 0.000008/0.001156, G_loss: 0.140821
+Epoch: [94] [1300/1951] D_loss(R/F): 0.000024/0.000100, G_loss: 0.157252
+Epoch: [94] [1400/1951] D_loss(R/F): 0.000019/0.002769, G_loss: 0.121939
+Epoch: [94] [1500/1951] D_loss(R/F): 0.000008/0.010174, G_loss: 0.130955
+Epoch: [94] [1600/1951] D_loss(R/F): 0.000291/0.000273, G_loss: 0.132606
+Epoch: [94] [1700/1951] D_loss(R/F): 0.000157/0.000010, G_loss: 0.132977
+Epoch: [94] [1800/1951] D_loss(R/F): 0.000042/0.000139, G_loss: 0.133489
+Epoch: [94] [1900/1951] D_loss(R/F): 0.000028/0.000001, G_loss: 0.185717
+[94] auc:0.8875 th:0.0083 f1:0.6590 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [95] [ 100/1951] D_loss(R/F): 0.000059/0.000075, G_loss: 0.155245
+Epoch: [95] [ 200/1951] D_loss(R/F): 0.000008/0.000081, G_loss: 0.164387
+Epoch: [95] [ 300/1951] D_loss(R/F): 0.000047/0.000025, G_loss: 0.145791
+Epoch: [95] [ 400/1951] D_loss(R/F): 0.000014/0.000027, G_loss: 0.160049
+Epoch: [95] [ 500/1951] D_loss(R/F): 0.000005/0.000464, G_loss: 0.127886
+Epoch: [95] [ 600/1951] D_loss(R/F): 0.000003/0.000033, G_loss: 0.185540
+Epoch: [95] [ 700/1951] D_loss(R/F): 0.000000/0.000064, G_loss: 0.159945
+Epoch: [95] [ 800/1951] D_loss(R/F): 0.000018/0.000005, G_loss: 0.161019
+Epoch: [95] [ 900/1951] D_loss(R/F): 0.000002/0.000001, G_loss: 0.195607
+Epoch: [95] [1000/1951] D_loss(R/F): 0.000146/0.000010, G_loss: 0.124641
+Epoch: [95] [1100/1951] D_loss(R/F): 0.000002/0.000003, G_loss: 0.180751
+Epoch: [95] [1200/1951] D_loss(R/F): 0.000004/0.000373, G_loss: 0.129767
+Epoch: [95] [1300/1951] D_loss(R/F): 0.000005/0.000007, G_loss: 0.148657
+Epoch: [95] [1400/1951] D_loss(R/F): 0.000057/0.000000, G_loss: 0.191676
+Epoch: [95] [1500/1951] D_loss(R/F): 0.000003/0.000004, G_loss: 0.162688
+Epoch: [95] [1600/1951] D_loss(R/F): 0.000000/0.000034, G_loss: 0.189729
+Epoch: [95] [1700/1951] D_loss(R/F): 0.000016/0.000008, G_loss: 0.170062
+Epoch: [95] [1800/1951] D_loss(R/F): 0.000007/0.000003, G_loss: 0.180195
+Epoch: [95] [1900/1951] D_loss(R/F): 0.000006/0.000002, G_loss: 0.182423
+[95] auc:0.8912 th:0.0077 f1:0.6581 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [96] [ 100/1951] D_loss(R/F): 0.000002/0.000020, G_loss: 0.160961
+Epoch: [96] [ 200/1951] D_loss(R/F): 0.000053/0.000000, G_loss: 0.183465
+Epoch: [96] [ 300/1951] D_loss(R/F): 0.000011/0.000000, G_loss: 0.206755
+Epoch: [96] [ 400/1951] D_loss(R/F): 0.000005/0.000020, G_loss: 0.143614
+Epoch: [96] [ 500/1951] D_loss(R/F): 0.000013/0.007032, G_loss: 0.119735
+Epoch: [96] [ 600/1951] D_loss(R/F): 0.000003/0.000025, G_loss: 0.134353
+Epoch: [96] [ 700/1951] D_loss(R/F): 0.000004/0.000014, G_loss: 0.152151
+Epoch: [96] [ 800/1951] D_loss(R/F): 0.000093/0.000001, G_loss: 0.144733
+Epoch: [96] [ 900/1951] D_loss(R/F): 0.030134/0.043215, G_loss: 0.047441
+Epoch: [96] [1000/1951] D_loss(R/F): 0.123211/0.001665, G_loss: 0.080860
+Epoch: [96] [1100/1951] D_loss(R/F): 0.035996/0.006423, G_loss: 0.113999
+Epoch: [96] [1200/1951] D_loss(R/F): 0.000449/0.001915, G_loss: 0.110526
+Epoch: [96] [1300/1951] D_loss(R/F): 0.000114/0.000743, G_loss: 0.134907
+Epoch: [96] [1400/1951] D_loss(R/F): 0.001037/0.000197, G_loss: 0.118335
+Epoch: [96] [1500/1951] D_loss(R/F): 0.000006/0.002074, G_loss: 0.131575
+Epoch: [96] [1600/1951] D_loss(R/F): 0.000050/0.000009, G_loss: 0.180011
+Epoch: [96] [1700/1951] D_loss(R/F): 0.005892/0.261322, G_loss: 0.066555
+Epoch: [96] [1800/1951] D_loss(R/F): 0.002312/0.015669, G_loss: 0.098001
+Epoch: [96] [1900/1951] D_loss(R/F): 0.000001/0.579238, G_loss: 0.072950
+[96] auc:0.8855 th:0.0090 f1:0.6638 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [97] [ 100/1951] D_loss(R/F): 0.000178/0.000678, G_loss: 0.125018
+Epoch: [97] [ 200/1951] D_loss(R/F): 0.000153/0.000659, G_loss: 0.104464
+Epoch: [97] [ 300/1951] D_loss(R/F): 0.000644/0.000001, G_loss: 0.121119
+Epoch: [97] [ 400/1951] D_loss(R/F): 0.000244/0.000011, G_loss: 0.113383
+Epoch: [97] [ 500/1951] D_loss(R/F): 0.000206/0.000002, G_loss: 0.143368
+Epoch: [97] [ 600/1951] D_loss(R/F): 0.000105/0.000264, G_loss: 0.131163
+Epoch: [97] [ 700/1951] D_loss(R/F): 0.000131/0.000014, G_loss: 0.131042
+Epoch: [97] [ 800/1951] D_loss(R/F): 0.000733/0.000786, G_loss: 0.120909
+Epoch: [97] [ 900/1951] D_loss(R/F): 0.000145/0.000048, G_loss: 0.098296
+Epoch: [97] [1000/1951] D_loss(R/F): 0.000075/0.000106, G_loss: 0.117746
+Epoch: [97] [1100/1951] D_loss(R/F): 0.000050/0.005941, G_loss: 0.138924
+Epoch: [97] [1200/1951] D_loss(R/F): 0.000003/0.002539, G_loss: 0.122000
+Epoch: [97] [1300/1951] D_loss(R/F): 0.000003/0.000107, G_loss: 0.146584
+Epoch: [97] [1400/1951] D_loss(R/F): 0.000018/0.000004, G_loss: 0.157526
+Epoch: [97] [1500/1951] D_loss(R/F): 0.000013/0.000033, G_loss: 0.134834
+Epoch: [97] [1600/1951] D_loss(R/F): 0.000092/0.000015, G_loss: 0.137444
+Epoch: [97] [1700/1951] D_loss(R/F): 0.000025/0.000051, G_loss: 0.150221
+Epoch: [97] [1800/1951] D_loss(R/F): 0.000043/0.000004, G_loss: 0.186855
+Epoch: [97] [1900/1951] D_loss(R/F): 0.000011/0.000116, G_loss: 0.121306
+[97] auc:0.8876 th:0.0082 f1:0.6567 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [98] [ 100/1951] D_loss(R/F): 0.000029/0.000000, G_loss: 0.165190
+Epoch: [98] [ 200/1951] D_loss(R/F): 0.000062/0.000031, G_loss: 0.160064
+Epoch: [98] [ 300/1951] D_loss(R/F): 0.000004/0.000007, G_loss: 0.173299
+Epoch: [98] [ 400/1951] D_loss(R/F): 0.000008/0.000303, G_loss: 0.136833
+Epoch: [98] [ 500/1951] D_loss(R/F): 0.000003/0.000126, G_loss: 0.134292
+Epoch: [98] [ 600/1951] D_loss(R/F): 0.000008/0.000013, G_loss: 0.131627
+Epoch: [98] [ 700/1951] D_loss(R/F): 0.000077/0.000000, G_loss: 0.184986
+Epoch: [98] [ 800/1951] D_loss(R/F): 0.000030/0.000000, G_loss: 0.158217
+Epoch: [98] [ 900/1951] D_loss(R/F): 0.000097/0.000003, G_loss: 0.145153
+Epoch: [98] [1000/1951] D_loss(R/F): 0.000006/0.000009, G_loss: 0.137867
+Epoch: [98] [1100/1951] D_loss(R/F): 0.000133/0.000000, G_loss: 0.189181
+Epoch: [98] [1200/1951] D_loss(R/F): 0.000004/0.000134, G_loss: 0.149838
+Epoch: [98] [1300/1951] D_loss(R/F): 0.000002/0.000001, G_loss: 0.181041
+Epoch: [98] [1400/1951] D_loss(R/F): 0.000003/0.000021, G_loss: 0.167102
+Epoch: [98] [1500/1951] D_loss(R/F): 0.000003/0.000463, G_loss: 0.157266
+Epoch: [98] [1600/1951] D_loss(R/F): 0.000002/0.000134, G_loss: 0.134581
+Epoch: [98] [1700/1951] D_loss(R/F): 0.000006/0.000005, G_loss: 0.150966
+Epoch: [98] [1800/1951] D_loss(R/F): 0.000006/0.000004, G_loss: 0.185867
+Epoch: [98] [1900/1951] D_loss(R/F): 0.000003/0.000002, G_loss: 0.171660
+[98] auc:0.8870 th:0.0066 f1:0.6598 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [99] [ 100/1951] D_loss(R/F): 0.000002/0.000006, G_loss: 0.172942
+Epoch: [99] [ 200/1951] D_loss(R/F): 0.000001/0.000003, G_loss: 0.177059
+Epoch: [99] [ 300/1951] D_loss(R/F): 0.000003/0.000021, G_loss: 0.139285
+Epoch: [99] [ 400/1951] D_loss(R/F): 0.000041/0.000028, G_loss: 0.129696
+Epoch: [99] [ 500/1951] D_loss(R/F): 0.000005/0.000002, G_loss: 0.176673
+Epoch: [99] [ 600/1951] D_loss(R/F): 0.000015/0.000050, G_loss: 0.152322
+Epoch: [99] [ 700/1951] D_loss(R/F): 0.000016/0.000009, G_loss: 0.167167
+Epoch: [99] [ 800/1951] D_loss(R/F): 0.000019/0.000001, G_loss: 0.150880
+Epoch: [99] [ 900/1951] D_loss(R/F): 0.000014/0.000001, G_loss: 0.200103
+Epoch: [99] [1000/1951] D_loss(R/F): 0.000005/0.000000, G_loss: 0.252674
+Epoch: [99] [1100/1951] D_loss(R/F): 0.000001/0.000002, G_loss: 0.180900
+Epoch: [99] [1200/1951] D_loss(R/F): 0.000008/0.000001, G_loss: 0.160191
+Epoch: [99] [1300/1951] D_loss(R/F): 0.000005/0.000034, G_loss: 0.151775
+Epoch: [99] [1400/1951] D_loss(R/F): 0.000000/0.000001, G_loss: 0.187968
+Epoch: [99] [1500/1951] D_loss(R/F): 0.000001/0.000015, G_loss: 0.151907
+Epoch: [99] [1600/1951] D_loss(R/F): 0.000025/0.000176, G_loss: 0.144434
+Epoch: [99] [1700/1951] D_loss(R/F): 0.045861/0.007871, G_loss: 0.059226
+Epoch: [99] [1800/1951] D_loss(R/F): 1.110753/0.003345, G_loss: 0.044406
+Epoch: [99] [1900/1951] D_loss(R/F): 0.000544/0.027895, G_loss: 0.089027
+[99] auc:0.8865 th:0.0098 f1:0.6631 	 best_auc:0.9076 in epoch[7]
+
+Epoch: [100] [ 100/1951] D_loss(R/F): 0.001622/0.000154, G_loss: 0.106200
+Epoch: [100] [ 200/1951] D_loss(R/F): 0.000289/0.000683, G_loss: 0.120673
+Epoch: [100] [ 300/1951] D_loss(R/F): 0.000203/0.000559, G_loss: 0.109345
+Epoch: [100] [ 400/1951] D_loss(R/F): 0.008185/0.000042, G_loss: 0.114050
+Epoch: [100] [ 500/1951] D_loss(R/F): 0.000110/0.000168, G_loss: 0.128275
+Epoch: [100] [ 600/1951] D_loss(R/F): 0.000190/0.000173, G_loss: 0.128336
+Epoch: [100] [ 700/1951] D_loss(R/F): 0.000007/0.000279, G_loss: 0.166555
+Epoch: [100] [ 800/1951] D_loss(R/F): 0.000113/0.000057, G_loss: 0.156526
+Epoch: [100] [ 900/1951] D_loss(R/F): 0.000320/0.000081, G_loss: 0.117760
+Epoch: [100] [1000/1951] D_loss(R/F): 0.000070/0.000056, G_loss: 0.142270
+Epoch: [100] [1100/1951] D_loss(R/F): 0.000001/0.013250, G_loss: 0.125184
+Epoch: [100] [1200/1951] D_loss(R/F): 0.000087/0.000027, G_loss: 0.150102
+Epoch: [100] [1300/1951] D_loss(R/F): 0.000009/0.000276, G_loss: 0.158707
+Epoch: [100] [1400/1951] D_loss(R/F): 0.000014/0.000787, G_loss: 0.126909
+Epoch: [100] [1500/1951] D_loss(R/F): 0.000102/0.000033, G_loss: 0.143378
+Epoch: [100] [1600/1951] D_loss(R/F): 0.000003/0.000385, G_loss: 0.148042
+Epoch: [100] [1700/1951] D_loss(R/F): 0.000023/0.000027, G_loss: 0.154613
+Epoch: [100] [1800/1951] D_loss(R/F): 0.000004/0.000038, G_loss: 0.146161
+Epoch: [100] [1900/1951] D_loss(R/F): 0.000023/0.000000, G_loss: 0.199014
+[100] auc:0.8892 th:0.0082 f1:0.6508 	 best_auc:0.9076 in epoch[7]
+
+Avg one epoch time: 155.98, total 100 epochs time: 16218.78

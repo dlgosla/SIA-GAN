@@ -1,0 +1,1182 @@
+#################################
+########  Folder 0  ############
+Namespace(batchsize=64, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[1], isize=320, istest=False, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=32, ngf=32, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.05, w_adv=1, workers=1)
+train data size:(62436, 1, 320)
+val data size:(8025, 1, 320)
+test N data size:(17343, 1, 320)
+test S data size:(2723, 1, 320)
+test V data size:(6307, 1, 320)
+test F data size:(721, 1, 320)
+test Q data size:(13, 1, 320)
+load data success!!!
+Generator(
+  (encoder1): Encoder(
+    (main): Sequential(
+      (0): Conv1d(1, 32, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (1): LeakyReLU(negative_slope=0.2, inplace=True)
+      (2): Conv1d(32, 64, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (4): LeakyReLU(negative_slope=0.2, inplace=True)
+      (5): Conv1d(64, 128, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (6): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (7): LeakyReLU(negative_slope=0.2, inplace=True)
+      (8): Conv1d(128, 256, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (9): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (10): LeakyReLU(negative_slope=0.2, inplace=True)
+      (11): Conv1d(256, 512, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (12): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (13): LeakyReLU(negative_slope=0.2, inplace=True)
+      (14): Conv1d(512, 50, kernel_size=(10,), stride=(1,), bias=False)
+    )
+  )
+  (decoder): Decoder(
+    (main): Sequential(
+      (0): ConvTranspose1d(50, 512, kernel_size=(10,), stride=(1,), bias=False)
+      (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): ConvTranspose1d(512, 256, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (4): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): ConvTranspose1d(256, 128, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (7): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (8): ReLU(inplace=True)
+      (9): ConvTranspose1d(128, 64, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (10): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (11): ReLU(inplace=True)
+      (12): ConvTranspose1d(64, 32, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (13): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (14): ReLU(inplace=True)
+      (15): ConvTranspose1d(32, 1, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+      (16): Tanh()
+    )
+  )
+)
+Total number of parameters: 1908800
+Discriminator(
+  (features): Sequential(
+    (0): Conv1d(1, 32, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (1): LeakyReLU(negative_slope=0.2, inplace=True)
+    (2): Conv1d(32, 64, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (4): LeakyReLU(negative_slope=0.2, inplace=True)
+    (5): Conv1d(64, 128, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (6): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (7): LeakyReLU(negative_slope=0.2, inplace=True)
+    (8): Conv1d(128, 256, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (9): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): LeakyReLU(negative_slope=0.2, inplace=True)
+    (11): Conv1d(256, 512, kernel_size=(4,), stride=(2,), padding=(1,), bias=False)
+    (12): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (13): LeakyReLU(negative_slope=0.2, inplace=True)
+  )
+  (classifier): Sequential(
+    (0): Conv1d(512, 1, kernel_size=(10,), stride=(1,), bias=False)
+    (Sigmoid): Sigmoid()
+  )
+)
+Total number of parameters: 703488
+################  Train  ##################
+Train model.
+Epoch: [1] [ 100/ 975] D_loss(R/F): 0.170793/0.029598, G_loss: 0.242122
+Epoch: [1] [ 200/ 975] D_loss(R/F): 0.039480/0.063020, G_loss: 0.235441
+Epoch: [1] [ 300/ 975] D_loss(R/F): 0.021670/0.083676, G_loss: 0.220820
+Epoch: [1] [ 400/ 975] D_loss(R/F): 0.040160/0.012003, G_loss: 0.239486
+Epoch: [1] [ 500/ 975] D_loss(R/F): 0.055437/0.010392, G_loss: 0.253709
+Epoch: [1] [ 600/ 975] D_loss(R/F): 0.050870/0.019819, G_loss: 0.247564
+Epoch: [1] [ 700/ 975] D_loss(R/F): 0.015674/0.004676, G_loss: 0.250702
+Epoch: [1] [ 800/ 975] D_loss(R/F): 0.012327/0.009244, G_loss: 0.265891
+Epoch: [1] [ 900/ 975] D_loss(R/F): 0.014947/0.002906, G_loss: 0.277012
+[1] auc:0.8984 th:0.0206 f1:0.5974 	 best_auc:0.8984 in epoch[1]
+
+Epoch: [2] [ 100/ 975] D_loss(R/F): 0.419142/0.299729, G_loss: 0.076598
+Epoch: [2] [ 200/ 975] D_loss(R/F): 0.068456/0.183686, G_loss: 0.134477
+Epoch: [2] [ 300/ 975] D_loss(R/F): 0.007953/0.021341, G_loss: 0.235124
+Epoch: [2] [ 400/ 975] D_loss(R/F): 0.009489/0.003869, G_loss: 0.267370
+Epoch: [2] [ 500/ 975] D_loss(R/F): 0.006220/0.001048, G_loss: 0.298275
+Epoch: [2] [ 600/ 975] D_loss(R/F): 0.002813/0.007533, G_loss: 0.253294
+Epoch: [2] [ 700/ 975] D_loss(R/F): 0.003123/0.004408, G_loss: 0.318725
+Epoch: [2] [ 800/ 975] D_loss(R/F): 0.074212/0.329979, G_loss: 0.133147
+Epoch: [2] [ 900/ 975] D_loss(R/F): 0.332264/0.045640, G_loss: 0.116957
+[2] auc:0.9001 th:0.0206 f1:0.5937 	 best_auc:0.9001 in epoch[2]
+
+Epoch: [3] [ 100/ 975] D_loss(R/F): 0.003231/0.010267, G_loss: 0.279948
+Epoch: [3] [ 200/ 975] D_loss(R/F): 0.003426/0.000622, G_loss: 0.301726
+Epoch: [3] [ 300/ 975] D_loss(R/F): 0.194935/0.001783, G_loss: 0.195797
+Epoch: [3] [ 400/ 975] D_loss(R/F): 0.002831/0.000600, G_loss: 0.273461
+Epoch: [3] [ 500/ 975] D_loss(R/F): 0.004676/0.000297, G_loss: 0.309513
+Epoch: [3] [ 600/ 975] D_loss(R/F): 0.006133/0.000188, G_loss: 0.278320
+Epoch: [3] [ 700/ 975] D_loss(R/F): 0.001441/0.011005, G_loss: 0.242011
+Epoch: [3] [ 800/ 975] D_loss(R/F): 0.001155/0.001827, G_loss: 0.298750
+Epoch: [3] [ 900/ 975] D_loss(R/F): 0.002398/0.000211, G_loss: 0.305126
+[3] auc:0.8886 th:0.0335 f1:0.6067 	 best_auc:0.9001 in epoch[2]
+
+Epoch: [4] [ 100/ 975] D_loss(R/F): 0.007875/0.000228, G_loss: 0.280830
+Epoch: [4] [ 200/ 975] D_loss(R/F): 0.002583/0.000054, G_loss: 0.307664
+Epoch: [4] [ 300/ 975] D_loss(R/F): 0.001641/0.008960, G_loss: 0.304851
+Epoch: [4] [ 400/ 975] D_loss(R/F): 0.000891/0.003841, G_loss: 0.223782
+Epoch: [4] [ 500/ 975] D_loss(R/F): 0.001477/0.000116, G_loss: 0.302746
+Epoch: [4] [ 600/ 975] D_loss(R/F): 0.000519/0.000184, G_loss: 0.305230
+Epoch: [4] [ 700/ 975] D_loss(R/F): 0.001973/0.001705, G_loss: 0.303890
+Epoch: [4] [ 800/ 975] D_loss(R/F): 0.006512/0.000058, G_loss: 0.334275
+Epoch: [4] [ 900/ 975] D_loss(R/F): 0.000803/0.006754, G_loss: 0.240902
+[4] auc:0.8825 th:0.0388 f1:0.6261 	 best_auc:0.9001 in epoch[2]
+
+Epoch: [5] [ 100/ 975] D_loss(R/F): 0.180835/0.042163, G_loss: 0.112285
+Epoch: [5] [ 200/ 975] D_loss(R/F): 0.001625/0.018698, G_loss: 0.200402
+Epoch: [5] [ 300/ 975] D_loss(R/F): 0.010867/0.000049, G_loss: 0.312122
+Epoch: [5] [ 400/ 975] D_loss(R/F): 0.002248/0.000246, G_loss: 0.267255
+Epoch: [5] [ 500/ 975] D_loss(R/F): 0.000722/0.000826, G_loss: 0.255136
+Epoch: [5] [ 600/ 975] D_loss(R/F): 0.001765/0.002823, G_loss: 0.233148
+Epoch: [5] [ 700/ 975] D_loss(R/F): 0.003499/0.000072, G_loss: 0.322558
+Epoch: [5] [ 800/ 975] D_loss(R/F): 0.000851/0.003703, G_loss: 0.247529
+Epoch: [5] [ 900/ 975] D_loss(R/F): 0.000694/0.000007, G_loss: 0.352877
+[5] auc:0.8917 th:0.0416 f1:0.6314 	 best_auc:0.9001 in epoch[2]
+
+Epoch: [6] [ 100/ 975] D_loss(R/F): 0.001026/0.000363, G_loss: 0.261793
+Epoch: [6] [ 200/ 975] D_loss(R/F): 0.000792/0.005583, G_loss: 0.221654
+Epoch: [6] [ 300/ 975] D_loss(R/F): 0.000221/0.000006, G_loss: 0.348735
+Epoch: [6] [ 400/ 975] D_loss(R/F): 0.002883/0.000409, G_loss: 0.233105
+Epoch: [6] [ 500/ 975] D_loss(R/F): 0.000770/0.000002, G_loss: 0.376702
+Epoch: [6] [ 600/ 975] D_loss(R/F): 0.000342/0.000071, G_loss: 0.364325
+Epoch: [6] [ 700/ 975] D_loss(R/F): 0.002455/0.000123, G_loss: 0.275912
+Epoch: [6] [ 800/ 975] D_loss(R/F): 0.000850/0.000124, G_loss: 0.275519
+Epoch: [6] [ 900/ 975] D_loss(R/F): 0.000320/0.001521, G_loss: 0.240117
+[6] auc:0.8874 th:0.0502 f1:0.6373 	 best_auc:0.9001 in epoch[2]
+
+Epoch: [7] [ 100/ 975] D_loss(R/F): 0.000361/0.000009, G_loss: 0.332175
+Epoch: [7] [ 200/ 975] D_loss(R/F): 0.000261/0.000005, G_loss: 0.340992
+Epoch: [7] [ 300/ 975] D_loss(R/F): 0.000165/0.000031, G_loss: 0.330515
+Epoch: [7] [ 400/ 975] D_loss(R/F): 0.000892/0.000022, G_loss: 0.304774
+Epoch: [7] [ 500/ 975] D_loss(R/F): 0.000327/0.000051, G_loss: 0.272003
+Epoch: [7] [ 600/ 975] D_loss(R/F): 0.034152/0.713578, G_loss: 0.069918
+Epoch: [7] [ 700/ 975] D_loss(R/F): 0.002588/0.000987, G_loss: 0.228039
+Epoch: [7] [ 800/ 975] D_loss(R/F): 0.003982/0.000708, G_loss: 0.212368
+Epoch: [7] [ 900/ 975] D_loss(R/F): 0.001179/0.000460, G_loss: 0.234358
+[7] auc:0.8738 th:0.0457 f1:0.6224 	 best_auc:0.9001 in epoch[2]
+
+Epoch: [8] [ 100/ 975] D_loss(R/F): 0.001706/0.000247, G_loss: 0.251195
+Epoch: [8] [ 200/ 975] D_loss(R/F): 0.000922/0.000005, G_loss: 0.334138
+Epoch: [8] [ 300/ 975] D_loss(R/F): 0.000558/0.000239, G_loss: 0.254890
+Epoch: [8] [ 400/ 975] D_loss(R/F): 0.001755/0.000429, G_loss: 0.235856
+Epoch: [8] [ 500/ 975] D_loss(R/F): 0.000239/0.000022, G_loss: 0.343694
+Epoch: [8] [ 600/ 975] D_loss(R/F): 0.000617/0.000002, G_loss: 0.375798
+Epoch: [8] [ 700/ 975] D_loss(R/F): 0.000292/0.000376, G_loss: 0.252525
+Epoch: [8] [ 800/ 975] D_loss(R/F): 0.000275/0.001229, G_loss: 0.233019
+Epoch: [8] [ 900/ 975] D_loss(R/F): 0.000216/0.000064, G_loss: 0.290454
+[8] auc:0.8759 th:0.0509 f1:0.6311 	 best_auc:0.9001 in epoch[2]
+
+Epoch: [9] [ 100/ 975] D_loss(R/F): 0.001675/0.000163, G_loss: 0.227257
+Epoch: [9] [ 200/ 975] D_loss(R/F): 0.000324/0.000007, G_loss: 0.311240
+Epoch: [9] [ 300/ 975] D_loss(R/F): 0.000082/0.000156, G_loss: 0.261366
+Epoch: [9] [ 400/ 975] D_loss(R/F): 0.000876/0.000008, G_loss: 0.303414
+Epoch: [9] [ 500/ 975] D_loss(R/F): 0.000483/0.000001, G_loss: 0.391830
+Epoch: [9] [ 600/ 975] D_loss(R/F): 0.000157/0.000034, G_loss: 0.290475
+Epoch: [9] [ 700/ 975] D_loss(R/F): 0.000205/0.000430, G_loss: 0.254187
+Epoch: [9] [ 800/ 975] D_loss(R/F): 0.000143/0.000021, G_loss: 0.302979
+Epoch: [9] [ 900/ 975] D_loss(R/F): 0.000160/0.000144, G_loss: 0.251972
+[9] auc:0.8697 th:0.0526 f1:0.6307 	 best_auc:0.9001 in epoch[2]
+
+Epoch: [10] [ 100/ 975] D_loss(R/F): 0.000083/0.000504, G_loss: 0.232323
+Epoch: [10] [ 200/ 975] D_loss(R/F): 0.000702/0.000003, G_loss: 0.317910
+Epoch: [10] [ 300/ 975] D_loss(R/F): 0.000118/0.000095, G_loss: 0.260972
+Epoch: [10] [ 400/ 975] D_loss(R/F): 0.002022/0.000000, G_loss: 0.362262
+Epoch: [10] [ 500/ 975] D_loss(R/F): 0.000298/0.000035, G_loss: 0.282910
+Epoch: [10] [ 600/ 975] D_loss(R/F): 0.000043/0.000973, G_loss: 0.273819
+Epoch: [10] [ 700/ 975] D_loss(R/F): 0.000153/0.000026, G_loss: 0.309669
+Epoch: [10] [ 800/ 975] D_loss(R/F): 0.000047/0.000064, G_loss: 0.257991
+Epoch: [10] [ 900/ 975] D_loss(R/F): 0.000069/0.000120, G_loss: 0.257479
+[10] auc:0.8633 th:0.0534 f1:0.6358 	 best_auc:0.9001 in epoch[2]
+
+Epoch: [11] [ 100/ 975] D_loss(R/F): 0.000115/0.001565, G_loss: 0.232031
+Epoch: [11] [ 200/ 975] D_loss(R/F): 0.189460/0.889964, G_loss: 0.034413
+Epoch: [11] [ 300/ 975] D_loss(R/F): 0.434113/0.338996, G_loss: 0.026402
+Epoch: [11] [ 400/ 975] D_loss(R/F): 0.401375/0.203874, G_loss: 0.052049
+Epoch: [11] [ 500/ 975] D_loss(R/F): 0.053087/1.626336, G_loss: 0.046541
+Epoch: [11] [ 600/ 975] D_loss(R/F): 0.164547/0.395205, G_loss: 0.079773
+Epoch: [11] [ 700/ 975] D_loss(R/F): 0.659514/0.039509, G_loss: 0.073828
+Epoch: [11] [ 800/ 975] D_loss(R/F): 0.656376/0.030469, G_loss: 0.073280
+Epoch: [11] [ 900/ 975] D_loss(R/F): 0.039236/0.399071, G_loss: 0.102138
+[11] auc:0.9066 th:0.0344 f1:0.6569 	 best_auc:0.9066 in epoch[11]
+
+Epoch: [12] [ 100/ 975] D_loss(R/F): 0.235942/0.071036, G_loss: 0.077654
+Epoch: [12] [ 200/ 975] D_loss(R/F): 0.059401/0.111137, G_loss: 0.098916
+Epoch: [12] [ 300/ 975] D_loss(R/F): 0.043185/0.000355, G_loss: 0.232410
+Epoch: [12] [ 400/ 975] D_loss(R/F): 0.003950/0.046473, G_loss: 0.143115
+Epoch: [12] [ 500/ 975] D_loss(R/F): 0.004121/0.090397, G_loss: 0.154480
+Epoch: [12] [ 600/ 975] D_loss(R/F): 0.025815/0.010465, G_loss: 0.150816
+Epoch: [12] [ 700/ 975] D_loss(R/F): 0.004564/0.000133, G_loss: 0.261744
+Epoch: [12] [ 800/ 975] D_loss(R/F): 0.003014/0.004071, G_loss: 0.172172
+Epoch: [12] [ 900/ 975] D_loss(R/F): 0.004125/0.007119, G_loss: 0.200036
+[12] auc:0.9039 th:0.0500 f1:0.6507 	 best_auc:0.9066 in epoch[11]
+
+Epoch: [13] [ 100/ 975] D_loss(R/F): 0.002055/0.000341, G_loss: 0.252528
+Epoch: [13] [ 200/ 975] D_loss(R/F): 0.001867/0.015357, G_loss: 0.194434
+Epoch: [13] [ 300/ 975] D_loss(R/F): 0.003557/0.002096, G_loss: 0.210229
+Epoch: [13] [ 400/ 975] D_loss(R/F): 0.003132/0.000640, G_loss: 0.212478
+Epoch: [13] [ 500/ 975] D_loss(R/F): 0.000712/0.001329, G_loss: 0.215859
+Epoch: [13] [ 600/ 975] D_loss(R/F): 0.000515/0.005748, G_loss: 0.187969
+Epoch: [13] [ 700/ 975] D_loss(R/F): 0.000689/0.000236, G_loss: 0.266737
+Epoch: [13] [ 800/ 975] D_loss(R/F): 0.000721/0.000043, G_loss: 0.310553
+Epoch: [13] [ 900/ 975] D_loss(R/F): 0.000474/0.000195, G_loss: 0.222169
+[13] auc:0.8966 th:0.0412 f1:0.6559 	 best_auc:0.9066 in epoch[11]
+
+Epoch: [14] [ 100/ 975] D_loss(R/F): 0.000446/0.000011, G_loss: 0.343346
+Epoch: [14] [ 200/ 975] D_loss(R/F): 0.000456/0.000145, G_loss: 0.317105
+Epoch: [14] [ 300/ 975] D_loss(R/F): 0.000104/0.000125, G_loss: 0.259746
+Epoch: [14] [ 400/ 975] D_loss(R/F): 0.000097/0.000004, G_loss: 0.361215
+Epoch: [14] [ 500/ 975] D_loss(R/F): 0.000302/0.000009, G_loss: 0.331255
+Epoch: [14] [ 600/ 975] D_loss(R/F): 0.000418/0.002345, G_loss: 0.264786
+Epoch: [14] [ 700/ 975] D_loss(R/F): 0.002404/0.000124, G_loss: 0.262251
+Epoch: [14] [ 800/ 975] D_loss(R/F): 0.520352/0.233590, G_loss: 0.033495
+Epoch: [14] [ 900/ 975] D_loss(R/F): 0.339137/0.110168, G_loss: 0.036644
+[14] auc:0.9126 th:0.0294 f1:0.6604 	 best_auc:0.9126 in epoch[14]
+
+Epoch: [15] [ 100/ 975] D_loss(R/F): 0.361222/0.046432, G_loss: 0.048198
+Epoch: [15] [ 200/ 975] D_loss(R/F): 0.012451/0.011210, G_loss: 0.161157
+Epoch: [15] [ 300/ 975] D_loss(R/F): 0.003275/0.003974, G_loss: 0.175656
+Epoch: [15] [ 400/ 975] D_loss(R/F): 0.000732/0.000525, G_loss: 0.236407
+Epoch: [15] [ 500/ 975] D_loss(R/F): 0.000775/0.001948, G_loss: 0.225551
+Epoch: [15] [ 600/ 975] D_loss(R/F): 0.001007/0.005850, G_loss: 0.182829
+Epoch: [15] [ 700/ 975] D_loss(R/F): 0.029546/0.000063, G_loss: 0.257780
+Epoch: [15] [ 800/ 975] D_loss(R/F): 0.000353/0.000381, G_loss: 0.226528
+Epoch: [15] [ 900/ 975] D_loss(R/F): 0.000420/0.001638, G_loss: 0.221086
+[15] auc:0.8982 th:0.0314 f1:0.6581 	 best_auc:0.9126 in epoch[14]
+
+Epoch: [16] [ 100/ 975] D_loss(R/F): 0.000223/0.000401, G_loss: 0.251229
+Epoch: [16] [ 200/ 975] D_loss(R/F): 0.005196/0.000004, G_loss: 0.267556
+Epoch: [16] [ 300/ 975] D_loss(R/F): 0.000260/0.000022, G_loss: 0.276684
+Epoch: [16] [ 400/ 975] D_loss(R/F): 0.000125/0.000024, G_loss: 0.261997
+Epoch: [16] [ 500/ 975] D_loss(R/F): 0.000222/0.000062, G_loss: 0.273986
+Epoch: [16] [ 600/ 975] D_loss(R/F): 0.004341/0.000005, G_loss: 0.273051
+Epoch: [16] [ 700/ 975] D_loss(R/F): 0.000183/0.000159, G_loss: 0.254871
+Epoch: [16] [ 800/ 975] D_loss(R/F): 0.000307/0.000285, G_loss: 0.237618
+Epoch: [16] [ 900/ 975] D_loss(R/F): 0.000085/0.000298, G_loss: 0.236998
+[16] auc:0.8958 th:0.0377 f1:0.6542 	 best_auc:0.9126 in epoch[14]
+
+Epoch: [17] [ 100/ 975] D_loss(R/F): 0.000147/0.000003, G_loss: 0.324151
+Epoch: [17] [ 200/ 975] D_loss(R/F): 0.000052/0.000028, G_loss: 0.295686
+Epoch: [17] [ 300/ 975] D_loss(R/F): 0.000092/0.000020, G_loss: 0.291841
+Epoch: [17] [ 400/ 975] D_loss(R/F): 0.000072/0.000030, G_loss: 0.290816
+Epoch: [17] [ 500/ 975] D_loss(R/F): 0.000298/0.000611, G_loss: 0.236911
+Epoch: [17] [ 600/ 975] D_loss(R/F): 0.000255/0.000134, G_loss: 0.248472
+Epoch: [17] [ 700/ 975] D_loss(R/F): 0.000167/0.001278, G_loss: 0.196186
+Epoch: [17] [ 800/ 975] D_loss(R/F): 0.000335/0.000011, G_loss: 0.266154
+Epoch: [17] [ 900/ 975] D_loss(R/F): 0.000263/0.000010, G_loss: 0.290959
+[17] auc:0.8964 th:0.0416 f1:0.6594 	 best_auc:0.9126 in epoch[14]
+
+Epoch: [18] [ 100/ 975] D_loss(R/F): 0.000235/0.000100, G_loss: 0.227201
+Epoch: [18] [ 200/ 975] D_loss(R/F): 0.000056/0.000001, G_loss: 0.306877
+Epoch: [18] [ 300/ 975] D_loss(R/F): 0.000054/0.000270, G_loss: 0.251467
+Epoch: [18] [ 400/ 975] D_loss(R/F): 0.000085/0.000204, G_loss: 0.234301
+Epoch: [18] [ 500/ 975] D_loss(R/F): 0.000062/0.000006, G_loss: 0.288542
+Epoch: [18] [ 600/ 975] D_loss(R/F): 0.000051/0.000014, G_loss: 0.272652
+Epoch: [18] [ 700/ 975] D_loss(R/F): 0.000015/0.001135, G_loss: 0.212793
+Epoch: [18] [ 800/ 975] D_loss(R/F): 0.000519/0.000365, G_loss: 0.255117
+Epoch: [18] [ 900/ 975] D_loss(R/F): 0.000074/0.000013, G_loss: 0.288313
+[18] auc:0.9116 th:0.0387 f1:0.6589 	 best_auc:0.9126 in epoch[14]
+
+Epoch: [19] [ 100/ 975] D_loss(R/F): 1.123211/0.149489, G_loss: 0.021651
+Epoch: [19] [ 200/ 975] D_loss(R/F): 0.627563/0.126839, G_loss: 0.027093
+Epoch: [19] [ 300/ 975] D_loss(R/F): 0.576602/0.133090, G_loss: 0.039099
+Epoch: [19] [ 400/ 975] D_loss(R/F): 0.226308/0.121348, G_loss: 0.045406
+Epoch: [19] [ 500/ 975] D_loss(R/F): 0.583369/0.152647, G_loss: 0.038359
+Epoch: [19] [ 600/ 975] D_loss(R/F): 0.151041/0.216791, G_loss: 0.065057
+Epoch: [19] [ 700/ 975] D_loss(R/F): 0.013205/0.934193, G_loss: 0.059383
+Epoch: [19] [ 800/ 975] D_loss(R/F): 0.035016/0.705640, G_loss: 0.052890
+Epoch: [19] [ 900/ 975] D_loss(R/F): 0.067365/0.173307, G_loss: 0.076241
+[19] auc:0.9001 th:0.0273 f1:0.6650 	 best_auc:0.9126 in epoch[14]
+
+Epoch: [20] [ 100/ 975] D_loss(R/F): 0.003868/0.009846, G_loss: 0.141509
+Epoch: [20] [ 200/ 975] D_loss(R/F): 0.008887/0.002886, G_loss: 0.157391
+Epoch: [20] [ 300/ 975] D_loss(R/F): 0.002014/0.003139, G_loss: 0.176400
+Epoch: [20] [ 400/ 975] D_loss(R/F): 0.001819/0.000011, G_loss: 0.276700
+Epoch: [20] [ 500/ 975] D_loss(R/F): 0.000794/0.000647, G_loss: 0.187402
+Epoch: [20] [ 600/ 975] D_loss(R/F): 0.003717/0.011464, G_loss: 0.158100
+Epoch: [20] [ 700/ 975] D_loss(R/F): 0.001818/0.000266, G_loss: 0.184459
+Epoch: [20] [ 800/ 975] D_loss(R/F): 0.001003/0.006665, G_loss: 0.168211
+Epoch: [20] [ 900/ 975] D_loss(R/F): 0.000586/0.002759, G_loss: 0.179379
+[20] auc:0.9041 th:0.0258 f1:0.6628 	 best_auc:0.9126 in epoch[14]
+
+Epoch: [21] [ 100/ 975] D_loss(R/F): 0.000520/0.022433, G_loss: 0.166042
+Epoch: [21] [ 200/ 975] D_loss(R/F): 0.001771/0.003987, G_loss: 0.161863
+Epoch: [21] [ 300/ 975] D_loss(R/F): 0.000690/0.001752, G_loss: 0.202731
+Epoch: [21] [ 400/ 975] D_loss(R/F): 0.197526/0.589037, G_loss: 0.035145
+Epoch: [21] [ 500/ 975] D_loss(R/F): 0.020281/0.862883, G_loss: 0.075308
+Epoch: [21] [ 600/ 975] D_loss(R/F): 0.001783/0.000605, G_loss: 0.292647
+Epoch: [21] [ 700/ 975] D_loss(R/F): 0.001175/0.004489, G_loss: 0.185833
+Epoch: [21] [ 800/ 975] D_loss(R/F): 0.000169/0.004137, G_loss: 0.222863
+Epoch: [21] [ 900/ 975] D_loss(R/F): 0.000449/0.000122, G_loss: 0.236360
+[21] auc:0.8964 th:0.0294 f1:0.6601 	 best_auc:0.9126 in epoch[14]
+
+Epoch: [22] [ 100/ 975] D_loss(R/F): 0.000367/0.000201, G_loss: 0.274107
+Epoch: [22] [ 200/ 975] D_loss(R/F): 0.000219/0.000709, G_loss: 0.236989
+Epoch: [22] [ 300/ 975] D_loss(R/F): 0.000519/0.000405, G_loss: 0.201723
+Epoch: [22] [ 400/ 975] D_loss(R/F): 0.000282/0.000169, G_loss: 0.202823
+Epoch: [22] [ 500/ 975] D_loss(R/F): 0.000118/0.000114, G_loss: 0.228282
+Epoch: [22] [ 600/ 975] D_loss(R/F): 0.000122/0.001357, G_loss: 0.193432
+Epoch: [22] [ 700/ 975] D_loss(R/F): 0.000078/0.000069, G_loss: 0.244693
+Epoch: [22] [ 800/ 975] D_loss(R/F): 0.003743/0.000042, G_loss: 0.211148
+Epoch: [22] [ 900/ 975] D_loss(R/F): 0.000127/0.000140, G_loss: 0.233347
+[22] auc:0.8956 th:0.0268 f1:0.6604 	 best_auc:0.9126 in epoch[14]
+
+Epoch: [23] [ 100/ 975] D_loss(R/F): 0.000272/0.000398, G_loss: 0.225733
+Epoch: [23] [ 200/ 975] D_loss(R/F): 0.000195/0.000015, G_loss: 0.267839
+Epoch: [23] [ 300/ 975] D_loss(R/F): 0.000607/0.000077, G_loss: 0.232569
+Epoch: [23] [ 400/ 975] D_loss(R/F): 0.000068/0.000399, G_loss: 0.216538
+Epoch: [23] [ 500/ 975] D_loss(R/F): 0.000039/0.000130, G_loss: 0.247519
+Epoch: [23] [ 600/ 975] D_loss(R/F): 0.000589/0.000041, G_loss: 0.242552
+Epoch: [23] [ 700/ 975] D_loss(R/F): 0.000177/0.000027, G_loss: 0.271494
+Epoch: [23] [ 800/ 975] D_loss(R/F): 0.119180/0.598559, G_loss: 0.032279
+Epoch: [23] [ 900/ 975] D_loss(R/F): 0.414884/0.137338, G_loss: 0.032094
+[23] auc:0.9178 th:0.0358 f1:0.6649 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [24] [ 100/ 975] D_loss(R/F): 0.074834/0.425431, G_loss: 0.052408
+Epoch: [24] [ 200/ 975] D_loss(R/F): 0.780052/0.012685, G_loss: 0.071328
+Epoch: [24] [ 300/ 975] D_loss(R/F): 0.003448/0.007127, G_loss: 0.154507
+Epoch: [24] [ 400/ 975] D_loss(R/F): 0.005688/0.000247, G_loss: 0.213074
+Epoch: [24] [ 500/ 975] D_loss(R/F): 0.001326/0.003322, G_loss: 0.158193
+Epoch: [24] [ 600/ 975] D_loss(R/F): 0.002148/0.000451, G_loss: 0.200759
+Epoch: [24] [ 700/ 975] D_loss(R/F): 0.000776/0.000105, G_loss: 0.236480
+Epoch: [24] [ 800/ 975] D_loss(R/F): 0.000823/0.000842, G_loss: 0.195772
+Epoch: [24] [ 900/ 975] D_loss(R/F): 0.001660/0.000332, G_loss: 0.214344
+[24] auc:0.9065 th:0.0241 f1:0.6593 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [25] [ 100/ 975] D_loss(R/F): 0.003735/0.001502, G_loss: 0.157104
+Epoch: [25] [ 200/ 975] D_loss(R/F): 0.000245/0.001903, G_loss: 0.175103
+Epoch: [25] [ 300/ 975] D_loss(R/F): 0.000281/0.000049, G_loss: 0.252579
+Epoch: [25] [ 400/ 975] D_loss(R/F): 0.000758/0.000017, G_loss: 0.214432
+Epoch: [25] [ 500/ 975] D_loss(R/F): 0.000378/0.000843, G_loss: 0.221059
+Epoch: [25] [ 600/ 975] D_loss(R/F): 0.000220/0.000019, G_loss: 0.254359
+Epoch: [25] [ 700/ 975] D_loss(R/F): 0.000399/0.000030, G_loss: 0.261079
+Epoch: [25] [ 800/ 975] D_loss(R/F): 0.000586/0.000004, G_loss: 0.332660
+Epoch: [25] [ 900/ 975] D_loss(R/F): 0.000620/0.000003, G_loss: 0.271307
+[25] auc:0.9002 th:0.0346 f1:0.6710 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [26] [ 100/ 975] D_loss(R/F): 0.000250/0.000013, G_loss: 0.262989
+Epoch: [26] [ 200/ 975] D_loss(R/F): 0.000119/0.001452, G_loss: 0.181249
+Epoch: [26] [ 300/ 975] D_loss(R/F): 0.000255/0.000363, G_loss: 0.211833
+Epoch: [26] [ 400/ 975] D_loss(R/F): 0.000249/0.003184, G_loss: 0.217926
+Epoch: [26] [ 500/ 975] D_loss(R/F): 0.000077/0.000365, G_loss: 0.192612
+Epoch: [26] [ 600/ 975] D_loss(R/F): 0.000127/0.001175, G_loss: 0.199282
+Epoch: [26] [ 700/ 975] D_loss(R/F): 0.000269/0.000979, G_loss: 0.191149
+Epoch: [26] [ 800/ 975] D_loss(R/F): 0.000198/0.000007, G_loss: 0.241428
+Epoch: [26] [ 900/ 975] D_loss(R/F): 0.000236/0.000039, G_loss: 0.237621
+[26] auc:0.9037 th:0.0352 f1:0.6694 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [27] [ 100/ 975] D_loss(R/F): 0.000062/0.000001, G_loss: 0.337748
+Epoch: [27] [ 200/ 975] D_loss(R/F): 0.176653/0.201098, G_loss: 0.036127
+Epoch: [27] [ 300/ 975] D_loss(R/F): 0.127347/0.223526, G_loss: 0.046315
+Epoch: [27] [ 400/ 975] D_loss(R/F): 0.056692/0.076842, G_loss: 0.067149
+Epoch: [27] [ 500/ 975] D_loss(R/F): 0.013500/0.042830, G_loss: 0.102333
+Epoch: [27] [ 600/ 975] D_loss(R/F): 0.001048/0.012538, G_loss: 0.148135
+Epoch: [27] [ 700/ 975] D_loss(R/F): 0.001488/0.000365, G_loss: 0.171817
+Epoch: [27] [ 800/ 975] D_loss(R/F): 0.000377/0.001828, G_loss: 0.192992
+Epoch: [27] [ 900/ 975] D_loss(R/F): 0.000195/0.000066, G_loss: 0.215277
+[27] auc:0.9017 th:0.0333 f1:0.6769 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [28] [ 100/ 975] D_loss(R/F): 0.000802/0.000014, G_loss: 0.259899
+Epoch: [28] [ 200/ 975] D_loss(R/F): 0.000258/0.000555, G_loss: 0.172602
+Epoch: [28] [ 300/ 975] D_loss(R/F): 0.000846/0.001621, G_loss: 0.173438
+Epoch: [28] [ 400/ 975] D_loss(R/F): 0.000410/0.000003, G_loss: 0.264085
+Epoch: [28] [ 500/ 975] D_loss(R/F): 0.000680/0.001559, G_loss: 0.179169
+Epoch: [28] [ 600/ 975] D_loss(R/F): 0.000108/0.000381, G_loss: 0.210901
+Epoch: [28] [ 700/ 975] D_loss(R/F): 0.000449/0.000295, G_loss: 0.208239
+Epoch: [28] [ 800/ 975] D_loss(R/F): 0.000575/0.000411, G_loss: 0.212986
+Epoch: [28] [ 900/ 975] D_loss(R/F): 0.000073/0.000702, G_loss: 0.184099
+[28] auc:0.9066 th:0.0347 f1:0.6727 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [29] [ 100/ 975] D_loss(R/F): 0.000256/0.001424, G_loss: 0.164419
+Epoch: [29] [ 200/ 975] D_loss(R/F): 0.000053/0.000002, G_loss: 0.250763
+Epoch: [29] [ 300/ 975] D_loss(R/F): 0.000073/0.000146, G_loss: 0.190380
+Epoch: [29] [ 400/ 975] D_loss(R/F): 0.000182/0.000027, G_loss: 0.208885
+Epoch: [29] [ 500/ 975] D_loss(R/F): 0.000043/0.000278, G_loss: 0.213330
+Epoch: [29] [ 600/ 975] D_loss(R/F): 0.000196/0.000014, G_loss: 0.226985
+Epoch: [29] [ 700/ 975] D_loss(R/F): 0.000049/0.000049, G_loss: 0.227702
+Epoch: [29] [ 800/ 975] D_loss(R/F): 0.000329/0.000001, G_loss: 0.292309
+Epoch: [29] [ 900/ 975] D_loss(R/F): 0.339625/0.266572, G_loss: 0.025765
+[29] auc:0.9175 th:0.0289 f1:0.6798 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [30] [ 100/ 975] D_loss(R/F): 0.013631/0.594739, G_loss: 0.065749
+Epoch: [30] [ 200/ 975] D_loss(R/F): 0.000754/0.018456, G_loss: 0.151329
+Epoch: [30] [ 300/ 975] D_loss(R/F): 0.001315/0.003423, G_loss: 0.162077
+Epoch: [30] [ 400/ 975] D_loss(R/F): 0.000714/0.000514, G_loss: 0.183795
+Epoch: [30] [ 500/ 975] D_loss(R/F): 0.000253/0.001625, G_loss: 0.173069
+Epoch: [30] [ 600/ 975] D_loss(R/F): 0.000147/0.000325, G_loss: 0.189138
+Epoch: [30] [ 700/ 975] D_loss(R/F): 0.000424/0.000161, G_loss: 0.205438
+Epoch: [30] [ 800/ 975] D_loss(R/F): 0.000334/0.000140, G_loss: 0.194244
+Epoch: [30] [ 900/ 975] D_loss(R/F): 0.000035/0.002574, G_loss: 0.197103
+[30] auc:0.8949 th:0.0373 f1:0.6701 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [31] [ 100/ 975] D_loss(R/F): 0.000244/0.000173, G_loss: 0.190439
+Epoch: [31] [ 200/ 975] D_loss(R/F): 0.000139/0.000006, G_loss: 0.257008
+Epoch: [31] [ 300/ 975] D_loss(R/F): 0.000240/0.000242, G_loss: 0.184987
+Epoch: [31] [ 400/ 975] D_loss(R/F): 0.000148/0.000455, G_loss: 0.176750
+Epoch: [31] [ 500/ 975] D_loss(R/F): 0.000246/0.000632, G_loss: 0.161528
+Epoch: [31] [ 600/ 975] D_loss(R/F): 0.000060/0.000019, G_loss: 0.243544
+Epoch: [31] [ 700/ 975] D_loss(R/F): 0.000054/0.000010, G_loss: 0.265372
+Epoch: [31] [ 800/ 975] D_loss(R/F): 0.000134/0.000004, G_loss: 0.237797
+Epoch: [31] [ 900/ 975] D_loss(R/F): 0.000175/0.000001, G_loss: 0.282944
+[31] auc:0.9125 th:0.0360 f1:0.6783 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [32] [ 100/ 975] D_loss(R/F): 0.000067/0.000062, G_loss: 0.245993
+Epoch: [32] [ 200/ 975] D_loss(R/F): 0.000090/0.000067, G_loss: 0.214376
+Epoch: [32] [ 300/ 975] D_loss(R/F): 0.000034/0.000413, G_loss: 0.190794
+Epoch: [32] [ 400/ 975] D_loss(R/F): 0.000125/0.000004, G_loss: 0.264339
+Epoch: [32] [ 500/ 975] D_loss(R/F): 0.000081/0.000124, G_loss: 0.175669
+Epoch: [32] [ 600/ 975] D_loss(R/F): 0.000102/0.000131, G_loss: 0.231353
+Epoch: [32] [ 700/ 975] D_loss(R/F): 0.000047/0.000589, G_loss: 0.181065
+Epoch: [32] [ 800/ 975] D_loss(R/F): 0.000043/0.000002, G_loss: 0.308740
+Epoch: [32] [ 900/ 975] D_loss(R/F): 0.000011/0.001338, G_loss: 0.200448
+[32] auc:0.9012 th:0.0394 f1:0.6653 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [33] [ 100/ 975] D_loss(R/F): 0.000066/0.000227, G_loss: 0.193730
+Epoch: [33] [ 200/ 975] D_loss(R/F): 0.000076/0.000084, G_loss: 0.177852
+Epoch: [33] [ 300/ 975] D_loss(R/F): 0.000081/0.000011, G_loss: 0.238609
+Epoch: [33] [ 400/ 975] D_loss(R/F): 0.000028/0.000021, G_loss: 0.224636
+Epoch: [33] [ 500/ 975] D_loss(R/F): 0.000016/0.000033, G_loss: 0.240626
+Epoch: [33] [ 600/ 975] D_loss(R/F): 0.000062/0.000001, G_loss: 0.273842
+Epoch: [33] [ 700/ 975] D_loss(R/F): 0.000068/0.001009, G_loss: 0.174647
+Epoch: [33] [ 800/ 975] D_loss(R/F): 0.000011/0.000000, G_loss: 0.313467
+Epoch: [33] [ 900/ 975] D_loss(R/F): 0.000019/0.000002, G_loss: 0.244056
+[33] auc:0.9058 th:0.0314 f1:0.6777 	 best_auc:0.9178 in epoch[23]
+
+Reloading d net
+Epoch: [34] [ 100/ 975] D_loss(R/F): 0.629522/0.692346, G_loss: 0.012540
+Epoch: [34] [ 200/ 975] D_loss(R/F): 0.394032/0.788229, G_loss: 0.015678
+Epoch: [34] [ 300/ 975] D_loss(R/F): 0.368258/0.508162, G_loss: 0.031740
+Epoch: [34] [ 400/ 975] D_loss(R/F): 0.202382/0.610896, G_loss: 0.043600
+Epoch: [34] [ 500/ 975] D_loss(R/F): 0.654781/0.397520, G_loss: 0.037749
+Epoch: [34] [ 600/ 975] D_loss(R/F): 0.170927/0.410233, G_loss: 0.052966
+Epoch: [34] [ 700/ 975] D_loss(R/F): 0.906298/0.382799, G_loss: 0.052694
+Epoch: [34] [ 800/ 975] D_loss(R/F): 0.623617/0.317682, G_loss: 0.042571
+Epoch: [34] [ 900/ 975] D_loss(R/F): 0.121210/0.994304, G_loss: 0.056177
+[34] auc:0.9101 th:0.0234 f1:0.6830 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [35] [ 100/ 975] D_loss(R/F): 1.135504/0.127885, G_loss: 0.050566
+Epoch: [35] [ 200/ 975] D_loss(R/F): 0.358166/0.222682, G_loss: 0.053437
+Epoch: [35] [ 300/ 975] D_loss(R/F): 0.427691/0.293908, G_loss: 0.066003
+Epoch: [35] [ 400/ 975] D_loss(R/F): 0.112225/0.707198, G_loss: 0.065920
+Epoch: [35] [ 500/ 975] D_loss(R/F): 0.152527/0.435288, G_loss: 0.066156
+Epoch: [35] [ 600/ 975] D_loss(R/F): 0.733091/0.172573, G_loss: 0.045523
+Epoch: [35] [ 700/ 975] D_loss(R/F): 0.218149/0.310318, G_loss: 0.070543
+Epoch: [35] [ 800/ 975] D_loss(R/F): 1.014832/0.217124, G_loss: 0.059160
+Epoch: [35] [ 900/ 975] D_loss(R/F): 0.640862/0.111032, G_loss: 0.064585
+[35] auc:0.9009 th:0.0264 f1:0.6724 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [36] [ 100/ 975] D_loss(R/F): 0.701424/0.079273, G_loss: 0.083843
+Epoch: [36] [ 200/ 975] D_loss(R/F): 0.946010/0.083010, G_loss: 0.078237
+Epoch: [36] [ 300/ 975] D_loss(R/F): 0.068090/0.353669, G_loss: 0.102878
+Epoch: [36] [ 400/ 975] D_loss(R/F): 0.241496/0.241218, G_loss: 0.070953
+Epoch: [36] [ 500/ 975] D_loss(R/F): 0.729722/0.048033, G_loss: 0.085804
+Epoch: [36] [ 600/ 975] D_loss(R/F): 0.064656/0.504892, G_loss: 0.072147
+Epoch: [36] [ 700/ 975] D_loss(R/F): 0.378782/0.065981, G_loss: 0.094929
+Epoch: [36] [ 800/ 975] D_loss(R/F): 0.824252/0.062289, G_loss: 0.083884
+Epoch: [36] [ 900/ 975] D_loss(R/F): 0.047309/0.076847, G_loss: 0.120963
+[36] auc:0.9074 th:0.0294 f1:0.6797 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [37] [ 100/ 975] D_loss(R/F): 0.174537/0.112868, G_loss: 0.083668
+Epoch: [37] [ 200/ 975] D_loss(R/F): 0.096666/0.097011, G_loss: 0.105423
+Epoch: [37] [ 300/ 975] D_loss(R/F): 1.149848/0.055887, G_loss: 0.062522
+Epoch: [37] [ 400/ 975] D_loss(R/F): 0.126058/0.110039, G_loss: 0.096314
+Epoch: [37] [ 500/ 975] D_loss(R/F): 0.079137/0.090488, G_loss: 0.136939
+Epoch: [37] [ 600/ 975] D_loss(R/F): 0.312817/0.001744, G_loss: 0.189839
+Epoch: [37] [ 700/ 975] D_loss(R/F): 0.253717/0.488841, G_loss: 0.045815
+Epoch: [37] [ 800/ 975] D_loss(R/F): 0.110995/0.177190, G_loss: 0.090911
+Epoch: [37] [ 900/ 975] D_loss(R/F): 0.027118/0.001438, G_loss: 0.227050
+[37] auc:0.9097 th:0.0303 f1:0.6820 	 best_auc:0.9178 in epoch[23]
+
+Epoch: [38] [ 100/ 975] D_loss(R/F): 0.096736/0.076881, G_loss: 0.117219
+Epoch: [38] [ 200/ 975] D_loss(R/F): 0.021501/0.007729, G_loss: 0.175568
+Epoch: [38] [ 300/ 975] D_loss(R/F): 0.015674/0.007833, G_loss: 0.196039
+Epoch: [38] [ 400/ 975] D_loss(R/F): 0.074414/0.530616, G_loss: 0.073256
+Epoch: [38] [ 500/ 975] D_loss(R/F): 0.783066/0.012985, G_loss: 0.087885
+Epoch: [38] [ 600/ 975] D_loss(R/F): 0.103771/0.002749, G_loss: 0.190918
+Epoch: [38] [ 700/ 975] D_loss(R/F): 0.008891/0.071761, G_loss: 0.158974
+Epoch: [38] [ 800/ 975] D_loss(R/F): 0.015358/0.085989, G_loss: 0.127615
+Epoch: [38] [ 900/ 975] D_loss(R/F): 0.025264/0.039411, G_loss: 0.140656
+[38] auc:0.9186 th:0.0244 f1:0.6760 	 best_auc:0.9186 in epoch[38]
+
+Epoch: [39] [ 100/ 975] D_loss(R/F): 0.150870/0.006980, G_loss: 0.141076
+Epoch: [39] [ 200/ 975] D_loss(R/F): 1.370767/0.028394, G_loss: 0.060979
+Epoch: [39] [ 300/ 975] D_loss(R/F): 0.030265/0.008356, G_loss: 0.171035
+Epoch: [39] [ 400/ 975] D_loss(R/F): 0.008085/0.038431, G_loss: 0.137625
+Epoch: [39] [ 500/ 975] D_loss(R/F): 0.009770/0.005470, G_loss: 0.170573
+Epoch: [39] [ 600/ 975] D_loss(R/F): 0.010570/0.008196, G_loss: 0.160670
+Epoch: [39] [ 700/ 975] D_loss(R/F): 0.005364/0.007947, G_loss: 0.173421
+Epoch: [39] [ 800/ 975] D_loss(R/F): 0.023919/0.003405, G_loss: 0.184529
+Epoch: [39] [ 900/ 975] D_loss(R/F): 0.015435/0.001664, G_loss: 0.222179
+[39] auc:0.9129 th:0.0288 f1:0.6849 	 best_auc:0.9186 in epoch[38]
+
+Epoch: [40] [ 100/ 975] D_loss(R/F): 0.008362/0.005535, G_loss: 0.169733
+Epoch: [40] [ 200/ 975] D_loss(R/F): 0.004574/0.003674, G_loss: 0.175459
+Epoch: [40] [ 300/ 975] D_loss(R/F): 0.005016/0.013209, G_loss: 0.159581
+Epoch: [40] [ 400/ 975] D_loss(R/F): 0.004794/0.003001, G_loss: 0.195122
+Epoch: [40] [ 500/ 975] D_loss(R/F): 0.009018/0.001910, G_loss: 0.195756
+Epoch: [40] [ 600/ 975] D_loss(R/F): 0.008434/0.000145, G_loss: 0.229701
+Epoch: [40] [ 700/ 975] D_loss(R/F): 0.001671/0.000274, G_loss: 0.258433
+Epoch: [40] [ 800/ 975] D_loss(R/F): 0.007753/0.005251, G_loss: 0.181570
+Epoch: [40] [ 900/ 975] D_loss(R/F): 0.003277/0.013313, G_loss: 0.151861
+[40] auc:0.9135 th:0.0255 f1:0.6888 	 best_auc:0.9186 in epoch[38]
+
+Epoch: [41] [ 100/ 975] D_loss(R/F): 0.001270/0.000713, G_loss: 0.209508
+Epoch: [41] [ 200/ 975] D_loss(R/F): 1.375596/0.340183, G_loss: 0.030436
+Epoch: [41] [ 300/ 975] D_loss(R/F): 0.411684/0.195373, G_loss: 0.043395
+Epoch: [41] [ 400/ 975] D_loss(R/F): 0.051490/0.425659, G_loss: 0.076235
+Epoch: [41] [ 500/ 975] D_loss(R/F): 0.007445/0.189339, G_loss: 0.117345
+Epoch: [41] [ 600/ 975] D_loss(R/F): 0.019336/0.008546, G_loss: 0.161582
+Epoch: [41] [ 700/ 975] D_loss(R/F): 0.012478/0.010083, G_loss: 0.152361
+Epoch: [41] [ 800/ 975] D_loss(R/F): 0.003349/0.004340, G_loss: 0.163077
+Epoch: [41] [ 900/ 975] D_loss(R/F): 0.007887/0.033702, G_loss: 0.160637
+[41] auc:0.9092 th:0.0289 f1:0.6874 	 best_auc:0.9186 in epoch[38]
+
+Epoch: [42] [ 100/ 975] D_loss(R/F): 0.003956/0.006344, G_loss: 0.181180
+Epoch: [42] [ 200/ 975] D_loss(R/F): 0.001526/0.000754, G_loss: 0.200295
+Epoch: [42] [ 300/ 975] D_loss(R/F): 0.003986/0.003820, G_loss: 0.137608
+Epoch: [42] [ 400/ 975] D_loss(R/F): 0.001307/0.003064, G_loss: 0.188835
+Epoch: [42] [ 500/ 975] D_loss(R/F): 0.000875/0.000243, G_loss: 0.240893
+Epoch: [42] [ 600/ 975] D_loss(R/F): 0.002314/0.014984, G_loss: 0.169125
+Epoch: [42] [ 700/ 975] D_loss(R/F): 0.005066/0.000829, G_loss: 0.191412
+Epoch: [42] [ 800/ 975] D_loss(R/F): 0.001087/0.015271, G_loss: 0.163354
+Epoch: [42] [ 900/ 975] D_loss(R/F): 0.019574/0.001140, G_loss: 0.214516
+[42] auc:0.9148 th:0.0278 f1:0.6828 	 best_auc:0.9186 in epoch[38]
+
+Epoch: [43] [ 100/ 975] D_loss(R/F): 0.025195/1.198549, G_loss: 0.047448
+Epoch: [43] [ 200/ 975] D_loss(R/F): 0.364615/0.214481, G_loss: 0.051886
+Epoch: [43] [ 300/ 975] D_loss(R/F): 0.020568/0.003316, G_loss: 0.174636
+Epoch: [43] [ 400/ 975] D_loss(R/F): 0.003411/0.001366, G_loss: 0.193624
+Epoch: [43] [ 500/ 975] D_loss(R/F): 0.010559/0.004438, G_loss: 0.137723
+Epoch: [43] [ 600/ 975] D_loss(R/F): 0.004137/0.001885, G_loss: 0.175182
+Epoch: [43] [ 700/ 975] D_loss(R/F): 0.001785/0.000603, G_loss: 0.207359
+Epoch: [43] [ 800/ 975] D_loss(R/F): 0.002925/0.011167, G_loss: 0.150736
+Epoch: [43] [ 900/ 975] D_loss(R/F): 0.001196/0.000006, G_loss: 0.302614
+[43] auc:0.9124 th:0.0312 f1:0.6878 	 best_auc:0.9186 in epoch[38]
+
+Epoch: [44] [ 100/ 975] D_loss(R/F): 0.000727/0.010667, G_loss: 0.167114
+Epoch: [44] [ 200/ 975] D_loss(R/F): 0.001073/0.000176, G_loss: 0.223474
+Epoch: [44] [ 300/ 975] D_loss(R/F): 0.000769/0.000978, G_loss: 0.205421
+Epoch: [44] [ 400/ 975] D_loss(R/F): 0.001923/0.000020, G_loss: 0.270639
+Epoch: [44] [ 500/ 975] D_loss(R/F): 0.000594/0.000803, G_loss: 0.205056
+Epoch: [44] [ 600/ 975] D_loss(R/F): 0.001225/0.000015, G_loss: 0.285993
+Epoch: [44] [ 700/ 975] D_loss(R/F): 0.001528/0.000271, G_loss: 0.215924
+Epoch: [44] [ 800/ 975] D_loss(R/F): 0.001479/0.002525, G_loss: 0.174564
+Epoch: [44] [ 900/ 975] D_loss(R/F): 0.000501/0.000064, G_loss: 0.248974
+[44] auc:0.9114 th:0.0352 f1:0.6791 	 best_auc:0.9186 in epoch[38]
+
+Epoch: [45] [ 100/ 975] D_loss(R/F): 0.000426/0.000046, G_loss: 0.226543
+Epoch: [45] [ 200/ 975] D_loss(R/F): 1.416456/0.540059, G_loss: 0.012869
+Epoch: [45] [ 300/ 975] D_loss(R/F): 0.293656/0.419581, G_loss: 0.040014
+Epoch: [45] [ 400/ 975] D_loss(R/F): 0.123833/0.633244, G_loss: 0.042346
+Epoch: [45] [ 500/ 975] D_loss(R/F): 0.394108/0.125601, G_loss: 0.063276
+Epoch: [45] [ 600/ 975] D_loss(R/F): 0.006670/0.066549, G_loss: 0.134172
+Epoch: [45] [ 700/ 975] D_loss(R/F): 0.005518/0.009044, G_loss: 0.161546
+Epoch: [45] [ 800/ 975] D_loss(R/F): 0.001019/0.024264, G_loss: 0.146215
+Epoch: [45] [ 900/ 975] D_loss(R/F): 0.004828/0.001966, G_loss: 0.180947
+[45] auc:0.9147 th:0.0340 f1:0.6807 	 best_auc:0.9186 in epoch[38]
+
+Epoch: [46] [ 100/ 975] D_loss(R/F): 0.002836/0.004975, G_loss: 0.154582
+Epoch: [46] [ 200/ 975] D_loss(R/F): 0.062647/0.617445, G_loss: 0.051459
+Epoch: [46] [ 300/ 975] D_loss(R/F): 0.018260/0.033299, G_loss: 0.106884
+Epoch: [46] [ 400/ 975] D_loss(R/F): 0.012136/0.003143, G_loss: 0.167522
+Epoch: [46] [ 500/ 975] D_loss(R/F): 0.002086/0.001057, G_loss: 0.201472
+Epoch: [46] [ 600/ 975] D_loss(R/F): 0.007731/0.000381, G_loss: 0.184852
+Epoch: [46] [ 700/ 975] D_loss(R/F): 0.001272/0.007446, G_loss: 0.161574
+Epoch: [46] [ 800/ 975] D_loss(R/F): 0.000628/0.000041, G_loss: 0.254209
+Epoch: [46] [ 900/ 975] D_loss(R/F): 0.002146/0.000112, G_loss: 0.212559
+[46] auc:0.9189 th:0.0256 f1:0.6901 	 best_auc:0.9189 in epoch[46]
+
+Epoch: [47] [ 100/ 975] D_loss(R/F): 0.000542/0.002110, G_loss: 0.177612
+Epoch: [47] [ 200/ 975] D_loss(R/F): 0.001946/0.000418, G_loss: 0.181434
+Epoch: [47] [ 300/ 975] D_loss(R/F): 0.003534/0.000082, G_loss: 0.192693
+Epoch: [47] [ 400/ 975] D_loss(R/F): 0.001498/0.000268, G_loss: 0.197026
+Epoch: [47] [ 500/ 975] D_loss(R/F): 0.000853/0.000016, G_loss: 0.265327
+Epoch: [47] [ 600/ 975] D_loss(R/F): 0.002026/0.000007, G_loss: 0.296235
+Epoch: [47] [ 700/ 975] D_loss(R/F): 0.000887/0.000153, G_loss: 0.227994
+Epoch: [47] [ 800/ 975] D_loss(R/F): 0.000303/0.008052, G_loss: 0.175840
+Epoch: [47] [ 900/ 975] D_loss(R/F): 0.040014/0.496520, G_loss: 0.059648
+[47] auc:0.9173 th:0.0333 f1:0.6778 	 best_auc:0.9189 in epoch[46]
+
+Epoch: [48] [ 100/ 975] D_loss(R/F): 0.012162/0.008123, G_loss: 0.142914
+Epoch: [48] [ 200/ 975] D_loss(R/F): 0.002726/0.006541, G_loss: 0.178893
+Epoch: [48] [ 300/ 975] D_loss(R/F): 0.001390/0.003566, G_loss: 0.161203
+Epoch: [48] [ 400/ 975] D_loss(R/F): 0.000729/0.003974, G_loss: 0.192665
+Epoch: [48] [ 500/ 975] D_loss(R/F): 0.000687/0.001335, G_loss: 0.168302
+Epoch: [48] [ 600/ 975] D_loss(R/F): 0.001443/0.005286, G_loss: 0.143420
+Epoch: [48] [ 700/ 975] D_loss(R/F): 0.002254/0.000011, G_loss: 0.246938
+Epoch: [48] [ 800/ 975] D_loss(R/F): 0.001570/0.000220, G_loss: 0.198817
+Epoch: [48] [ 900/ 975] D_loss(R/F): 0.001298/0.000352, G_loss: 0.196724
+[48] auc:0.9220 th:0.0322 f1:0.6816 	 best_auc:0.9220 in epoch[48]
+
+Epoch: [49] [ 100/ 975] D_loss(R/F): 0.000231/0.000315, G_loss: 0.232805
+Epoch: [49] [ 200/ 975] D_loss(R/F): 0.000498/0.000110, G_loss: 0.227390
+Epoch: [49] [ 300/ 975] D_loss(R/F): 0.000602/0.010185, G_loss: 0.151230
+Epoch: [49] [ 400/ 975] D_loss(R/F): 0.002404/0.000222, G_loss: 0.174328
+Epoch: [49] [ 500/ 975] D_loss(R/F): 0.000387/0.001791, G_loss: 0.174353
+Epoch: [49] [ 600/ 975] D_loss(R/F): 0.000229/0.002766, G_loss: 0.174968
+Epoch: [49] [ 700/ 975] D_loss(R/F): 0.000167/0.000503, G_loss: 0.205775
+Epoch: [49] [ 800/ 975] D_loss(R/F): 0.000066/0.000543, G_loss: 0.201057
+Epoch: [49] [ 900/ 975] D_loss(R/F): 0.000805/0.000011, G_loss: 0.286277
+[49] auc:0.9210 th:0.0267 f1:0.6846 	 best_auc:0.9220 in epoch[48]
+
+Epoch: [50] [ 100/ 975] D_loss(R/F): 0.000391/0.000094, G_loss: 0.206085
+Epoch: [50] [ 200/ 975] D_loss(R/F): 0.000188/0.000122, G_loss: 0.227254
+Epoch: [50] [ 300/ 975] D_loss(R/F): 0.000591/0.000113, G_loss: 0.192891
+Epoch: [50] [ 400/ 975] D_loss(R/F): 0.000383/0.000070, G_loss: 0.227318
+Epoch: [50] [ 500/ 975] D_loss(R/F): 0.000120/0.000179, G_loss: 0.224447
+Epoch: [50] [ 600/ 975] D_loss(R/F): 0.000893/0.000502, G_loss: 0.152769
+Epoch: [50] [ 700/ 975] D_loss(R/F): 0.000324/0.001320, G_loss: 0.162681
+Epoch: [50] [ 800/ 975] D_loss(R/F): 0.000634/0.000379, G_loss: 0.192599
+Epoch: [50] [ 900/ 975] D_loss(R/F): 0.000075/0.000023, G_loss: 0.253876
+[50] auc:0.9166 th:0.0337 f1:0.6853 	 best_auc:0.9220 in epoch[48]
+
+Epoch: [51] [ 100/ 975] D_loss(R/F): 0.782305/0.142676, G_loss: 0.035444
+Epoch: [51] [ 200/ 975] D_loss(R/F): 0.456456/0.181791, G_loss: 0.038051
+Epoch: [51] [ 300/ 975] D_loss(R/F): 0.078760/0.221984, G_loss: 0.063083
+Epoch: [51] [ 400/ 975] D_loss(R/F): 0.056279/0.168185, G_loss: 0.078088
+Epoch: [51] [ 500/ 975] D_loss(R/F): 0.047827/0.023917, G_loss: 0.110832
+Epoch: [51] [ 600/ 975] D_loss(R/F): 0.005915/0.002987, G_loss: 0.161379
+Epoch: [51] [ 700/ 975] D_loss(R/F): 0.002274/0.005173, G_loss: 0.163487
+Epoch: [51] [ 800/ 975] D_loss(R/F): 0.002541/0.000471, G_loss: 0.186000
+Epoch: [51] [ 900/ 975] D_loss(R/F): 0.004316/0.000794, G_loss: 0.182731
+[51] auc:0.9152 th:0.0295 f1:0.6806 	 best_auc:0.9220 in epoch[48]
+
+Epoch: [52] [ 100/ 975] D_loss(R/F): 0.000792/0.002545, G_loss: 0.147939
+Epoch: [52] [ 200/ 975] D_loss(R/F): 0.001672/0.001076, G_loss: 0.162725
+Epoch: [52] [ 300/ 975] D_loss(R/F): 0.001115/0.005825, G_loss: 0.156502
+Epoch: [52] [ 400/ 975] D_loss(R/F): 0.000989/0.000027, G_loss: 0.248023
+Epoch: [52] [ 500/ 975] D_loss(R/F): 0.000250/0.005726, G_loss: 0.171962
+Epoch: [52] [ 600/ 975] D_loss(R/F): 0.001224/0.000110, G_loss: 0.224248
+Epoch: [52] [ 700/ 975] D_loss(R/F): 0.001041/0.000034, G_loss: 0.243565
+Epoch: [52] [ 800/ 975] D_loss(R/F): 0.001013/0.000107, G_loss: 0.207593
+Epoch: [52] [ 900/ 975] D_loss(R/F): 0.000583/0.000093, G_loss: 0.196624
+[52] auc:0.9166 th:0.0322 f1:0.6771 	 best_auc:0.9220 in epoch[48]
+
+Epoch: [53] [ 100/ 975] D_loss(R/F): 0.000233/0.000013, G_loss: 0.240431
+Epoch: [53] [ 200/ 975] D_loss(R/F): 0.000615/0.000587, G_loss: 0.186344
+Epoch: [53] [ 300/ 975] D_loss(R/F): 0.000230/0.000074, G_loss: 0.233406
+Epoch: [53] [ 400/ 975] D_loss(R/F): 0.002597/0.000010, G_loss: 0.213947
+Epoch: [53] [ 500/ 975] D_loss(R/F): 0.392034/0.160706, G_loss: 0.041327
+Epoch: [53] [ 600/ 975] D_loss(R/F): 0.108318/0.053686, G_loss: 0.078743
+Epoch: [53] [ 700/ 975] D_loss(R/F): 0.001732/0.027858, G_loss: 0.134842
+Epoch: [53] [ 800/ 975] D_loss(R/F): 0.002308/0.010656, G_loss: 0.121417
+Epoch: [53] [ 900/ 975] D_loss(R/F): 0.002875/0.000569, G_loss: 0.174130
+[53] auc:0.9135 th:0.0295 f1:0.6823 	 best_auc:0.9220 in epoch[48]
+
+Epoch: [54] [ 100/ 975] D_loss(R/F): 0.001022/0.002288, G_loss: 0.151991
+Epoch: [54] [ 200/ 975] D_loss(R/F): 0.000178/0.000336, G_loss: 0.200098
+Epoch: [54] [ 300/ 975] D_loss(R/F): 0.000271/0.000173, G_loss: 0.225569
+Epoch: [54] [ 400/ 975] D_loss(R/F): 0.000831/0.000089, G_loss: 0.203825
+Epoch: [54] [ 500/ 975] D_loss(R/F): 0.000526/0.004946, G_loss: 0.151239
+Epoch: [54] [ 600/ 975] D_loss(R/F): 0.000310/0.000128, G_loss: 0.195332
+Epoch: [54] [ 700/ 975] D_loss(R/F): 0.000370/0.000086, G_loss: 0.221515
+Epoch: [54] [ 800/ 975] D_loss(R/F): 0.001651/0.000103, G_loss: 0.164352
+Epoch: [54] [ 900/ 975] D_loss(R/F): 0.000349/0.000782, G_loss: 0.185535
+[54] auc:0.9218 th:0.0314 f1:0.6824 	 best_auc:0.9220 in epoch[48]
+
+Epoch: [55] [ 100/ 975] D_loss(R/F): 0.000346/0.000441, G_loss: 0.154396
+Epoch: [55] [ 200/ 975] D_loss(R/F): 0.000624/0.000425, G_loss: 0.207300
+Epoch: [55] [ 300/ 975] D_loss(R/F): 0.000814/0.001489, G_loss: 0.138756
+Epoch: [55] [ 400/ 975] D_loss(R/F): 0.000117/0.001159, G_loss: 0.185725
+Epoch: [55] [ 500/ 975] D_loss(R/F): 0.000181/0.000154, G_loss: 0.193152
+Epoch: [55] [ 600/ 975] D_loss(R/F): 0.000476/0.000005, G_loss: 0.241992
+Epoch: [55] [ 700/ 975] D_loss(R/F): 0.000280/0.000864, G_loss: 0.143580
+Epoch: [55] [ 800/ 975] D_loss(R/F): 0.000156/0.000220, G_loss: 0.212925
+Epoch: [55] [ 900/ 975] D_loss(R/F): 0.000222/0.000583, G_loss: 0.179816
+[55] auc:0.9146 th:0.0298 f1:0.6865 	 best_auc:0.9220 in epoch[48]
+
+Epoch: [56] [ 100/ 975] D_loss(R/F): 0.000083/0.000294, G_loss: 0.191472
+Epoch: [56] [ 200/ 975] D_loss(R/F): 0.000093/0.000285, G_loss: 0.197519
+Epoch: [56] [ 300/ 975] D_loss(R/F): 0.000864/0.000027, G_loss: 0.191145
+Epoch: [56] [ 400/ 975] D_loss(R/F): 0.000110/0.000008, G_loss: 0.241888
+Epoch: [56] [ 500/ 975] D_loss(R/F): 0.000089/0.000002, G_loss: 0.275443
+Epoch: [56] [ 600/ 975] D_loss(R/F): 0.000213/0.000172, G_loss: 0.190674
+Epoch: [56] [ 700/ 975] D_loss(R/F): 0.000167/0.000000, G_loss: 0.298933
+Epoch: [56] [ 800/ 975] D_loss(R/F): 0.000061/0.000427, G_loss: 0.189315
+Epoch: [56] [ 900/ 975] D_loss(R/F): 0.000082/0.000002, G_loss: 0.235273
+[56] auc:0.9127 th:0.0344 f1:0.6800 	 best_auc:0.9220 in epoch[48]
+
+Epoch: [57] [ 100/ 975] D_loss(R/F): 0.000055/0.000023, G_loss: 0.240732
+Epoch: [57] [ 200/ 975] D_loss(R/F): 0.000085/0.000006, G_loss: 0.253222
+Epoch: [57] [ 300/ 975] D_loss(R/F): 0.000053/0.000206, G_loss: 0.190387
+Epoch: [57] [ 400/ 975] D_loss(R/F): 0.000131/0.000007, G_loss: 0.224804
+Epoch: [57] [ 500/ 975] D_loss(R/F): 0.000038/0.001153, G_loss: 0.167420
+Epoch: [57] [ 600/ 975] D_loss(R/F): 0.000165/0.000300, G_loss: 0.197622
+Epoch: [57] [ 700/ 975] D_loss(R/F): 0.000248/0.000019, G_loss: 0.209536
+Epoch: [57] [ 800/ 975] D_loss(R/F): 0.000094/0.000446, G_loss: 0.168685
+Epoch: [57] [ 900/ 975] D_loss(R/F): 0.000485/0.000023, G_loss: 0.183657
+[57] auc:0.9117 th:0.0327 f1:0.6791 	 best_auc:0.9220 in epoch[48]
+
+Epoch: [58] [ 100/ 975] D_loss(R/F): 0.567593/0.252868, G_loss: 0.028865
+Epoch: [58] [ 200/ 975] D_loss(R/F): 0.348433/0.161248, G_loss: 0.046674
+Epoch: [58] [ 300/ 975] D_loss(R/F): 0.048405/0.331743, G_loss: 0.060992
+Epoch: [58] [ 400/ 975] D_loss(R/F): 0.039612/0.016846, G_loss: 0.094601
+Epoch: [58] [ 500/ 975] D_loss(R/F): 0.003498/0.006858, G_loss: 0.138170
+Epoch: [58] [ 600/ 975] D_loss(R/F): 0.001286/0.000770, G_loss: 0.179335
+Epoch: [58] [ 700/ 975] D_loss(R/F): 0.008143/0.000395, G_loss: 0.158340
+Epoch: [58] [ 800/ 975] D_loss(R/F): 0.000676/0.003299, G_loss: 0.156988
+Epoch: [58] [ 900/ 975] D_loss(R/F): 0.006798/0.000280, G_loss: 0.166467
+[58] auc:0.9155 th:0.0331 f1:0.6814 	 best_auc:0.9220 in epoch[48]
+
+Epoch: [59] [ 100/ 975] D_loss(R/F): 0.001390/0.002808, G_loss: 0.148514
+Epoch: [59] [ 200/ 975] D_loss(R/F): 0.000896/0.003099, G_loss: 0.151567
+Epoch: [59] [ 300/ 975] D_loss(R/F): 0.000131/0.001327, G_loss: 0.192497
+Epoch: [59] [ 400/ 975] D_loss(R/F): 0.003171/0.000047, G_loss: 0.196022
+Epoch: [59] [ 500/ 975] D_loss(R/F): 0.000288/0.000393, G_loss: 0.185309
+Epoch: [59] [ 600/ 975] D_loss(R/F): 0.000363/0.000308, G_loss: 0.181073
+Epoch: [59] [ 700/ 975] D_loss(R/F): 0.001730/0.000078, G_loss: 0.183027
+Epoch: [59] [ 800/ 975] D_loss(R/F): 0.000264/0.000003, G_loss: 0.287161
+Epoch: [59] [ 900/ 975] D_loss(R/F): 0.000189/0.000737, G_loss: 0.186345
+[59] auc:0.9173 th:0.0268 f1:0.6795 	 best_auc:0.9220 in epoch[48]
+
+Epoch: [60] [ 100/ 975] D_loss(R/F): 0.000168/0.000076, G_loss: 0.199312
+Epoch: [60] [ 200/ 975] D_loss(R/F): 0.000413/0.000582, G_loss: 0.157795
+Epoch: [60] [ 300/ 975] D_loss(R/F): 0.001375/0.000103, G_loss: 0.176047
+Epoch: [60] [ 400/ 975] D_loss(R/F): 0.000041/0.000123, G_loss: 0.197364
+Epoch: [60] [ 500/ 975] D_loss(R/F): 0.000866/0.000130, G_loss: 0.175718
+Epoch: [60] [ 600/ 975] D_loss(R/F): 0.000673/0.000021, G_loss: 0.194857
+Epoch: [60] [ 700/ 975] D_loss(R/F): 0.000268/0.000018, G_loss: 0.198851
+Epoch: [60] [ 800/ 975] D_loss(R/F): 0.000423/0.000023, G_loss: 0.193087
+Epoch: [60] [ 900/ 975] D_loss(R/F): 0.000286/0.000040, G_loss: 0.180732
+[60] auc:0.9113 th:0.0308 f1:0.6848 	 best_auc:0.9220 in epoch[48]
+
+Epoch: [61] [ 100/ 975] D_loss(R/F): 0.000406/0.000006, G_loss: 0.259282
+Epoch: [61] [ 200/ 975] D_loss(R/F): 0.000206/0.000695, G_loss: 0.164174
+Epoch: [61] [ 300/ 975] D_loss(R/F): 0.000206/0.000794, G_loss: 0.170915
+Epoch: [61] [ 400/ 975] D_loss(R/F): 0.000105/0.000036, G_loss: 0.194528
+Epoch: [61] [ 500/ 975] D_loss(R/F): 0.000134/0.000139, G_loss: 0.192028
+Epoch: [61] [ 600/ 975] D_loss(R/F): 0.000111/0.000026, G_loss: 0.197397
+Epoch: [61] [ 700/ 975] D_loss(R/F): 0.341182/0.330562, G_loss: 0.035287
+Epoch: [61] [ 800/ 975] D_loss(R/F): 0.269552/0.244959, G_loss: 0.052452
+Epoch: [61] [ 900/ 975] D_loss(R/F): 0.044581/0.163434, G_loss: 0.064011
+[61] auc:0.9246 th:0.0216 f1:0.6853 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [62] [ 100/ 975] D_loss(R/F): 0.001919/0.054679, G_loss: 0.111376
+Epoch: [62] [ 200/ 975] D_loss(R/F): 0.009383/0.001216, G_loss: 0.141373
+Epoch: [62] [ 300/ 975] D_loss(R/F): 0.000735/0.001531, G_loss: 0.163884
+Epoch: [62] [ 400/ 975] D_loss(R/F): 0.000248/0.005325, G_loss: 0.152642
+Epoch: [62] [ 500/ 975] D_loss(R/F): 0.000503/0.000780, G_loss: 0.175168
+Epoch: [62] [ 600/ 975] D_loss(R/F): 0.003436/0.001331, G_loss: 0.135594
+Epoch: [62] [ 700/ 975] D_loss(R/F): 0.001388/0.000618, G_loss: 0.176495
+Epoch: [62] [ 800/ 975] D_loss(R/F): 0.000186/0.002607, G_loss: 0.157360
+Epoch: [62] [ 900/ 975] D_loss(R/F): 0.000809/0.002022, G_loss: 0.162258
+[62] auc:0.9085 th:0.0307 f1:0.6796 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [63] [ 100/ 975] D_loss(R/F): 0.000700/0.000024, G_loss: 0.206329
+Epoch: [63] [ 200/ 975] D_loss(R/F): 0.000949/0.000389, G_loss: 0.145268
+Epoch: [63] [ 300/ 975] D_loss(R/F): 0.000749/0.000091, G_loss: 0.184499
+Epoch: [63] [ 400/ 975] D_loss(R/F): 0.000342/0.000054, G_loss: 0.207827
+Epoch: [63] [ 500/ 975] D_loss(R/F): 0.000219/0.000166, G_loss: 0.203131
+Epoch: [63] [ 600/ 975] D_loss(R/F): 0.009086/0.000008, G_loss: 0.215445
+Epoch: [63] [ 700/ 975] D_loss(R/F): 0.002935/0.000053, G_loss: 0.188252
+Epoch: [63] [ 800/ 975] D_loss(R/F): 0.000742/0.001291, G_loss: 0.148618
+Epoch: [63] [ 900/ 975] D_loss(R/F): 0.000187/0.001449, G_loss: 0.144627
+[63] auc:0.9200 th:0.0277 f1:0.6774 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [64] [ 100/ 975] D_loss(R/F): 0.002402/0.000124, G_loss: 0.160953
+Epoch: [64] [ 200/ 975] D_loss(R/F): 0.000201/0.000146, G_loss: 0.170950
+Epoch: [64] [ 300/ 975] D_loss(R/F): 0.000980/0.000383, G_loss: 0.142840
+Epoch: [64] [ 400/ 975] D_loss(R/F): 0.000069/0.000129, G_loss: 0.187630
+Epoch: [64] [ 500/ 975] D_loss(R/F): 0.000100/0.000369, G_loss: 0.178186
+Epoch: [64] [ 600/ 975] D_loss(R/F): 0.000077/0.004388, G_loss: 0.147161
+Epoch: [64] [ 700/ 975] D_loss(R/F): 0.689185/0.182812, G_loss: 0.028690
+Epoch: [64] [ 800/ 975] D_loss(R/F): 0.242272/0.088069, G_loss: 0.050137
+Epoch: [64] [ 900/ 975] D_loss(R/F): 0.147459/0.095047, G_loss: 0.048666
+[64] auc:0.9191 th:0.0237 f1:0.6792 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [65] [ 100/ 975] D_loss(R/F): 0.002574/0.002260, G_loss: 0.148199
+Epoch: [65] [ 200/ 975] D_loss(R/F): 0.001336/0.001091, G_loss: 0.163741
+Epoch: [65] [ 300/ 975] D_loss(R/F): 0.003094/0.000787, G_loss: 0.143761
+Epoch: [65] [ 400/ 975] D_loss(R/F): 0.000359/0.000695, G_loss: 0.187761
+Epoch: [65] [ 500/ 975] D_loss(R/F): 0.000754/0.003659, G_loss: 0.144092
+Epoch: [65] [ 600/ 975] D_loss(R/F): 0.000196/0.000911, G_loss: 0.171218
+Epoch: [65] [ 700/ 975] D_loss(R/F): 0.000171/0.001443, G_loss: 0.172094
+Epoch: [65] [ 800/ 975] D_loss(R/F): 0.000536/0.000613, G_loss: 0.169666
+Epoch: [65] [ 900/ 975] D_loss(R/F): 0.001319/0.000029, G_loss: 0.193368
+[65] auc:0.9088 th:0.0352 f1:0.6788 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [66] [ 100/ 975] D_loss(R/F): 0.000174/0.000001, G_loss: 0.301498
+Epoch: [66] [ 200/ 975] D_loss(R/F): 0.000417/0.000961, G_loss: 0.155261
+Epoch: [66] [ 300/ 975] D_loss(R/F): 0.000971/0.000001, G_loss: 0.253915
+Epoch: [66] [ 400/ 975] D_loss(R/F): 0.000237/0.000010, G_loss: 0.226699
+Epoch: [66] [ 500/ 975] D_loss(R/F): 0.000133/0.000674, G_loss: 0.172045
+Epoch: [66] [ 600/ 975] D_loss(R/F): 0.000218/0.000001, G_loss: 0.274082
+Epoch: [66] [ 700/ 975] D_loss(R/F): 0.000295/0.000038, G_loss: 0.204704
+Epoch: [66] [ 800/ 975] D_loss(R/F): 0.000233/0.001009, G_loss: 0.154479
+Epoch: [66] [ 900/ 975] D_loss(R/F): 0.000983/0.000220, G_loss: 0.176486
+[66] auc:0.9179 th:0.0251 f1:0.6767 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [67] [ 100/ 975] D_loss(R/F): 0.000063/0.000133, G_loss: 0.191153
+Epoch: [67] [ 200/ 975] D_loss(R/F): 0.000213/0.000669, G_loss: 0.160882
+Epoch: [67] [ 300/ 975] D_loss(R/F): 0.000397/0.000005, G_loss: 0.199381
+Epoch: [67] [ 400/ 975] D_loss(R/F): 0.000191/0.000018, G_loss: 0.180120
+Epoch: [67] [ 500/ 975] D_loss(R/F): 0.000243/0.000001, G_loss: 0.252253
+Epoch: [67] [ 600/ 975] D_loss(R/F): 0.000066/0.000053, G_loss: 0.206773
+Epoch: [67] [ 700/ 975] D_loss(R/F): 0.000166/0.001292, G_loss: 0.161537
+Epoch: [67] [ 800/ 975] D_loss(R/F): 0.000174/0.000002, G_loss: 0.237517
+Epoch: [67] [ 900/ 975] D_loss(R/F): 0.000052/0.000281, G_loss: 0.173957
+[67] auc:0.9216 th:0.0364 f1:0.6777 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [68] [ 100/ 975] D_loss(R/F): 0.000038/0.000004, G_loss: 0.227715
+Epoch: [68] [ 200/ 975] D_loss(R/F): 0.000047/0.000019, G_loss: 0.228084
+Epoch: [68] [ 300/ 975] D_loss(R/F): 0.000169/0.000333, G_loss: 0.160364
+Epoch: [68] [ 400/ 975] D_loss(R/F): 0.000092/0.000000, G_loss: 0.247521
+Epoch: [68] [ 500/ 975] D_loss(R/F): 0.000055/0.000866, G_loss: 0.145965
+Epoch: [68] [ 600/ 975] D_loss(R/F): 0.000127/0.000033, G_loss: 0.176934
+Epoch: [68] [ 700/ 975] D_loss(R/F): 0.000080/0.000140, G_loss: 0.166865
+Epoch: [68] [ 800/ 975] D_loss(R/F): 0.000008/0.000001, G_loss: 0.274906
+Epoch: [68] [ 900/ 975] D_loss(R/F): 0.000033/0.000414, G_loss: 0.168288
+[68] auc:0.9172 th:0.0301 f1:0.6817 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [69] [ 100/ 975] D_loss(R/F): 0.000028/0.000888, G_loss: 0.178030
+Epoch: [69] [ 200/ 975] D_loss(R/F): 0.000019/0.001853, G_loss: 0.146219
+Epoch: [69] [ 300/ 975] D_loss(R/F): 0.000072/0.000001, G_loss: 0.256139
+Epoch: [69] [ 400/ 975] D_loss(R/F): 0.138029/0.000009, G_loss: 0.175590
+Epoch: [69] [ 500/ 975] D_loss(R/F): 0.834540/0.050941, G_loss: 0.040721
+Epoch: [69] [ 600/ 975] D_loss(R/F): 0.137679/0.067220, G_loss: 0.053324
+Epoch: [69] [ 700/ 975] D_loss(R/F): 0.022345/0.061767, G_loss: 0.091982
+Epoch: [69] [ 800/ 975] D_loss(R/F): 0.023549/0.005029, G_loss: 0.108134
+Epoch: [69] [ 900/ 975] D_loss(R/F): 0.000871/0.000401, G_loss: 0.191419
+[69] auc:0.9163 th:0.0278 f1:0.6751 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [70] [ 100/ 975] D_loss(R/F): 0.001717/0.001359, G_loss: 0.139134
+Epoch: [70] [ 200/ 975] D_loss(R/F): 0.003013/0.003568, G_loss: 0.158551
+Epoch: [70] [ 300/ 975] D_loss(R/F): 0.002887/0.000419, G_loss: 0.151935
+Epoch: [70] [ 400/ 975] D_loss(R/F): 0.002087/0.000090, G_loss: 0.202957
+Epoch: [70] [ 500/ 975] D_loss(R/F): 0.000324/0.000185, G_loss: 0.164086
+Epoch: [70] [ 600/ 975] D_loss(R/F): 0.000326/0.000433, G_loss: 0.163286
+Epoch: [70] [ 700/ 975] D_loss(R/F): 0.003893/0.001665, G_loss: 0.155456
+Epoch: [70] [ 800/ 975] D_loss(R/F): 0.000395/0.000406, G_loss: 0.164280
+Epoch: [70] [ 900/ 975] D_loss(R/F): 0.000703/0.002039, G_loss: 0.138077
+[70] auc:0.9072 th:0.0307 f1:0.6743 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [71] [ 100/ 975] D_loss(R/F): 0.000081/0.000015, G_loss: 0.235113
+Epoch: [71] [ 200/ 975] D_loss(R/F): 0.000325/0.002609, G_loss: 0.161825
+Epoch: [71] [ 300/ 975] D_loss(R/F): 0.000357/0.001323, G_loss: 0.151874
+Epoch: [71] [ 400/ 975] D_loss(R/F): 0.000129/0.000013, G_loss: 0.225355
+Epoch: [71] [ 500/ 975] D_loss(R/F): 0.000730/0.000040, G_loss: 0.164461
+Epoch: [71] [ 600/ 975] D_loss(R/F): 0.000699/0.000685, G_loss: 0.166919
+Epoch: [71] [ 700/ 975] D_loss(R/F): 0.000114/0.000087, G_loss: 0.212320
+Epoch: [71] [ 800/ 975] D_loss(R/F): 0.000834/0.000009, G_loss: 0.207718
+Epoch: [71] [ 900/ 975] D_loss(R/F): 0.000189/0.000015, G_loss: 0.221987
+[71] auc:0.9058 th:0.0298 f1:0.6697 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [72] [ 100/ 975] D_loss(R/F): 0.000032/0.000066, G_loss: 0.187595
+Epoch: [72] [ 200/ 975] D_loss(R/F): 0.000067/0.000022, G_loss: 0.180279
+Epoch: [72] [ 300/ 975] D_loss(R/F): 0.000053/0.003874, G_loss: 0.128883
+Epoch: [72] [ 400/ 975] D_loss(R/F): 0.000073/0.000188, G_loss: 0.162597
+Epoch: [72] [ 500/ 975] D_loss(R/F): 0.000535/0.000158, G_loss: 0.163568
+Epoch: [72] [ 600/ 975] D_loss(R/F): 0.000256/0.000018, G_loss: 0.192380
+Epoch: [72] [ 700/ 975] D_loss(R/F): 0.000052/0.000030, G_loss: 0.193959
+Epoch: [72] [ 800/ 975] D_loss(R/F): 0.000032/0.000391, G_loss: 0.182467
+Epoch: [72] [ 900/ 975] D_loss(R/F): 0.000654/0.000002, G_loss: 0.210332
+[72] auc:0.9103 th:0.0294 f1:0.6771 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [73] [ 100/ 975] D_loss(R/F): 0.000017/0.001106, G_loss: 0.155159
+Epoch: [73] [ 200/ 975] D_loss(R/F): 0.000334/0.000128, G_loss: 0.155812
+Epoch: [73] [ 300/ 975] D_loss(R/F): 0.000052/0.000006, G_loss: 0.218866
+Epoch: [73] [ 400/ 975] D_loss(R/F): 0.000049/0.000515, G_loss: 0.169593
+Epoch: [73] [ 500/ 975] D_loss(R/F): 0.000022/0.000071, G_loss: 0.206806
+Epoch: [73] [ 600/ 975] D_loss(R/F): 0.000724/0.000130, G_loss: 0.149329
+Epoch: [73] [ 700/ 975] D_loss(R/F): 0.000038/0.000035, G_loss: 0.199656
+Epoch: [73] [ 800/ 975] D_loss(R/F): 0.000028/0.000012, G_loss: 0.201710
+Epoch: [73] [ 900/ 975] D_loss(R/F): 0.000023/0.000003, G_loss: 0.231488
+[73] auc:0.9122 th:0.0303 f1:0.6744 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [74] [ 100/ 975] D_loss(R/F): 0.000047/0.000006, G_loss: 0.189302
+Epoch: [74] [ 200/ 975] D_loss(R/F): 0.000019/0.000006, G_loss: 0.214366
+Epoch: [74] [ 300/ 975] D_loss(R/F): 0.000012/0.000374, G_loss: 0.170377
+Epoch: [74] [ 400/ 975] D_loss(R/F): 0.000028/0.000001, G_loss: 0.233349
+Epoch: [74] [ 500/ 975] D_loss(R/F): 0.000081/0.000001, G_loss: 0.223759
+Epoch: [74] [ 600/ 975] D_loss(R/F): 0.000013/0.000224, G_loss: 0.178150
+Reloading d net
+Epoch: [74] [ 700/ 975] D_loss(R/F): 0.632503/0.677955, G_loss: 0.005740
+Epoch: [74] [ 800/ 975] D_loss(R/F): 0.305275/0.975860, G_loss: 0.010058
+Epoch: [74] [ 900/ 975] D_loss(R/F): 0.325030/0.777325, G_loss: 0.017920
+[74] auc:0.9200 th:0.0232 f1:0.6917 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [75] [ 100/ 975] D_loss(R/F): 0.756342/0.354563, G_loss: 0.026379
+Epoch: [75] [ 200/ 975] D_loss(R/F): 0.994483/0.207619, G_loss: 0.022260
+Epoch: [75] [ 300/ 975] D_loss(R/F): 0.587292/0.501079, G_loss: 0.017942
+Epoch: [75] [ 400/ 975] D_loss(R/F): 0.706899/0.366800, G_loss: 0.025604
+Epoch: [75] [ 500/ 975] D_loss(R/F): 0.590664/0.317303, G_loss: 0.029416
+Epoch: [75] [ 600/ 975] D_loss(R/F): 0.332295/0.529126, G_loss: 0.029589
+Epoch: [75] [ 700/ 975] D_loss(R/F): 0.203950/0.554383, G_loss: 0.051608
+Epoch: [75] [ 800/ 975] D_loss(R/F): 0.452454/0.478206, G_loss: 0.039145
+Epoch: [75] [ 900/ 975] D_loss(R/F): 0.163964/0.463958, G_loss: 0.046773
+[75] auc:0.9199 th:0.0255 f1:0.6977 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [76] [ 100/ 975] D_loss(R/F): 1.416363/0.092341, G_loss: 0.030246
+Epoch: [76] [ 200/ 975] D_loss(R/F): 0.417189/0.401942, G_loss: 0.043885
+Epoch: [76] [ 300/ 975] D_loss(R/F): 0.366209/0.562635, G_loss: 0.040378
+Epoch: [76] [ 400/ 975] D_loss(R/F): 0.389435/0.325660, G_loss: 0.053464
+Epoch: [76] [ 500/ 975] D_loss(R/F): 0.093596/0.997000, G_loss: 0.046053
+Epoch: [76] [ 600/ 975] D_loss(R/F): 0.524914/0.166649, G_loss: 0.050589
+Epoch: [76] [ 700/ 975] D_loss(R/F): 1.536268/0.078701, G_loss: 0.046448
+Epoch: [76] [ 800/ 975] D_loss(R/F): 0.196315/0.793290, G_loss: 0.048644
+Epoch: [76] [ 900/ 975] D_loss(R/F): 0.220625/0.661258, G_loss: 0.053206
+[76] auc:0.9182 th:0.0248 f1:0.6985 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [77] [ 100/ 975] D_loss(R/F): 0.257753/0.622947, G_loss: 0.045761
+Epoch: [77] [ 200/ 975] D_loss(R/F): 1.652337/0.031293, G_loss: 0.046360
+Epoch: [77] [ 300/ 975] D_loss(R/F): 0.345666/0.334325, G_loss: 0.042861
+Epoch: [77] [ 400/ 975] D_loss(R/F): 0.201437/0.487699, G_loss: 0.066216
+Epoch: [77] [ 500/ 975] D_loss(R/F): 0.311002/0.250258, G_loss: 0.049016
+Epoch: [77] [ 600/ 975] D_loss(R/F): 0.842810/0.086262, G_loss: 0.066814
+Epoch: [77] [ 700/ 975] D_loss(R/F): 1.198380/0.057003, G_loss: 0.042443
+Epoch: [77] [ 800/ 975] D_loss(R/F): 0.487198/0.104881, G_loss: 0.074333
+Epoch: [77] [ 900/ 975] D_loss(R/F): 0.560229/0.112545, G_loss: 0.056537
+[77] auc:0.9092 th:0.0259 f1:0.6930 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [78] [ 100/ 975] D_loss(R/F): 0.467751/0.131816, G_loss: 0.049952
+Epoch: [78] [ 200/ 975] D_loss(R/F): 0.289913/0.222427, G_loss: 0.070042
+Epoch: [78] [ 300/ 975] D_loss(R/F): 0.286437/0.110390, G_loss: 0.069186
+Epoch: [78] [ 400/ 975] D_loss(R/F): 0.243077/0.287983, G_loss: 0.059723
+Epoch: [78] [ 500/ 975] D_loss(R/F): 0.416950/0.131805, G_loss: 0.051858
+Epoch: [78] [ 600/ 975] D_loss(R/F): 0.177783/0.346209, G_loss: 0.048634
+Epoch: [78] [ 700/ 975] D_loss(R/F): 0.375056/0.106243, G_loss: 0.076065
+Epoch: [78] [ 800/ 975] D_loss(R/F): 0.124611/0.341478, G_loss: 0.069186
+Epoch: [78] [ 900/ 975] D_loss(R/F): 0.075593/0.843266, G_loss: 0.070011
+[78] auc:0.9143 th:0.0255 f1:0.6993 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [79] [ 100/ 975] D_loss(R/F): 0.224165/0.185600, G_loss: 0.078125
+Epoch: [79] [ 200/ 975] D_loss(R/F): 1.209684/0.027027, G_loss: 0.061917
+Epoch: [79] [ 300/ 975] D_loss(R/F): 0.167066/0.311417, G_loss: 0.056433
+Epoch: [79] [ 400/ 975] D_loss(R/F): 0.595764/0.023574, G_loss: 0.075745
+Epoch: [79] [ 500/ 975] D_loss(R/F): 0.143110/0.204883, G_loss: 0.081986
+Epoch: [79] [ 600/ 975] D_loss(R/F): 0.233134/0.135902, G_loss: 0.066141
+Epoch: [79] [ 700/ 975] D_loss(R/F): 0.036763/0.687759, G_loss: 0.072825
+Epoch: [79] [ 800/ 975] D_loss(R/F): 0.066772/0.359563, G_loss: 0.073930
+Epoch: [79] [ 900/ 975] D_loss(R/F): 0.135240/0.106401, G_loss: 0.080719
+[79] auc:0.9177 th:0.0231 f1:0.6838 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [80] [ 100/ 975] D_loss(R/F): 0.055409/0.438354, G_loss: 0.087216
+Epoch: [80] [ 200/ 975] D_loss(R/F): 1.661019/0.004694, G_loss: 0.075562
+Epoch: [80] [ 300/ 975] D_loss(R/F): 0.421120/0.035422, G_loss: 0.079440
+Epoch: [80] [ 400/ 975] D_loss(R/F): 0.483991/0.030923, G_loss: 0.073272
+Epoch: [80] [ 500/ 975] D_loss(R/F): 0.511430/0.119294, G_loss: 0.072484
+Epoch: [80] [ 600/ 975] D_loss(R/F): 0.063239/0.005279, G_loss: 0.140617
+Epoch: [80] [ 700/ 975] D_loss(R/F): 0.027458/0.119612, G_loss: 0.106743
+Epoch: [80] [ 800/ 975] D_loss(R/F): 0.033151/0.276276, G_loss: 0.069324
+Epoch: [80] [ 900/ 975] D_loss(R/F): 0.103496/0.170364, G_loss: 0.087748
+[80] auc:0.9220 th:0.0266 f1:0.6785 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [81] [ 100/ 975] D_loss(R/F): 0.018383/0.117299, G_loss: 0.097313
+Epoch: [81] [ 200/ 975] D_loss(R/F): 0.157604/0.227471, G_loss: 0.088035
+Epoch: [81] [ 300/ 975] D_loss(R/F): 0.046290/0.003391, G_loss: 0.129930
+Epoch: [81] [ 400/ 975] D_loss(R/F): 0.015878/0.015305, G_loss: 0.162033
+Epoch: [81] [ 500/ 975] D_loss(R/F): 1.706040/0.025295, G_loss: 0.052459
+Epoch: [81] [ 600/ 975] D_loss(R/F): 0.054731/0.161511, G_loss: 0.080174
+Epoch: [81] [ 700/ 975] D_loss(R/F): 0.043778/0.014760, G_loss: 0.117570
+Epoch: [81] [ 800/ 975] D_loss(R/F): 1.362352/0.025751, G_loss: 0.049231
+Epoch: [81] [ 900/ 975] D_loss(R/F): 0.015372/0.227989, G_loss: 0.101484
+[81] auc:0.9227 th:0.0213 f1:0.7064 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [82] [ 100/ 975] D_loss(R/F): 0.009920/0.152793, G_loss: 0.106119
+Epoch: [82] [ 200/ 975] D_loss(R/F): 0.003264/0.009768, G_loss: 0.149281
+Epoch: [82] [ 300/ 975] D_loss(R/F): 0.123942/0.076569, G_loss: 0.066314
+Epoch: [82] [ 400/ 975] D_loss(R/F): 0.004349/0.124150, G_loss: 0.124112
+Epoch: [82] [ 500/ 975] D_loss(R/F): 0.004539/0.089735, G_loss: 0.122707
+Epoch: [82] [ 600/ 975] D_loss(R/F): 0.012512/0.002632, G_loss: 0.187800
+Epoch: [82] [ 700/ 975] D_loss(R/F): 0.051111/0.487443, G_loss: 0.062602
+Epoch: [82] [ 800/ 975] D_loss(R/F): 0.110594/0.232094, G_loss: 0.056095
+Epoch: [82] [ 900/ 975] D_loss(R/F): 0.047145/0.001599, G_loss: 0.169140
+[82] auc:0.9240 th:0.0213 f1:0.7030 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [83] [ 100/ 975] D_loss(R/F): 0.007532/0.006302, G_loss: 0.130611
+Epoch: [83] [ 200/ 975] D_loss(R/F): 0.004322/0.005407, G_loss: 0.134250
+Epoch: [83] [ 300/ 975] D_loss(R/F): 0.007226/0.000437, G_loss: 0.221099
+Epoch: [83] [ 400/ 975] D_loss(R/F): 0.014253/0.024023, G_loss: 0.108299
+Epoch: [83] [ 500/ 975] D_loss(R/F): 0.001589/0.002622, G_loss: 0.178290
+Epoch: [83] [ 600/ 975] D_loss(R/F): 0.251489/0.813642, G_loss: 0.022564
+Epoch: [83] [ 700/ 975] D_loss(R/F): 0.002886/0.838493, G_loss: 0.080253
+Epoch: [83] [ 800/ 975] D_loss(R/F): 0.025827/0.005412, G_loss: 0.139954
+Epoch: [83] [ 900/ 975] D_loss(R/F): 0.025905/0.013131, G_loss: 0.115083
+[83] auc:0.9223 th:0.0240 f1:0.6992 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [84] [ 100/ 975] D_loss(R/F): 0.005119/0.000568, G_loss: 0.189195
+Epoch: [84] [ 200/ 975] D_loss(R/F): 0.015712/0.000374, G_loss: 0.161738
+Epoch: [84] [ 300/ 975] D_loss(R/F): 0.003032/0.001115, G_loss: 0.176714
+Epoch: [84] [ 400/ 975] D_loss(R/F): 0.003021/0.029213, G_loss: 0.157405
+Epoch: [84] [ 500/ 975] D_loss(R/F): 0.060134/1.186497, G_loss: 0.027131
+Epoch: [84] [ 600/ 975] D_loss(R/F): 0.073080/0.427209, G_loss: 0.056806
+Epoch: [84] [ 700/ 975] D_loss(R/F): 0.350333/0.134302, G_loss: 0.056967
+Epoch: [84] [ 800/ 975] D_loss(R/F): 0.011662/0.035830, G_loss: 0.110956
+Epoch: [84] [ 900/ 975] D_loss(R/F): 0.012183/0.019045, G_loss: 0.113658
+[84] auc:0.9218 th:0.0216 f1:0.6984 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [85] [ 100/ 975] D_loss(R/F): 0.012807/0.001633, G_loss: 0.138221
+Epoch: [85] [ 200/ 975] D_loss(R/F): 0.002902/0.002316, G_loss: 0.168390
+Epoch: [85] [ 300/ 975] D_loss(R/F): 0.003604/0.002552, G_loss: 0.140703
+Epoch: [85] [ 400/ 975] D_loss(R/F): 0.005361/0.050554, G_loss: 0.118950
+Epoch: [85] [ 500/ 975] D_loss(R/F): 0.001558/0.005231, G_loss: 0.131312
+Epoch: [85] [ 600/ 975] D_loss(R/F): 0.003314/0.006047, G_loss: 0.148956
+Epoch: [85] [ 700/ 975] D_loss(R/F): 0.004044/0.000101, G_loss: 0.191642
+Epoch: [85] [ 800/ 975] D_loss(R/F): 0.003449/0.001270, G_loss: 0.158478
+Epoch: [85] [ 900/ 975] D_loss(R/F): 0.002850/0.001376, G_loss: 0.143626
+[85] auc:0.9243 th:0.0212 f1:0.7016 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [86] [ 100/ 975] D_loss(R/F): 0.003231/0.022411, G_loss: 0.103748
+Epoch: [86] [ 200/ 975] D_loss(R/F): 0.003161/0.002379, G_loss: 0.156235
+Epoch: [86] [ 300/ 975] D_loss(R/F): 0.003821/0.004395, G_loss: 0.119876
+Epoch: [86] [ 400/ 975] D_loss(R/F): 0.363453/0.081493, G_loss: 0.053610
+Epoch: [86] [ 500/ 975] D_loss(R/F): 0.015680/0.001476, G_loss: 0.142057
+Epoch: [86] [ 600/ 975] D_loss(R/F): 0.005014/0.001030, G_loss: 0.173610
+Epoch: [86] [ 700/ 975] D_loss(R/F): 0.003013/0.039404, G_loss: 0.130538
+Epoch: [86] [ 800/ 975] D_loss(R/F): 0.002750/0.043997, G_loss: 0.121406
+Epoch: [86] [ 900/ 975] D_loss(R/F): 0.007764/0.003303, G_loss: 0.141628
+[86] auc:0.9214 th:0.0224 f1:0.6956 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [87] [ 100/ 975] D_loss(R/F): 0.002017/0.001026, G_loss: 0.187168
+Epoch: [87] [ 200/ 975] D_loss(R/F): 0.000902/0.000091, G_loss: 0.224005
+Epoch: [87] [ 300/ 975] D_loss(R/F): 0.102018/0.057557, G_loss: 0.067415
+Epoch: [87] [ 400/ 975] D_loss(R/F): 0.009201/0.075746, G_loss: 0.092426
+Epoch: [87] [ 500/ 975] D_loss(R/F): 0.002907/0.011272, G_loss: 0.164721
+Epoch: [87] [ 600/ 975] D_loss(R/F): 0.011354/0.002642, G_loss: 0.124254
+Epoch: [87] [ 700/ 975] D_loss(R/F): 0.001649/0.001047, G_loss: 0.161183
+Epoch: [87] [ 800/ 975] D_loss(R/F): 0.002697/0.000089, G_loss: 0.210765
+Epoch: [87] [ 900/ 975] D_loss(R/F): 0.000783/0.004439, G_loss: 0.161904
+[87] auc:0.9229 th:0.0220 f1:0.7033 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [88] [ 100/ 975] D_loss(R/F): 0.003054/0.000334, G_loss: 0.167088
+Epoch: [88] [ 200/ 975] D_loss(R/F): 0.000552/0.005600, G_loss: 0.146427
+Epoch: [88] [ 300/ 975] D_loss(R/F): 0.000506/0.000259, G_loss: 0.208267
+Epoch: [88] [ 400/ 975] D_loss(R/F): 0.381672/0.851548, G_loss: 0.016076
+Epoch: [88] [ 500/ 975] D_loss(R/F): 0.527709/0.167160, G_loss: 0.036672
+Epoch: [88] [ 600/ 975] D_loss(R/F): 0.017068/0.121898, G_loss: 0.070476
+Epoch: [88] [ 700/ 975] D_loss(R/F): 0.016896/0.051338, G_loss: 0.100025
+Epoch: [88] [ 800/ 975] D_loss(R/F): 0.011033/0.012495, G_loss: 0.129991
+Epoch: [88] [ 900/ 975] D_loss(R/F): 0.000547/0.045309, G_loss: 0.119089
+[88] auc:0.9222 th:0.0236 f1:0.6954 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [89] [ 100/ 975] D_loss(R/F): 0.006002/0.001509, G_loss: 0.140418
+Epoch: [89] [ 200/ 975] D_loss(R/F): 0.000950/0.003394, G_loss: 0.148212
+Epoch: [89] [ 300/ 975] D_loss(R/F): 0.002878/0.005145, G_loss: 0.129294
+Epoch: [89] [ 400/ 975] D_loss(R/F): 0.000491/0.003849, G_loss: 0.156980
+Epoch: [89] [ 500/ 975] D_loss(R/F): 0.001498/0.000192, G_loss: 0.184314
+Epoch: [89] [ 600/ 975] D_loss(R/F): 0.001495/0.002787, G_loss: 0.152845
+Epoch: [89] [ 700/ 975] D_loss(R/F): 0.000870/0.000240, G_loss: 0.173400
+Epoch: [89] [ 800/ 975] D_loss(R/F): 0.002665/0.000131, G_loss: 0.213336
+Epoch: [89] [ 900/ 975] D_loss(R/F): 0.014808/0.000150, G_loss: 0.148314
+[89] auc:0.9183 th:0.0245 f1:0.6912 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [90] [ 100/ 975] D_loss(R/F): 0.001606/0.000109, G_loss: 0.181836
+Epoch: [90] [ 200/ 975] D_loss(R/F): 0.000290/0.000151, G_loss: 0.200796
+Epoch: [90] [ 300/ 975] D_loss(R/F): 0.000506/0.000099, G_loss: 0.197160
+Epoch: [90] [ 400/ 975] D_loss(R/F): 0.000235/0.013496, G_loss: 0.138255
+Epoch: [90] [ 500/ 975] D_loss(R/F): 0.001723/0.000914, G_loss: 0.173378
+Epoch: [90] [ 600/ 975] D_loss(R/F): 0.009118/0.000003, G_loss: 0.236574
+Epoch: [90] [ 700/ 975] D_loss(R/F): 0.003345/0.000022, G_loss: 0.176003
+Epoch: [90] [ 800/ 975] D_loss(R/F): 0.000423/0.001286, G_loss: 0.155840
+Epoch: [90] [ 900/ 975] D_loss(R/F): 0.000276/0.000397, G_loss: 0.172371
+[90] auc:0.9192 th:0.0268 f1:0.6898 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [91] [ 100/ 975] D_loss(R/F): 0.110190/1.343765, G_loss: 0.023869
+Epoch: [91] [ 200/ 975] D_loss(R/F): 0.024455/0.013063, G_loss: 0.100823
+Epoch: [91] [ 300/ 975] D_loss(R/F): 0.001155/0.000214, G_loss: 0.188454
+Epoch: [91] [ 400/ 975] D_loss(R/F): 0.001078/0.002594, G_loss: 0.179600
+Epoch: [91] [ 500/ 975] D_loss(R/F): 0.000803/0.006721, G_loss: 0.141955
+Epoch: [91] [ 600/ 975] D_loss(R/F): 0.000470/0.008411, G_loss: 0.128626
+Epoch: [91] [ 700/ 975] D_loss(R/F): 0.001063/0.001446, G_loss: 0.162311
+Epoch: [91] [ 800/ 975] D_loss(R/F): 0.000479/0.003278, G_loss: 0.133366
+Epoch: [91] [ 900/ 975] D_loss(R/F): 0.001776/0.000095, G_loss: 0.171502
+[91] auc:0.9201 th:0.0269 f1:0.6983 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [92] [ 100/ 975] D_loss(R/F): 0.000104/0.000176, G_loss: 0.203507
+Epoch: [92] [ 200/ 975] D_loss(R/F): 0.000719/0.004220, G_loss: 0.127657
+Epoch: [92] [ 300/ 975] D_loss(R/F): 0.003269/0.000101, G_loss: 0.156033
+Epoch: [92] [ 400/ 975] D_loss(R/F): 0.000291/0.000104, G_loss: 0.179669
+Epoch: [92] [ 500/ 975] D_loss(R/F): 0.000687/0.000337, G_loss: 0.153237
+Epoch: [92] [ 600/ 975] D_loss(R/F): 0.000939/0.000060, G_loss: 0.178650
+Epoch: [92] [ 700/ 975] D_loss(R/F): 0.000221/0.004004, G_loss: 0.149088
+Epoch: [92] [ 800/ 975] D_loss(R/F): 0.000139/0.007115, G_loss: 0.131890
+Epoch: [92] [ 900/ 975] D_loss(R/F): 0.000424/0.000087, G_loss: 0.195535
+[92] auc:0.9181 th:0.0288 f1:0.6913 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [93] [ 100/ 975] D_loss(R/F): 0.000683/0.000491, G_loss: 0.156461
+Epoch: [93] [ 200/ 975] D_loss(R/F): 1.194792/0.185397, G_loss: 0.011175
+Epoch: [93] [ 300/ 975] D_loss(R/F): 0.654992/0.135114, G_loss: 0.038412
+Epoch: [93] [ 400/ 975] D_loss(R/F): 0.163854/0.359685, G_loss: 0.054837
+Epoch: [93] [ 500/ 975] D_loss(R/F): 0.012596/0.047714, G_loss: 0.116989
+Epoch: [93] [ 600/ 975] D_loss(R/F): 0.033165/0.000064, G_loss: 0.177049
+Epoch: [93] [ 700/ 975] D_loss(R/F): 0.001582/0.005448, G_loss: 0.132956
+Epoch: [93] [ 800/ 975] D_loss(R/F): 0.001081/0.000094, G_loss: 0.188807
+Epoch: [93] [ 900/ 975] D_loss(R/F): 0.001464/0.001025, G_loss: 0.166119
+[93] auc:0.9219 th:0.0227 f1:0.6940 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [94] [ 100/ 975] D_loss(R/F): 0.000691/0.000171, G_loss: 0.210775
+Epoch: [94] [ 200/ 975] D_loss(R/F): 0.000291/0.006258, G_loss: 0.145613
+Epoch: [94] [ 300/ 975] D_loss(R/F): 0.000963/0.000360, G_loss: 0.155854
+Epoch: [94] [ 400/ 975] D_loss(R/F): 0.000362/0.000877, G_loss: 0.187861
+Epoch: [94] [ 500/ 975] D_loss(R/F): 0.000259/0.000020, G_loss: 0.236939
+Epoch: [94] [ 600/ 975] D_loss(R/F): 0.000251/0.000006, G_loss: 0.265753
+Epoch: [94] [ 700/ 975] D_loss(R/F): 0.000266/0.000051, G_loss: 0.216347
+Epoch: [94] [ 800/ 975] D_loss(R/F): 0.003013/0.000002, G_loss: 0.249989
+Epoch: [94] [ 900/ 975] D_loss(R/F): 0.001428/0.001093, G_loss: 0.149206
+[94] auc:0.9170 th:0.0250 f1:0.6993 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [95] [ 100/ 975] D_loss(R/F): 0.000649/0.000391, G_loss: 0.194312
+Epoch: [95] [ 200/ 975] D_loss(R/F): 0.000461/0.001370, G_loss: 0.151094
+Epoch: [95] [ 300/ 975] D_loss(R/F): 0.000253/0.000175, G_loss: 0.197728
+Epoch: [95] [ 400/ 975] D_loss(R/F): 0.000321/0.000137, G_loss: 0.207745
+Epoch: [95] [ 500/ 975] D_loss(R/F): 0.000495/0.000010, G_loss: 0.243877
+Epoch: [95] [ 600/ 975] D_loss(R/F): 0.000088/0.000926, G_loss: 0.171571
+Epoch: [95] [ 700/ 975] D_loss(R/F): 0.000884/0.001567, G_loss: 0.139094
+Epoch: [95] [ 800/ 975] D_loss(R/F): 0.000447/0.000049, G_loss: 0.187544
+Epoch: [95] [ 900/ 975] D_loss(R/F): 0.000254/0.000015, G_loss: 0.238318
+[95] auc:0.9134 th:0.0284 f1:0.6931 	 best_auc:0.9246 in epoch[61]
+
+Epoch: [96] [ 100/ 975] D_loss(R/F): 0.001452/0.000005, G_loss: 0.202182
+Epoch: [96] [ 200/ 975] D_loss(R/F): 0.000445/0.000028, G_loss: 0.200020
+Epoch: [96] [ 300/ 975] D_loss(R/F): 0.001201/0.000219, G_loss: 0.172183
+Epoch: [96] [ 400/ 975] D_loss(R/F): 0.000588/0.000166, G_loss: 0.154498
+Epoch: [96] [ 500/ 975] D_loss(R/F): 0.452599/0.332598, G_loss: 0.018392
+Epoch: [96] [ 600/ 975] D_loss(R/F): 0.325139/0.226156, G_loss: 0.027049
+Epoch: [96] [ 700/ 975] D_loss(R/F): 0.772698/0.055794, G_loss: 0.034189
+Epoch: [96] [ 800/ 975] D_loss(R/F): 0.269755/0.193704, G_loss: 0.045719
+Epoch: [96] [ 900/ 975] D_loss(R/F): 0.213499/0.128705, G_loss: 0.054935
+[96] auc:0.9263 th:0.0229 f1:0.7040 	 best_auc:0.9263 in epoch[96]
+
+Epoch: [97] [ 100/ 975] D_loss(R/F): 0.172996/0.200904, G_loss: 0.056148
+Epoch: [97] [ 200/ 975] D_loss(R/F): 0.015145/0.026406, G_loss: 0.088891
+Epoch: [97] [ 300/ 975] D_loss(R/F): 0.002990/0.004522, G_loss: 0.163275
+Epoch: [97] [ 400/ 975] D_loss(R/F): 0.013860/0.079789, G_loss: 0.097101
+Epoch: [97] [ 500/ 975] D_loss(R/F): 0.007156/0.000583, G_loss: 0.153551
+Epoch: [97] [ 600/ 975] D_loss(R/F): 0.001631/0.056062, G_loss: 0.120704
+Epoch: [97] [ 700/ 975] D_loss(R/F): 0.001370/0.011536, G_loss: 0.128912
+Epoch: [97] [ 800/ 975] D_loss(R/F): 0.002042/0.000153, G_loss: 0.199267
+Epoch: [97] [ 900/ 975] D_loss(R/F): 0.002871/0.000333, G_loss: 0.150525
+[97] auc:0.9130 th:0.0252 f1:0.6902 	 best_auc:0.9263 in epoch[96]
+
+Epoch: [98] [ 100/ 975] D_loss(R/F): 0.002452/0.000461, G_loss: 0.165483
+Epoch: [98] [ 200/ 975] D_loss(R/F): 0.002778/0.000249, G_loss: 0.167981
+Epoch: [98] [ 300/ 975] D_loss(R/F): 0.006487/0.001199, G_loss: 0.151937
+Epoch: [98] [ 400/ 975] D_loss(R/F): 0.001095/0.003581, G_loss: 0.123867
+Epoch: [98] [ 500/ 975] D_loss(R/F): 0.000277/0.001141, G_loss: 0.158187
+Epoch: [98] [ 600/ 975] D_loss(R/F): 0.000710/0.000058, G_loss: 0.215106
+Epoch: [98] [ 700/ 975] D_loss(R/F): 0.003064/0.000054, G_loss: 0.190201
+Epoch: [98] [ 800/ 975] D_loss(R/F): 0.001003/0.000802, G_loss: 0.172993
+Epoch: [98] [ 900/ 975] D_loss(R/F): 0.000860/0.001289, G_loss: 0.136905
+[98] auc:0.9115 th:0.0274 f1:0.6991 	 best_auc:0.9263 in epoch[96]
+
+Epoch: [99] [ 100/ 975] D_loss(R/F): 0.001548/0.000122, G_loss: 0.165386
+Epoch: [99] [ 200/ 975] D_loss(R/F): 0.000240/0.000943, G_loss: 0.165505
+Epoch: [99] [ 300/ 975] D_loss(R/F): 0.000297/0.001335, G_loss: 0.161928
+Epoch: [99] [ 400/ 975] D_loss(R/F): 0.000733/0.001482, G_loss: 0.137384
+Epoch: [99] [ 500/ 975] D_loss(R/F): 0.000388/0.005319, G_loss: 0.135931
+Epoch: [99] [ 600/ 975] D_loss(R/F): 0.000446/0.000094, G_loss: 0.200272
+Epoch: [99] [ 700/ 975] D_loss(R/F): 0.000379/0.000023, G_loss: 0.197997
+Epoch: [99] [ 800/ 975] D_loss(R/F): 0.000147/0.000294, G_loss: 0.174256
+Epoch: [99] [ 900/ 975] D_loss(R/F): 0.000257/0.000000, G_loss: 0.292591
+[99] auc:0.9171 th:0.0239 f1:0.6923 	 best_auc:0.9263 in epoch[96]
+
+Epoch: [100] [ 100/ 975] D_loss(R/F): 0.005366/0.000048, G_loss: 0.169335
+Epoch: [100] [ 200/ 975] D_loss(R/F): 0.000155/0.000584, G_loss: 0.166853
+Epoch: [100] [ 300/ 975] D_loss(R/F): 0.000081/0.000672, G_loss: 0.149939
+Epoch: [100] [ 400/ 975] D_loss(R/F): 0.000656/0.000020, G_loss: 0.190833
+Epoch: [100] [ 500/ 975] D_loss(R/F): 0.001252/0.000054, G_loss: 0.140569
+Epoch: [100] [ 600/ 975] D_loss(R/F): 0.000291/0.000003, G_loss: 0.207976
+Epoch: [100] [ 700/ 975] D_loss(R/F): 0.000291/0.000001, G_loss: 0.242027
+Epoch: [100] [ 800/ 975] D_loss(R/F): 0.001270/0.000001, G_loss: 0.233948
+Epoch: [100] [ 900/ 975] D_loss(R/F): 0.001676/0.000001, G_loss: 0.221217
+[100] auc:0.9222 th:0.0285 f1:0.6896 	 best_auc:0.9263 in epoch[96]
+
+Avg one epoch time: 33.89, total 100 epochs time: 3761.43

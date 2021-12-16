@@ -1,0 +1,63 @@
+#################################
+########  Folder 0  ############
+device:  cuda:0
+Namespace(batchsize=32, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[0], isize=320, istest=True, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=32, ngf=32, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.169, w_adv=1, workers=1)
+train data size:(62436, 1, 128, 128)
+val data size:(8025, 1, 128, 128)
+test N data size:(17343, 1, 128, 128)
+test S data size:(2723, 1, 128, 128)
+test V data size:(6307, 1, 128, 128)
+test F data size:(721, 1, 128, 128)
+test Q data size:(13, 1, 128, 128)
+load data success!!!
+
+model_device: cuda:0 
+
+################  Eval  ##################
+############   Analysis   #############
+############   Threshold:0.169   #############
+*********  Type:S  *************
+TP:1795
+FP:1986
+TN:15357
+FN:928
+Accuracy:0.8547792285457989
+Precision/ppv:0.4747421317111875
+sensitivity/Recall:0.65919941241278
+specificity:0.8854869399757828
+F1:0.5519680196801968
+*********  Type:V  *************
+TP:6225
+FP:1986
+TN:15357
+FN:82
+Accuracy:0.9125581395348837
+Precision/ppv:0.7581293386919985
+sensitivity/Recall:0.9869985730141113
+specificity:0.8854869399757828
+F1:0.8575561372089819
+*********  Type:F  *************
+TP:280
+FP:1986
+TN:15357
+FN:441
+Accuracy:0.8656443755535872
+Precision/ppv:0.1235657546337158
+sensitivity/Recall:0.3883495145631068
+specificity:0.8854869399757828
+F1:0.1874790759959826
+*********  Type:Q  *************
+TP:12
+FP:1986
+TN:15357
+FN:1
+Accuracy:0.8855150956441576
+Precision/ppv:0.006006006006006006
+sensitivity/Recall:0.9230769230769231
+specificity:0.8854869399757828
+F1:0.011934361014420686
+#############################
+########  Result  ###########
+ap:0.8900144639064247
+auc:0.9410881972836045
+best th:0.1621839851140976 --> best f1:0.8297706198145437

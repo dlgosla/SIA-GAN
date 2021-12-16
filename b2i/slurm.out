@@ -1,0 +1,104 @@
+#################################
+########  Folder 0  ############
+device:  cuda:0
+Namespace(batchsize=64, beta1=0.5, dataroot='../../../dataset', dataset='ecg', device='gpu', folder=0, gpu_ids=[2], isize=320, istest=False, lr=0.0001, model='beatgan', n_aug=0, name='beatgan/ecg', nc=1, ndf=32, ngf=32, ngpu=1, niter=100, nz=50, outf='./output', print_freq=100, threshold=0.05, w_adv=1, workers=1)
+train data size:(62436, 1, 128, 128)
+val data size:(8025, 1, 128, 128)
+test N data size:(17343, 1, 128, 128)
+test S data size:(2723, 1, 128, 128)
+test V data size:(6307, 1, 128, 128)
+test F data size:(721, 1, 128, 128)
+test Q data size:(13, 1, 128, 128)
+load data success!!!
+Generator(
+  (encoder1): Encoder(
+    (main): Sequential(
+      (0): Conv2d(1, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+      (1): LeakyReLU(negative_slope=0.2, inplace=True)
+      (2): Conv2d(32, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+      (3): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (4): LeakyReLU(negative_slope=0.2, inplace=True)
+      (5): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+      (6): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (7): LeakyReLU(negative_slope=0.2, inplace=True)
+      (8): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+      (9): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (10): LeakyReLU(negative_slope=0.2, inplace=True)
+      (11): Conv2d(256, 512, kernel_size=(4, 4), stride=(1, 1), padding=(1, 1), bias=False)
+      (12): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (13): LeakyReLU(negative_slope=0.2, inplace=True)
+      (14): Conv2d(512, 50, kernel_size=(7, 7), stride=(1, 1), bias=False)
+    )
+  )
+  (decoder): Decoder(
+    (main): Sequential(
+      (0): ConvTranspose2d(50, 512, kernel_size=(7, 7), stride=(1, 1), bias=False)
+      (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): ConvTranspose2d(512, 256, kernel_size=(4, 4), stride=(1, 1), padding=(1, 1), bias=False)
+      (4): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (5): ReLU(inplace=True)
+      (6): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+      (7): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (8): ReLU(inplace=True)
+      (9): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+      (10): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (11): ReLU(inplace=True)
+      (12): ConvTranspose2d(64, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+      (13): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (14): ReLU(inplace=True)
+      (15): ConvTranspose2d(32, 1, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+      (16): Tanh()
+    )
+  )
+)
+Total number of parameters: 8084288
+Discriminator(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): LeakyReLU(negative_slope=0.2, inplace=True)
+    (2): Conv2d(32, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (3): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (4): LeakyReLU(negative_slope=0.2, inplace=True)
+    (5): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (6): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (7): LeakyReLU(negative_slope=0.2, inplace=True)
+    (8): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): LeakyReLU(negative_slope=0.2, inplace=True)
+    (11): Conv2d(256, 512, kernel_size=(4, 4), stride=(1, 1), padding=(1, 1), bias=False)
+    (12): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (13): LeakyReLU(negative_slope=0.2, inplace=True)
+  )
+  (classifier): Sequential(
+    (0): Conv2d(512, 1, kernel_size=(7, 7), stride=(1, 1), bias=False)
+    (Sigmoid): Sigmoid()
+  )
+)
+Total number of parameters: 2812800
+
+model_device: cuda:0 
+
+################  Train  ##################
+Train model.
+Epoch: [1] [ 100/ 975] D_loss(R/F): 0.002048/0.001606, G_loss: 0.345821
+Epoch: [1] [ 200/ 975] D_loss(R/F): 0.000000/100.000000, G_loss: 0.106018
+Epoch: [1] [ 300/ 975] D_loss(R/F): 0.000000/100.000000, G_loss: 0.074539
+Epoch: [1] [ 400/ 975] D_loss(R/F): 0.000000/100.000000, G_loss: 0.060913
+Epoch: [1] [ 500/ 975] D_loss(R/F): 0.000000/100.000000, G_loss: 0.054413
+Epoch: [1] [ 600/ 975] D_loss(R/F): 0.000000/100.000000, G_loss: 0.049748
+Epoch: [1] [ 700/ 975] D_loss(R/F): 0.000000/100.000000, G_loss: 0.043537
+Epoch: [1] [ 800/ 975] D_loss(R/F): 0.000000/100.000000, G_loss: 0.039814
+Epoch: [1] [ 900/ 975] D_loss(R/F): 0.000000/100.000000, G_loss: 0.041837
+Traceback (most recent call last):
+  File "main.py", line 36, in <module>
+    model.train()
+  File "/data/haenim/lab/b2i/experiments/ecg/model.py", line 143, in train
+    auc,th,f1=self.validate()
+  File "/data/haenim/lab/b2i/experiments/ecg/model.py", line 314, in validate
+    y_,y_pred=self.predict(self.dataloader["val"])
+  File "/data/haenim/lab/b2i/experiments/ecg/model.py", line 332, in predict
+    os.makedirs(fake_path)
+  File "/data/haenim/anaconda3/envs/venv/lib/python3.8/os.py", line 223, in makedirs
+    mkdir(name, mode)
+PermissionError: [Errno 13] Permission denied: '//fake/'
