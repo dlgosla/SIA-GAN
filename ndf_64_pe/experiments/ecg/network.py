@@ -57,8 +57,11 @@ class Multimodal_Transformer(nn.Module):
         
         
     def forward(self, input_s, input_f, input_sf): #[bs,50,128]
-        input_sf = input_sf.permute(0,2,1) #bs 128 50 
-        input_sf = self.pos_encoder(input_sf).permute(1,0,2) #128 bs 50
+        input_sf = input_sf.permute(2,0,1) 
+        
+        # positional encoding
+        #input_sf = input_sf.permute(0,2,1) #bs 128 50
+        #input_sf = self.pos_encoder(input_sf).permute(1,0,2) #128 bs 50
         
         tf = self.transformer_encoder(input_sf)
         tf = tf.permute(1,2,0) #[bs,50,128]
